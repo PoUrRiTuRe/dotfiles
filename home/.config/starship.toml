@@ -1,0 +1,66 @@
+add_newline = true
+
+format = """
+$os\
+$directory\
+$git_branch\
+$git_status\
+$fill\
+$cmd_duration\
+$time
+$character"""
+
+# ─── PARTIE GAUCHE ───────────────────────────────
+
+# Logo Arch : fond gris, logo blanc
+[os]
+disabled = false
+style = "fg:#ffffff bg:#303030"
+format = "[\ue0ba](fg:#303030)[ $symbol ]($style)[\ue0bc](fg:#303030)"
+
+[os.symbols]
+Arch = "󰣇"
+
+# Dossier actuel : fond bleu, texte blanc
+[directory]
+truncation_length = 3
+style = "fg:#ffffff bg:#3465a4"
+format = "[─](fg:#585858)[\ue0ba](fg:#3465a4)[ 󰉋 $path ]($style)[\ue0bc](fg:#3465a4)"
+
+# Branche git : fond vert, texte noir (seulement dans un projet git)
+[git_branch]
+symbol = "󰘬"
+style = "fg:#000000 bg:#4e9a06"
+format = "[─](fg:#585858)[\ue0ba](fg:#4e9a06)[ $symbol $branch ]($style)"
+
+[git_status]
+style = "fg:#000000 bg:#4e9a06"
+format = "[($all_status$ahead_behind )]($style)[\ue0bc](fg:#4e9a06)"
+
+# ─── MILIEU : trait gris qui relie les deux parties ───
+
+[fill]
+symbol = "─"
+style = "fg:#585858"
+
+# ─── PARTIE DROITE ───────────────────────────────
+
+# Temps pris par la commande : fond jaune, texte noir
+# (seulement si la commande a pris plus de 2 secondes)
+[cmd_duration]
+min_time = 2000
+style = "fg:#000000 bg:#c4a000"
+format = "[\ue0ba](fg:#c4a000)[ took $duration 󰔟 ]($style)[\ue0bc](fg:#c4a000)[─](fg:#585858)"
+
+# Heure actuelle : fond gris clair, texte noir
+[time]
+disabled = false
+time_format = "%T"
+style = "fg:#000000 bg:#d3d7cf"
+format = "[\ue0ba](fg:#d3d7cf)[ $time 󰥔 ]($style)[\ue0bc](fg:#d3d7cf)"
+
+# ─── LIGNE DU DESSOUS ────────────────────────────
+
+[character]
+success_symbol = "[❯](bold fg:#4e9a06)"
+error_symbol = "[❯](bold fg:#cc0000)"

@@ -1,0 +1,92 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
+  "logo": {
+    "type": "builtin",
+    "source": "arch_small",
+    "color": {
+      "1": "#00f0ff",
+      "2": "#e600ff"
+    },
+    "padding": {
+      "top": 5,
+      "left": 3,
+      "right": 4
+    }
+  },
+  "display": {
+    "separator": "  ",
+    "color": {
+      "separator": "#00f0ff",
+      "output": "#ffffff"
+    }
+  },
+  "modules": [
+    "break",
+    {
+      "type": "command",
+      "key": "󰀄 USR",
+      "keyColor": "#00f0ff",
+      "text": "whoami"
+    },
+    "break",
+    {
+      "type": "command",
+      "key": "󰒋 HN ",
+      "keyColor": "#ffb800",
+      "text": "cat /etc/hostname"
+    },
+    {
+      "type": "host",
+      "key": "󰌢 PC ",
+      "keyColor": "#00ff66"
+    },
+    {
+      "type": "os",
+      "key": "󱄅 OS ",
+      "keyColor": "#00f0ff"
+    },
+    {
+      "type": "uptime",
+      "key": "󰅐 UP ",
+      "keyColor": "#e600ff"
+    },
+    {
+      "type": "wm",
+      "key": "󰕮 DE ",
+      "keyColor": "#00f0ff"
+    },
+    {
+      "type": "shell",
+      "key": "󰆍 SH ",
+      "keyColor": "#e600ff"
+    },
+    "break",
+    {
+      "type": "cpu",
+      "key": "󰻠 CPU",
+      "keyColor": "#ffb800"
+    },
+    {
+      "type": "gpu",
+      "key": "󰢮 GPU",
+      "keyColor": "#00ff66",
+      "format": "{vendor} {name}"
+    },
+    {
+      "type": "memory",
+      "key": "󰘚 RAM",
+      "keyColor": "#00ff66"
+    },
+    {
+      "type": "disk",
+      "key": "󰋊 ",
+      "keyColor": "#ffb800",
+      "folders": "/:/home"
+    },
+    "break",
+    {
+      "type": "colors",
+      "symbol": "circle"
+    }
+  ]
+}

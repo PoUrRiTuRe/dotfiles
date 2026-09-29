@@ -1,0 +1,11 @@
+brave-bin
+dynamips
+gns3-gui
+gns3-server
+neofetch
+ubridge
+visual-studio-code-bin
+vpcs
+wl-gammarelay-rs
+yay-bin
+yay-bin-debug
