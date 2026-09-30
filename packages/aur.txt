@@ -4,6 +4,7 @@ gns3-gui
 gns3-server
 hyprshade
 neofetch
+papirus-folders
 ubridge
 visual-studio-code-bin
 vpcs

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Neovim
+GenericName=Text Editor
+Comment=LazyVim dans kitty
+Exec=kitty nvim %F
+Icon=nvim
+Terminal=false
+Categories=Utility;TextEditor;Development;
+Keywords=vim;neovim;lazyvim;editor;
+MimeType=text/plain;text/x-java;text/x-python;text/x-shellscript;
+StartupNotify=false

@@ -60,6 +60,11 @@ HOME_ITEMS=(
     "$HOME/.config/fastfetch"         # dont perso.jsonc
     "$HOME/.config/cava"
     "$HOME/.config/starship.toml"
+    "$HOME/.config/eza"               # couleurs de ls (eza)
+    "$HOME/.config/nvim"              # LazyVim
+    "$HOME/.config/nano"              # couleurs de nano
+    "$HOME/.config/environment.d"     # variables de session (GTK_THEME…)
+    "$HOME/.local/share/applications" # raccourcis du lanceur (Neovim dans kitty…)
     "$HOME/.config/oh-my-posh"
     "$HOME/.config/gtk-3.0"
     "$HOME/.config/gtk-4.0"

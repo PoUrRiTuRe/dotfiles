@@ -282,18 +282,14 @@ Item {
     property real screenMinLeft: isFill ? fillInset : (barWindow ? (barWindow.s(1) + distinctEdgePadding) : distinctEdgePadding)
     property real screenMaxRight: isFill ? (contentWrapper.width - fillInset) : (barWindow ? (contentWrapper.width - barWindow.s(1) - distinctEdgePadding) : (contentWrapper.width - distinctEdgePadding))
 
-    // [rotten] Place réservée au panneau SUPER+E : la barre se cale contre lui
-    property real sysPanelReserve: 510
-    property real effMaxRight: layoutState === "sys" ? (screenMaxRight - sysPanelReserve) : screenMaxRight
-
     property real rawCNaturalX: {
         if (layoutState === "settings") return screenMaxRight - rWidthTarget - crGap - cWidthTarget;
-        if (layoutState === "sys") return (effMaxRight - cWidthTarget) / 2;
+        if (layoutState === "sys") return screenMinLeft + lWidthTarget + lcGap;
         return (contentWrapper.width - cWidthTarget) / 2;
     }
 
     property real absMinC: (lWidthTarget > 0) ? (screenMinLeft + lWidthTarget + lcGap) : screenMinLeft
-    property real absMaxC: (rWidthTarget > 0) ? (effMaxRight - rWidthTarget - crGap - cWidthTarget) : (effMaxRight - cWidthTarget)
+    property real absMaxC: (rWidthTarget > 0) ? (screenMaxRight - rWidthTarget - crGap - cWidthTarget) : (screenMaxRight - cWidthTarget)
 
     property real cResolvedX: {
         if (absMinC <= absMaxC) {
@@ -316,7 +312,7 @@ Item {
     property real rFinalX: {
         if (rWidthTarget <= 0) return baseMaxRight;
         if (layoutState === "sys") {
-            return effMaxRight - rWidthTarget;
+            return Math.min(screenMaxRight - rWidthTarget, cFinalX + cWidthTarget + crGap);
         }
         let pushedX = Math.max(baseMaxRight - rWidthTarget, cFinalX + cWidthTarget + crGap);
         return Math.min(screenMaxRight - rWidthTarget, pushedX);

@@ -1,0 +1,34 @@
+# ─────────────────────────────────────────────────────────────
+#  ~/.config/eza/theme.yml — thème « Nebula » pour eza
+#  Une couleur par type de fichier, assortie au rice cyan / magenta
+# ─────────────────────────────────────────────────────────────
+
+# Types d'éléments
+filekinds:
+  normal:       { foreground: "#FFFFFF" }                 # fichier ordinaire : blanc
+  directory:    { foreground: "#00E5FF", is_bold: true }  # dossier : cyan
+  symlink:      { foreground: "#FF2BD6" }                 # lien : magenta
+  executable:   { foreground: "#39FF88", is_bold: true }  # script / programme : vert néon
+  pipe:         { foreground: "#FFC83C" }
+  socket:       { foreground: "#FFC83C" }
+  block_device: { foreground: "#FF9E3D" }
+  char_device:  { foreground: "#FF9E3D" }
+  special:      { foreground: "#FF9E3D" }
+  mount_point:  { foreground: "#00E5FF", is_underline: true }
+
+# Types de fichiers (d'après l'extension)
+file_type:
+  image:      { foreground: "#FF9E3D" }   # .png .jpg .gif… : orange
+  video:      { foreground: "#FF5C8A" }   # .mp4 .mkv… : rose
+  music:      { foreground: "#B8A8FF" }   # .mp3 .ogg… : lavande
+  lossless:   { foreground: "#B8A8FF", is_bold: true }  # .flac… : lavande gras
+  document:   { foreground: "#FFE66D" }   # .pdf .docx .md… : jaune
+  compressed: { foreground: "#FF3860" }   # .zip .tar.gz… : rouge
+  source:     { foreground: "#7DF9FF" }   # .java .py .lua… : cyan clair
+  build:      { foreground: "#FFE66D", is_underline: true }  # Makefile, pom.xml…
+  compiled:   { foreground: "#8F86B8" }   # .class .o… : violet grisé
+  crypto:     { foreground: "#39FF88" }   # clés, .gpg… : vert
+  temp:       { foreground: "#6F6A8F" }   # fichiers temporaires : gris violet
+
+# Colonne des dates (ls -l)
+date: { foreground: "#B8A8FF" }

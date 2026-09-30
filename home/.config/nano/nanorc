@@ -1,0 +1,28 @@
+## Nano — couleurs Nebula
+## (couleurs en #RGB : 3 chiffres hexadécimaux)
+
+# Barre du haut : texte sombre sur cyan
+set titlecolor bold,#012,#0ef
+# Messages d'information : texte blanc sur violet
+set statuscolor bold,#fff,#52a
+# Messages d'erreur : texte blanc sur rouge foncé (lisible !)
+set errorcolor bold,#fff,#b02
+# Question en bas (nom du fichier, etc.) : texte sombre sur cyan
+set promptcolor #012,#0ef
+# Raccourcis du bas : touche en cyan, description en blanc
+set keycolor bold,#0ef
+set functioncolor #fff
+# Texte sélectionné et résultats de recherche
+set selectedcolor #012,#f2d
+set spotlightcolor #012,#fe6
+# Numéros de ligne et barre de défilement
+set numbercolor #b9f
+set scrollercolor #0ef
+
+# Confort
+set linenumbers
+set mouse
+set indicator
+
+# Coloration syntaxique des fichiers (sh, conf, java, lua…)
+include "/usr/share/nano/*.nanorc"
