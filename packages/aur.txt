@@ -2,6 +2,7 @@ brave-bin
 dynamips
 gns3-gui
 gns3-server
+hyprshade
 neofetch
 ubridge
 visual-studio-code-bin

@@ -108,6 +108,7 @@ playerctl
 polkit-kde-agent
 power-profiles-daemon
 python-websockets
+qbittorrent
 qt5-graphicaleffects
 qt5-quickcontrols
 qt5-quickcontrols2

@@ -16,6 +16,8 @@ hl.config({
     rounding = 10,
     active_opacity = 1.0,
     inactive_opacity = 1.0,
+    -- Couleurs façon panneau NVIDIA (luminosité 60 / contraste 65 / vibrance 85)
+    screen_shader = "/home/rotten_guy/.config/hypr/shaders/nvidia-like.glsl",
     blur = {
       enabled = true,
       size = 8,
