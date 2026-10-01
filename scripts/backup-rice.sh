@@ -88,6 +88,20 @@ for item in "${HOME_ITEMS[@]}"; do
     save_home "$item"
 done
 
+# Réglages de Serpantinum (veille, barre, thème…) SANS la position
+# (adresse IP, coordonnées GPS, code postal utilisés pour la météo)
+SERP_SETTINGS="$HOME/.config/serpantinum/settings.json"
+if [[ -f "$SERP_SETTINGS" ]]; then
+    mkdir -p "$DEST/home/.config/serpantinum"
+    python3 - "$SERP_SETTINGS" "$DEST/home/.config/serpantinum/settings.json" << 'PY'
+import json, sys
+data = json.load(open(sys.argv[1], encoding="utf-8"))
+data.get("general", {}).pop("location", None)
+json.dump(data, open(sys.argv[2], "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+PY
+    echo "   ok  $SERP_SETTINGS (sans la position)"
+fi
+
 # ── 2. Fichiers système modifiés ─────────────────────────────
 echo "==> Fichiers système (mot de passe ou empreinte demandé)"
 SYSTEM_ITEMS=(
@@ -95,7 +109,7 @@ SYSTEM_ITEMS=(
     "/etc/pam.d/sudo"                 # sudo avec empreinte
     "/etc/sddm.conf.d"                # thème SDDM actif (nebula)
     "/usr/share/sddm/themes/nebula"   # le thème nebula
-    "/var/lib/bluetooth"              # appairages Bluetooth (casque WH-1000XM4)
+    "/var/lib/bluetooth"              # appairages Bluetooth (casque WH-1000XM4, clavier Lily58)
 )
 for item in "${SYSTEM_ITEMS[@]}"; do
     save_system "$item"
@@ -109,6 +123,12 @@ rm -rf "$DEST"/system/var/lib/bluetooth/*/cache
 echo "==> Liste des paquets"
 pacman -Qqen > "$DEST/packages/pacman.txt"   # dépôts officiels
 pacman -Qqem > "$DEST/packages/aur.txt"      # AUR / hors dépôts
+
+# Réglages qui ne sont pas des fichiers : services activés et gsettings
+systemctl list-unit-files --state=enabled --no-legend > "$DEST/packages/services-system.txt"
+systemctl --user list-unit-files --state=enabled --no-legend > "$DEST/packages/services-user.txt"
+gsettings list-recursively org.gnome.desktop.interface > "$DEST/packages/gsettings-interface.txt" 2>/dev/null
+echo "   ok  services activés + gsettings"
 echo "   ok  $(wc -l < "$DEST/packages/pacman.txt") officiels, $(wc -l < "$DEST/packages/aur.txt") AUR"
 
 # ── 4. Nettoyage des dépôts git imbriqués ────────────────────

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Game 376180410490552320
+Exec=/home/rotten_guy/.local/share/Steam/steamapps/common/Quaver/Quaver %u
+Type=Application
+NoDisplay=true
+Categories=Discord;Games;
+MimeType=x-scheme-handler/discord-376180410490552320

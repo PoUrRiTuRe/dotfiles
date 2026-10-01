@@ -60,9 +60,9 @@ hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("serpantinum msg toggle volume"))
 hl.bind(mainMod .. " + H", hl.dsp.exec_cmd("serpantinum msg toggle guide"))
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("serpantinum msg toggle autohide"))
 
--- Workspace suivant / précédent
-hl.bind(mainMod .. " + TAB", hl.dsp.focus({ workspace = "+1" }))
-hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.focus({ workspace = "-1" }))
+-- Workspace suivant / précédent (seulement les workspaces ouverts, en boucle)
+hl.bind(mainMod .. " + TAB", hl.dsp.focus({ workspace = "e+1" }))
+hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.focus({ workspace = "e-1" }))
 
 -- Workspaces : dispatchers natifs de Hyprland (instantanés)
 -- au lieu de passer par "serpantinum msg workspace"

@@ -61,6 +61,7 @@ libqalculate
 libva-nvidia-driver
 linux
 linux-firmware
+lutris
 ly
 mariadb
 matugen
@@ -84,6 +85,7 @@ plasma-activities
 playerctl
 polkit
 power-profiles-daemon
+protontricks
 python-websockets
 qbittorrent
 qt5-graphicaleffects

@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Quaver-scheme-handler
+Exec=/home/rotten_guy/.local/share/Steam/steamapps/common/Quaver/Quaver %u
+Type=Application
+NoDisplay=true
+MimeType=x-scheme-handler/quaver;

@@ -1,0 +1,149 @@
+{
+  "general": {
+    "language": "en",
+    "avatarPath": "/home/rotten_guy/Pictures/Profile-pictures/959098fc-e2c4-43b7-86e1-1045449df725.png",
+    "muteSfx": false,
+    "weatherInterval": 15,
+    "weatherUnit": "metric",
+    "sfxVolume": 100,
+    "screenshotCaptureOnRelease": false,
+    "quickactions": true
+  },
+  "syspanel": {
+    "clipExpandProgress": 0,
+    "clipExpanded": false,
+    "clipState": 1
+  },
+  "bar": {
+    "position": "top",
+    "width": 100,
+    "opacity": 100,
+    "style": "solid",
+    "time": {
+      "format": "HH:mm:ss"
+    },
+    "autohide": false,
+    "autohideTimeout": 1000,
+    "modules": {
+      "left": [
+        "left",
+        "workspaces",
+        "media"
+      ],
+      "center": [
+        [
+          "timedate",
+          "info",
+          "weather"
+        ]
+      ],
+      "right": [
+        "tray",
+        [
+          "kb",
+          "wifi",
+          "bt",
+          "vol",
+          "bat"
+        ]
+      ]
+    },
+    "distinctPills": false,
+    "groupColors": {
+      "g_timedate": "#d0d0d0",
+      "g_kb": "#e0e0e0"
+    },
+    "timeStyle": "classic",
+    "workspacesStyle": "numbers"
+  },
+  "theme": {
+    "fontFamily": "JetBrains Mono",
+    "borderRadius": 10,
+    "activePreset": "Cyberpunk",
+    "matugen": false,
+    "colors": {
+      "base": "#101014",
+      "blue": "#00f0ff",
+      "crust": "#050506",
+      "green": "#00ff66",
+      "mantle": "#0a0a0d",
+      "maroon": "#ff0055",
+      "mauve": "#e600ff",
+      "overlay0": "#4d4d6c",
+      "overlay1": "#666690",
+      "overlay2": "#8080b3",
+      "peach": "#ffb800",
+      "pink": "#ff007f",
+      "red": "#ff0055",
+      "sapphire": "#00a8ff",
+      "subtext0": "#d0006f",
+      "subtext1": "#ff007f",
+      "surface0": "#1a1a24",
+      "surface1": "#262636",
+      "surface2": "#333348",
+      "teal": "#00f0ff",
+      "text": "#00f0ff",
+      "yellow": "#ffea00"
+    }
+  },
+  "idle": {
+    "enabled": true,
+    "actions": {
+      "dim": {
+        "id": "dim",
+        "timeout": 150,
+        "enabled": true,
+        "respectInhibitors": true,
+        "mprisInhibit": false,
+        "command": "",
+        "resumeCommand": "",
+        "isCustom": false
+      },
+      "dpms": {
+        "id": "dpms",
+        "timeout": 450,
+        "enabled": false,
+        "respectInhibitors": true,
+        "mprisInhibit": false,
+        "command": "",
+        "resumeCommand": "",
+        "isCustom": false
+      },
+      "lock": {
+        "id": "lock",
+        "timeout": 300,
+        "enabled": true,
+        "respectInhibitors": true,
+        "mprisInhibit": false,
+        "command": "",
+        "resumeCommand": "",
+        "isCustom": false
+      },
+      "suspend": {
+        "id": "suspend",
+        "timeout": 600,
+        "enabled": false,
+        "respectInhibitors": true,
+        "mprisInhibit": false,
+        "command": "",
+        "resumeCommand": "",
+        "isCustom": false
+      }
+    }
+  },
+  "notifications": {
+    "dnd": false,
+    "position": "top right",
+    "sound": true,
+    "soundFile": "/home/rotten_guy/.local/share/serpantinum/src/assets/sounds/notifications/Botanica.wav"
+  },
+  "display": {
+    "monitors": {
+      "eDP-1": {
+        "enabled": false,
+        "scale": 1
+      }
+    }
+  },
+  "wallpaperDir": "/home/rotten_guy/Pictures/Wallpapers"
+}

@@ -25,6 +25,9 @@
 | ⚡ | **Instant workspaces** | `SUPER + 1…0` bound directly to Hyprland's dispatchers, no latency; `SUPER + Tab` / `SUPER + Shift + Tab` for next / previous workspace |
 | 📐 | **Fixed top bar** | When the `SUPER + E` panel opens, the bar re-centers its clock and docks its indicators against the panel |
 | 🖥️ | **Terminal** | kitty (with `Ctrl + = / - / 0` zoom) + zsh + starship + a custom fastfetch + a Nebula-colored nano |
+| ✂️ | **Editor-like shell** | `Shift / Ctrl + Shift + ←→` to select, `Ctrl + A` to select the whole command, typing replaces the selection; `clear` and `Ctrl + L` do a real reset (scrollback saved locally first) |
+| 😴 | **Reliable sleep** | NVIDIA suspend services enabled; no automatic screen-off or sleep, closing the lid still suspends |
+| 🎮 | **Gaming** | Steam with Proton Experimental for every title |
 | 🎧 | **Bluetooth** | Saved pairings (Sony WH-1000XM4 headphones, Lily58 split keyboard) |
 
 ---
@@ -84,6 +87,7 @@ dotfiles/
 │   ├── .config/gtk-3.0/ .config/gtk-4.0/
 │   ├── .config/environment.d/  # GTK_THEME for systemd services (portal)
 │   ├── .config/starship.toml
+│   ├── .config/serpantinum/settings.json  # bar, theme, idle (location removed)
 │   ├── .local/share/color-schemes/   # Nebula KDE color scheme
 │   ├── .local/share/applications/    # launcher entries (Neovim in kitty)
 │   ├── .local/share/icons/ChromaS/
@@ -98,7 +102,11 @@ dotfiles/
 │   └── var/lib/bluetooth/      # pairings (only valid on this machine)
 ├── packages/
 │   ├── pacman.txt              # installed official packages
-│   └── aur.txt                 # installed AUR packages
+│   ├── aur.txt                 # installed AUR packages
+│   ├── services-system.txt     # enabled system services
+│   ├── services-user.txt       # enabled user services
+│   └── gsettings-interface.txt # GTK settings (theme, icons, cursor)
+├── feuille-de-route-rice.md   # full history of the rice (in French)
 └── LAST_BACKUP.txt
 ```
 
@@ -136,7 +144,7 @@ For a fresh install of Arch Linux or an Arch-based distro (CachyOS, …).
 | `papirus-icon-theme` · `papirus-folders` *(AUR)* | GTK icons with cyan folders |
 | `grim` · `slurp` · `zbar` · `wl-clipboard` · `playerctl` | Screenshots (`zbar` is required by Serpantinum's screenshot tool), clipboard, media controls |
 | `ttf-jetbrains-mono-nerd` · `noto-fonts-emoji` | Terminal font, icons and emojis |
-| `git` · `openssh` | Clone and update this repository |
+| `git` · `openssh` · `less` | Clone and update this repository (`less` is needed by `git log` and `man`) |
 
 ### Optional
 
@@ -147,6 +155,8 @@ For a fresh install of Arch Linux or an Arch-based distro (CachyOS, …).
 | `hyprshade` *(AUR)* | Toggle the color shader on the fly |
 | `ddcutil` · `imagemagick` · `libqalculate` | External monitor brightness, wallpaper thumbnails, launcher calculator (used by Serpantinum scripts) |
 | `cava` | Audio visualizer |
+| `steam` · `lib32-nvidia-utils` · `lib32-vulkan-icd-loader` | Gaming (needs the `multilib` repo) |
+| `protontricks` · `protonup-qt` *(AUR)* | Windows components for a game's Proton prefix, community Proton builds (GE-Proton) |
 | `nvidia` · `nvidia-utils` | Drivers for NVIDIA GPUs |
 
 ```bash
@@ -155,7 +165,7 @@ sudo pacman -S --needed hyprland hyprpolkitagent kitty zsh starship fastfetch ez
   pipewire pipewire-pulse wireplumber bluez bluez-utils networkmanager upower power-profiles-daemon \
   dolphin kvantum qt6ct breeze-icons kio-extras ffmpegthumbs kdegraphics-thumbnailers archlinux-xdg-menu \
   papirus-icon-theme grim slurp zbar wl-clipboard playerctl \
-  ttf-jetbrains-mono-nerd noto-fonts-emoji git openssh \
+  ttf-jetbrains-mono-nerd noto-fonts-emoji git openssh less \
   neovim ripgrep fd fzf lazygit gcc make fprintd ddcutil imagemagick libqalculate cava
 yay -S papirus-folders hyprshade
 ```
@@ -233,7 +243,22 @@ sudo cp -a system/var/lib/bluetooth/. /var/lib/bluetooth/
 sudo systemctl enable --now bluetooth
 ```
 
-### 8. Reboot 🎉
+### 8. Services
+
+```bash
+# NVIDIA: required for a working wake-up from sleep (otherwise the screen freezes)
+sudo systemctl enable nvidia-suspend.service nvidia-resume.service nvidia-hibernate.service
+# Password prompt for admin actions
+systemctl --user enable hyprpolkitagent.service
+```
+
+`packages/services-system.txt` and `packages/services-user.txt` list every service that was enabled, for reference.
+
+### 9. Serpantinum settings
+
+`home/.config/serpantinum/settings.json` holds the bar layout, theme and idle settings (screen-off and sleep disabled). It is saved **without** the location used for the weather: Serpantinum will detect it again.
+
+### 10. Reboot 🎉
 
 ---
 
@@ -241,7 +266,7 @@ sudo systemctl enable --now bluetooth
 
 The changes that make this rice, to reapply if you switch shells or versions:
 
-- **Latency-free workspaces**: in `keybinds.lua`, use `hl.dsp.focus({ workspace = i })` instead of `serpantinum msg workspace`. Next / previous: `hl.dsp.focus({ workspace = "+1" })` and `"-1"` (use `"e+1"` / `"e-1"` to skip empty workspaces).
+- **Latency-free workspaces**: in `keybinds.lua`, use `hl.dsp.focus({ workspace = i })` instead of `serpantinum msg workspace`. Next / previous: `hl.dsp.focus({ workspace = "e+1" })` and `"e-1"` (open workspaces only, wrapping around; plain `"+1"` keeps creating new empty workspaces).
 - **Bluetooth keyboards**: Serpantinum's Bluetooth menu doesn't show the pairing code, so the keyboard keeps disconnecting. Pair from a terminal instead: `bluetoothctl`, then `agent KeyboardDisplay`, `default-agent`, `scan on`, `pair <MAC>`, type the 6-digit passkey **on the Bluetooth keyboard** + Enter, then `trust <MAC>` and `connect <MAC>`.
 - **Borders**: `border` (`smooth` curve) and `borderangle` (`linear` curve, `style = "loop"`) animations in `settings.lua`.
 - **Colors**: `screen_shader` in `settings.lua` → `~/.config/hypr/shaders/nvidia-like.glsl`. The three values sit at the top of the file; run `hyprctl reload` after editing it.
@@ -249,9 +274,18 @@ The changes that make this rice, to reapply if you switch shells or versions:
 - **Qt apps (Dolphin)**: `QT_QPA_PLATFORMTHEME=qt6ct` **and** `QT_STYLE_OVERRIDE=kvantum` in `env.lua`. Without the second one, KDE apps force the light Breeze style outside Plasma.
 - **GTK dialogs**: `GTK_THEME=Adwaita:dark` in `env.lua` **and** in `~/.config/environment.d/gtk.conf`, because the dialog is drawn by the desktop portal, a systemd service that doesn't see Hyprland's variables. Restart it after changes: `systemctl --user restart xdg-desktop-portal-gtk xdg-desktop-portal`.
 - **Top bar**: Serpantinum's `bar/TopBar.qml` packs everything to the left when the `SUPER + E` panel opens; `scripts/patch-topbar.py` fixes it. Re-run it after a Serpantinum update.
+- **Sleep on NVIDIA**: the driver keeps video memory across sleep (`PreserveVideoMemoryAllocations=1`), which **requires** the `nvidia-suspend` / `nvidia-resume` / `nvidia-hibernate` services. Without them, the screen freezes on wake-up.
+- **Idle**: in Serpantinum's `settings.json`, `idle.actions.dpms` and `idle.actions.suspend` are disabled (dim and lock stay on).
+- **zsh selection**: custom ZLE widgets defined **before** the plugins; kitty's `Ctrl + Shift + ←/→` (tab switching) is set to `no_op` so zsh receives it. Unknown keys print `~`: bind them with `bindkey` (e.g. `'^[[3~'` for Delete).
 - **Terminal apps in the launcher**: Quickshell ignores `Terminal=true`, so `~/.local/share/applications/nvim.desktop` launches `kitty nvim %F` instead.
 - **fastfetch**: matugen overwrites `config.jsonc`, so the real config is `perso.jsonc`, launched from `.zshrc` with `fastfetch --config`.
 - **kitty**: `fullscreen_state = "0 0"` window rule, a workaround for the kitty bug that opens it maximized ([kitty#10442](https://github.com/kovidgoyal/kitty/issues/10442)). Remove it once the bug is fixed.
+
+---
+
+## 🗺️ History
+
+Everything that was done, why, and what was set aside: see [`feuille-de-route-rice.md`](feuille-de-route-rice.md) (in French).
 
 ---
 

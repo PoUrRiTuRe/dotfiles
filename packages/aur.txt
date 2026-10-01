@@ -2,9 +2,11 @@ brave-bin
 dynamips
 gns3-gui
 gns3-server
+heroic-games-launcher-bin
 hyprshade
 neofetch
 papirus-folders
+protonup-qt
 ubridge
 visual-studio-code-bin
 vpcs

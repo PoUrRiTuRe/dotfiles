@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Quaver
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/980610
+Icon=steam_icon_980610
+Terminal=false
+Type=Application
+Categories=Game;

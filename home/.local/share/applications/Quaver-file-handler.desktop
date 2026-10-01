@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Quaver
+Exec="/home/rotten_guy/.local/share/Steam/steamapps/common/Quaver/Quaver" %f
+Icon=/home/rotten_guy/.local/share/Quaver/File Icons/quaver-logo.png
+Type=Application
+NoDisplay=true
+MimeType=application/x-quaver-qp;application/x-quaver-qpl;application/x-quaver-qr;application/x-quaver-qs;
