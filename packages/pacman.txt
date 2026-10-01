@@ -66,6 +66,8 @@ linux
 linux-firmware
 lutris
 ly
+man-db
+man-pages
 mariadb
 matugen
 mkinitcpio
@@ -136,6 +138,7 @@ xdg-desktop-portal-hyprland
 xdg-utils
 yazi
 zbar
+zip
 zram-generator
 zsh
 zsh-autosuggestions
