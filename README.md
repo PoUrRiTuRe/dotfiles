@@ -27,7 +27,7 @@
 | 📐 | **Fixed top bar** | When the `SUPER + E` panel opens, the bar re-centers its clock and docks its indicators against the panel |
 | 🖥️ | **Terminal** | kitty (with `Ctrl + = / - / 0` zoom) + zsh + starship + a custom fastfetch + a Nebula-colored nano |
 | ✂️ | **Editor-like shell** | `Shift / Ctrl + Shift + ←→` to select, `Ctrl + A` to select the whole command, typing replaces the selection; `clear` and `Ctrl + L` do a real reset (scrollback saved locally first) |
-| 😴 | **No freezes** | No automatic screen-off or sleep; on AC power, closing the lid only locks and the sleep key is ignored (the NVIDIA driver can freeze on wake-up) |
+| 😴 | **No freezes** | No automatic screen-off or sleep. Lid closed: lock on AC, lock + sleep on battery (Hyprland is paused during sleep so the NVIDIA driver wakes up cleanly); sleep key ignored |
 | 🎮 | **Gaming** | Steam with Proton Experimental for every title |
 | 🎧 | **Bluetooth** | Saved pairings (Sony WH-1000XM4 headphones, Lily58 split keyboard) |
 
@@ -100,6 +100,8 @@ dotfiles/
 │   ├── etc/pam.d/sudo          # fingerprint for sudo
 │   ├── etc/pam.d/serpantinum-fprint  # fingerprint on the lock screen
 │   ├── etc/systemd/logind.conf.d/    # lid / sleep key: no sleep on AC
+│   ├── etc/systemd/system/hyprland-{suspend,resume}.service  # NVIDIA sleep fix
+│   ├── usr/local/bin/suspend-hyprland.sh
 │   ├── etc/sddm.conf.d/        # enables the nebula theme
 │   ├── usr/share/sddm/themes/nebula/
 │   └── var/lib/bluetooth/      # pairings (only valid on this machine)
@@ -123,6 +125,7 @@ dotfiles/
 | `patch-topbar.py` | Patches Serpantinum's top bar for the `SUPER + E` panel (`--restore` to undo) |
 | `patch-lock.py` | Adds fingerprint unlock and its animation to Serpantinum's lock screen (`--restore` to undo) |
 | `menage-apercu.sh` | Dry run used to remove KDE Plasma / GNOME while protecting useful packages |
+| `save-all.sh` | One-shot save: pulls, moves downloaded files into place, copies the scripts, runs the backup |
 
 ---
 
@@ -265,10 +268,15 @@ systemctl --user enable hyprpolkitagent.service
 
 `packages/services-system.txt` and `packages/services-user.txt` list every service that was enabled, for reference.
 
-### 9. Lid and sleep key
+### 9. Lid, sleep key and NVIDIA sleep fix
 
 ```bash
 sudo cp -a system/etc/systemd/logind.conf.d /etc/systemd/
+sudo cp system/usr/local/bin/suspend-hyprland.sh /usr/local/bin/
+sudo cp system/etc/systemd/system/hyprland-{suspend,resume}.service /etc/systemd/system/
+sudo chmod +x /usr/local/bin/suspend-hyprland.sh
+sudo systemctl daemon-reload
+sudo systemctl enable hyprland-suspend.service hyprland-resume.service
 sudo systemctl kill -s HUP systemd-logind
 ```
 
@@ -294,7 +302,8 @@ The changes that make this rice, to reapply if you switch shells or versions:
 - **Top bar**: Serpantinum's `bar/TopBar.qml` packs everything to the left when the `SUPER + E` panel opens; `scripts/patch-topbar.py` fixes it. Re-run it after a Serpantinum update.
 - **Sleep on NVIDIA**: the driver keeps video memory across sleep (`PreserveVideoMemoryAllocations=1`), which **requires** the `nvidia-suspend` / `nvidia-resume` / `nvidia-hibernate` services. Without them, the screen freezes on wake-up.
 - **Idle**: in Serpantinum's `settings.json`, `idle.actions.dpms` and `idle.actions.suspend` are disabled (dim and lock stay on).
-- **Sleep still freezes on NVIDIA** even with the services (`Failed to apply atomic modeset`), so `/etc/systemd/logind.conf.d/no-suspend.conf` stops sleep on AC: lid → lock, sleep key ignored.
+- **Sleep still freezes on NVIDIA** even with the services (`Failed to apply atomic modeset`): Hyprland keeps talking to the GPU while it sleeps. `hyprland-suspend.service` / `hyprland-resume.service` (+ `/usr/local/bin/suspend-hyprland.sh`) pause Hyprland (`SIGSTOP`) before `nvidia-suspend` and resume it after `nvidia-resume`.
+- **Lid**: Serpantinum's lock screen ignores logind's lock signal, so Hyprland locks on `switch:on:Lid Switch` (`keybinds.lua`). `/etc/systemd/logind.conf.d/no-suspend.conf`: on AC the lid does nothing system-side, on battery it suspends; the sleep key is ignored.
 - **Lock screen fingerprint**: Serpantinum's lock screen only uses the `login` PAM service (no fingerprint, no option in its settings). `patch-lock.py` adds a second `PamContext` using `/etc/pam.d/serpantinum-fprint` (`pam_fprintd` only), running alongside the password one. Re-run it after a Serpantinum update.
 - **Check Serpantinum first**: before patching anything, look for an option in its settings (`~/.config/serpantinum/settings.json`, the `SUPER + H` guide). Patches are a last resort.
 - **zsh selection**: custom ZLE widgets defined **before** the plugins; kitty's `Ctrl + Shift + ←/→` (tab switching) is set to `no_op` so zsh receives it. Unknown keys print `~`: bind them with `bindkey` (e.g. `'^[[3~'` for Delete).
