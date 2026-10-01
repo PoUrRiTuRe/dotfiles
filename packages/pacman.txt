@@ -4,6 +4,7 @@ adw-gtk-theme
 alacritty
 alsa-utils
 archlinux-xdg-menu
+ark
 base
 base-devel
 bc
@@ -116,6 +117,7 @@ traceroute
 ttf-jetbrains-mono-nerd
 udisks2
 ufw
+unrar
 unzip
 upower
 uwsm
