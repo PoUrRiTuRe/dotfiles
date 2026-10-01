@@ -20,6 +20,22 @@ alias ll='eza -lh --icons=auto --group-directories-first --git'
 alias la='eza -lah --icons=auto --group-directories-first --git'
 alias lt='eza --tree --level=2 --icons=auto --group-directories-first'
 
+# clear = vrai reset du terminal + fastfetch
+# Avant d'effacer, le contenu du terminal est sauvegardé dans
+# ~/.cache/terminal-logs/ (les 20 derniers sont gardés).
+clear() {
+  if [[ -n $KITTY_WINDOW_ID ]]; then
+    local dir=~/.cache/terminal-logs
+    mkdir -p $dir
+    kitty @ get-text --extent all > "$dir/$(date +%Y-%m-%d_%H-%M-%S).txt" 2>/dev/null
+    local old=( $dir/*.txt(Nom[21,-1]) )
+    (( ${#old} )) && rm -- $old
+  fi
+  command clear
+  printf '\e[3J'
+  fastfetch --config ~/.config/fastfetch/perso.jsonc
+}
+
 # Plugins (syntax-highlighting must stay last)
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
