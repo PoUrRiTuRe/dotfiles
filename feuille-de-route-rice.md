@@ -184,7 +184,7 @@
 | `patch-topbar.py` | Corrige la barre de Serpantinum (`--restore` pour annuler) |
 | `menage-apercu.sh` | Essai à blanc du ménage KDE / GNOME, avec liste de paquets protégés |
 | `patch-lock.py` | Empreinte + animation sur l'écran de verrouillage (`--restore` pour annuler) |
-| `save-all.sh` | Sauvegarde en une commande : récupère GitHub, range les fichiers téléchargés, copie les scripts, lance la sauvegarde |
+| `save-all.sh` | Sauvegarde en une commande : récupère GitHub **et installe dans `~` la config et les scripts modifiés sur GitHub** (fichiers système seulement signalés), range les fichiers téléchargés, copie les scripts, lance la sauvegarde |
 
 ## 📄 Fichiers modifiés
 
