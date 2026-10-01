@@ -43,3 +43,12 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 # change to the next or previous word
 bindkey '^[[1;5D' backward-word   # Ctrl + ←
 bindkey '^[[1;5C' forward-word    # Ctrl + →
+
+# Ctrl + L = même chose que la commande clear (reset complet + fastfetch)
+_clear_full() {
+  zle -I            # prévient zsh qu'on va écrire à l'écran
+  clear             # la fonction clear ci-dessus
+  zle reset-prompt  # réaffiche le prompt proprement
+}
+zle -N _clear_full
+bindkey '^L' _clear_full

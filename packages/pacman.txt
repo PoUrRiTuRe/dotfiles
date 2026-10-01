@@ -55,6 +55,7 @@ kio-extras
 kitty
 kvantum
 lazygit
+less
 libpulse
 libqalculate
 libva-nvidia-driver
@@ -105,6 +106,7 @@ steam
 sudo
 telegram-desktop
 testdisk
+tldr
 traceroute
 ttf-jetbrains-mono-nerd
 udisks2
