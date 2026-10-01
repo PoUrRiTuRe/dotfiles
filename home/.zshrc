@@ -62,9 +62,9 @@ done
 unset _w
 zle -N self-insert _sel-self-insert
 
-# Couleur de la sélection : style « néon », texte cyan gras sur un voile bleu nuit
+# Couleur de la sélection : style « néon », texte cyan sur un bleu moyen
 # (mêmes couleurs que selection_foreground / selection_background dans kitty.conf)
-zle_highlight=(region:fg=#00e5ff,bg=#14123a,bold paste:none)
+zle_highlight=(region:fg=#00e5ff,bg=#2b3d8f paste:none)
 
 # Plugins (syntax-highlighting must stay last)
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
