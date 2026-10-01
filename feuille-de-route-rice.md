@@ -1,7 +1,7 @@
 # Feuille de route — Rice Hyprland « Nebula » (ThinkPad P53)
 
 > Arch Linux · Hyprland 0.56 (config Lua) · Serpantinum · thème cyan / magenta
-> Sauvegarde : `~/backup-rice.sh` → dépôt GitHub privé `PoUrRiTuRe/dotfiles`
+> Sauvegarde : `~/backup-rice.sh` → dépôt GitHub `PoUrRiTuRe/dotfiles` (⚠️ encore **public**, voir points ouverts)
 
 ---
 
@@ -55,6 +55,7 @@
 - [x] Agent de mot de passe `hyprpolkitagent` installé (il n'y en avait aucun)
 - [x] 42 paquets utiles protégés, **327 paquets supprimés (~2 Go)**
 - [x] Réparation après coup : `zbar` réinstallé (requis par les captures d'écran de Serpantinum)
+- [x] Réparation après coup : `ark` réinstallé (+ `unrar`) pour le menu « Compresser / Extraire » de Dolphin ; ajouté aux paquets protégés de `menage-apercu.sh`
 - [x] Le greeter ne propose plus que Hyprland
 
 ### 9. 📂 Couleurs de `ls`
@@ -138,6 +139,12 @@
 - ⚠️ À relancer après une mise à jour de Serpantinum
 - [ ] Trousseau (Brave) après connexion par empreinte : choix A / B / C à faire
 
+### 🗜️ Archives dans Dolphin
+- [x] `ark` avait disparu avec le ménage KDE → plus de « Compresser / Extraire » au clic droit
+- [x] `sudo pacman -S --needed ark 7zip unrar` : `ark` = menus + appli, `7zip` = `.7z` (déjà là), `unrar` = `.rar`
+- [x] Hors Plasma, Dolphin ne voit pas les nouvelles extensions tout seul : `killall dolphin && kbuildsycoca6 --noincremental`
+- [ ] Vérifier le clic droit dans Dolphin (sinon : *Configurer* → *Menus contextuels*, cocher les entrées d'Ark)
+
 ### 🧭 Règle pour la suite
 - Avant de modifier un fichier de Serpantinum, **chercher d'abord une option** dans ses réglages ou son guide (`SUPER + H`). Les patchs restent le dernier recours.
 
@@ -145,6 +152,7 @@
 
 ## 🔍 Petits points ouverts
 
+- [ ] **Dépôt public** alors qu'il contient `system/var/lib/bluetooth/` (clés d'appairage), le curseur Chroma S et des fonds d'écran → le passer en **privé** (GitHub → *Settings* → *Danger Zone* → *Change visibility*)
 - [ ] **`~` affiche `master ?`** : ton dossier perso est un dépôt git (sans doute par erreur). Vérifier avec `ls -la ~/.git` **sans rien supprimer**
 - [ ] **`hyprpolkitagent` au démarrage** : vérifier après un redémarrage avec `pgrep -a hyprpolkitagent`
 - [ ] **GitHub** : vérifier que le README s'affiche avec les 4 captures

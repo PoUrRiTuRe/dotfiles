@@ -31,6 +31,11 @@ ffmpegthumbs
 kdegraphics-thumbnailers
 archlinux-xdg-menu
 plasma-activities
+# Archives : menu « Compresser / Extraire » de Dolphin
+ark
+7zip
+unrar
+unzip
 # Connexion, trousseau, empreinte
 sddm
 qt6-5compat
@@ -52,7 +57,6 @@ udisks2
 gvfs
 # Utilitaires et polices utiles au quotidien
 noto-fonts-emoji
-unzip
 socat
 accountsservice
 gst-plugins-base

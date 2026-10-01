@@ -72,6 +72,7 @@ The GTK file dialog (used by Brave and other apps through the desktop portal), f
 ```
 dotfiles/
 ├── README.md
+├── CLAUDE.md                   # context for Claude Code (in French)
 ├── assets/                     # README screenshots
 ├── scripts/                    # helper scripts (see below)
 ├── home/                       # everything that goes into ~
@@ -149,6 +150,7 @@ For a fresh install of Arch Linux or an Arch-based distro (CachyOS, …).
 | `bluez` · `bluez-utils` · `networkmanager` · `upower` · `power-profiles-daemon` | Bluetooth, network, battery and power modes used by Serpantinum |
 | `dolphin` · `kvantum` · `qt6ct` · `breeze-icons` · `kio-extras` | File manager and its theme |
 | `ffmpegthumbs` · `kdegraphics-thumbnailers` · `archlinux-xdg-menu` | Dolphin thumbnails and "Open with" menu outside Plasma |
+| `ark` · `7zip` · `unrar` · `unzip` | "Compress" / "Extract" entries in Dolphin's right-click menu, `.7z` and `.rar` support |
 | `papirus-icon-theme` · `papirus-folders` *(AUR)* | GTK icons with cyan folders |
 | `grim` · `slurp` · `zbar` · `wl-clipboard` · `playerctl` | Screenshots (`zbar` is required by Serpantinum's screenshot tool), clipboard, media controls |
 | `ttf-jetbrains-mono-nerd` · `noto-fonts-emoji` | Terminal font, icons and emojis |
@@ -172,6 +174,7 @@ sudo pacman -S --needed hyprland hyprpolkitagent kitty zsh starship fastfetch ez
   zsh-autosuggestions zsh-syntax-highlighting sddm qt6-5compat \
   pipewire pipewire-pulse wireplumber bluez bluez-utils networkmanager upower power-profiles-daemon \
   dolphin kvantum qt6ct breeze-icons kio-extras ffmpegthumbs kdegraphics-thumbnailers archlinux-xdg-menu \
+  ark 7zip unrar unzip \
   papirus-icon-theme grim slurp zbar wl-clipboard playerctl \
   ttf-jetbrains-mono-nerd noto-fonts-emoji git openssh less \
   neovim ripgrep fd fzf lazygit gcc make fprintd ddcutil imagemagick libqalculate cava
@@ -301,6 +304,7 @@ The changes that make this rice, to reapply if you switch shells or versions:
 - **Colors**: `screen_shader` in `settings.lua` → `~/.config/hypr/shaders/nvidia-like.glsl`. The three values sit at the top of the file; run `hyprctl reload` after editing it.
 - **Cursor**: `XCURSOR_THEME=ChromaS` and `XCURSOR_SIZE=32` in `env.lua`.
 - **Qt apps (Dolphin)**: `QT_QPA_PLATFORMTHEME=qt6ct` **and** `QT_STYLE_OVERRIDE=kvantum` in `env.lua`. Without the second one, KDE apps force the light Breeze style outside Plasma.
+- **Dolphin service menus outside Plasma**: after installing a KDE plugin (e.g. `ark` for "Compress" / "Extract"), Dolphin doesn't see it until its plugin cache is rebuilt, which Plasma normally does for you: `killall dolphin && kbuildsycoca6 --noincremental`.
 - **GTK dialogs**: `GTK_THEME=Adwaita:dark` in `env.lua` **and** in `~/.config/environment.d/gtk.conf`, because the dialog is drawn by the desktop portal, a systemd service that doesn't see Hyprland's variables. Restart it after changes: `systemctl --user restart xdg-desktop-portal-gtk xdg-desktop-portal`.
 - **Top bar**: Serpantinum's `bar/TopBar.qml` packs everything to the left when the `SUPER + E` panel opens; `scripts/patch-topbar.py` fixes it. Re-run it after a Serpantinum update.
 - **Sleep on NVIDIA**: the driver keeps video memory across sleep (`PreserveVideoMemoryAllocations=1`), which **requires** the `nvidia-suspend` / `nvidia-resume` / `nvidia-hibernate` services. Without them, the screen freezes on wake-up.
