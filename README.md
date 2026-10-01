@@ -14,7 +14,7 @@
 
 | | Component | Details |
 |---|---|---|
-| 🔒 | **Fingerprint on the lock screen** | `SUPER + L`: the reader listens alongside the password field; a cyan ring pulses, turns into a magenta check on success, shakes red on a wrong finger |
+| 🔒 | **Fingerprint animation** | Lock screen (`SUPER + L`): the reader listens alongside the password field. Greeter: empty field + Enter. In both, a cyan ring pulses, turns into a magenta check on success, shakes red on a wrong finger |
 | 🔐 | **`nebula` SDDM greeter** | Custom cyan / magenta theme on a nebula wallpaper, neon clock with a glow, login with **password or fingerprint** |
 | 🌈 | **Animated borders** | Cyan → magenta gradient that rotates continuously at a constant speed, with a smooth fade when focus changes |
 | 🎯 | **Chroma S cursor** | Precision crosshair with an animated RGB outline (*Chroma Cursors S* pack by Glimy, converted from Windows), smoothed animation |
@@ -124,6 +124,7 @@ dotfiles/
 | `nebula-colors.sh` | Creates the Nebula KDE color scheme and applies it to Dolphin |
 | `patch-topbar.py` | Patches Serpantinum's top bar for the `SUPER + E` panel (`--restore` to undo) |
 | `patch-lock.py` | Adds fingerprint unlock and its animation to Serpantinum's lock screen (`--restore` to undo) |
+| `patch-greeter.py` | Adds the same fingerprint animation to the `nebula` SDDM greeter (run with `sudo`, `--restore` to undo) |
 | `menage-apercu.sh` | Dry run used to remove KDE Plasma / GNOME while protecting useful packages |
 | `save-all.sh` | One-shot save: pulls, moves downloaded files into place, copies the scripts, runs the backup |
 
@@ -248,6 +249,8 @@ Fingerprint on the lock screen (`SUPER + L`):
 sudo cp system/etc/pam.d/serpantinum-fprint /etc/pam.d/
 python3 scripts/patch-lock.py
 ```
+
+The greeter backup already contains the animation; if you start from the original `nebula` theme, run `sudo python3 scripts/patch-greeter.py`.
 
 ### 7. Bluetooth *(same machine only)*
 

@@ -49,7 +49,6 @@ Rectangle {
     property real ui1: 0
     property real ui2: 0
     property string errorMessage: ""
-    property string fpState: "idle"   // [rotten] idle / scanning / success / fail
 
     FontLoader {
         id: customFont
@@ -109,15 +108,7 @@ Rectangle {
 
     Connections {
         target: typeof sddm !== "undefined" ? sddm : null
-        function onLoginSucceeded() {
-            if (root.fpState === "scanning") root.fpState = "success";   // [rotten]
-        }
         function onLoginFailed() {
-            if (root.fpState === "scanning") {   // [rotten] doigt refusé
-                root.fpState = "fail";
-                fpShakeAnim.restart();
-                fpResetTimer.restart();
-            }
             root.errorMessage = "ACCESS DENIED";
             pwd.text = "";
             charModel.clear();
@@ -160,62 +151,6 @@ Rectangle {
         cursorShape: Qt.ArrowCursor
         z: -1
         onClicked: pwd.forceActiveFocus()
-    }
-
-    // [rotten] Indicateur d'empreinte : anneau → coche
-    Item {
-        id: fpIndicator
-        z: 1000
-        width: 76 * s
-        height: 76 * s
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 60 * s
-        visible: root.fpState !== "idle"
-        property color accent: root.fpState === "fail" ? root.cError
-                             : (root.fpState === "success" ? root.cMagenta : root.cCyan)
-        Behavior on accent { ColorAnimation { duration: 250 } }
-        transform: Translate { id: fpShake; x: 0 }
-
-        Rectangle {
-            anchors.fill: parent
-            radius: width / 2
-            color: root.fpState === "success" ? Qt.alpha(fpIndicator.accent, 0.25) : "transparent"
-            border.width: 3 * s
-            border.color: fpIndicator.accent
-            Behavior on color { ColorAnimation { duration: 300 } }
-
-            SequentialAnimation on scale {
-                running: root.fpState === "scanning"
-                loops: Animation.Infinite
-                NumberAnimation { to: 1.08; duration: 900; easing.type: Easing.InOutSine }
-                NumberAnimation { to: 1.0; duration: 900; easing.type: Easing.InOutSine }
-            }
-        }
-
-        Text {
-            anchors.centerIn: parent
-            text: root.fpState === "success" ? String.fromCodePoint(0xF012C) : String.fromCodePoint(0xF0237)
-            font.family: "JetBrainsMono Nerd Font"
-            font.pixelSize: 38 * s
-            color: fpIndicator.accent
-            scale: root.fpState === "success" ? 1.15 : 1.0
-            Behavior on scale { NumberAnimation { duration: 300; easing.type: Easing.OutBack } }
-        }
-
-        SequentialAnimation {
-            id: fpShakeAnim
-            NumberAnimation { target: fpShake; property: "x"; to: 10 * s; duration: 50 }
-            NumberAnimation { target: fpShake; property: "x"; to: -10 * s; duration: 50 }
-            NumberAnimation { target: fpShake; property: "x"; to: 6 * s; duration: 50 }
-            NumberAnimation { target: fpShake; property: "x"; to: 0; duration: 50 }
-        }
-    }
-
-    Timer {
-        id: fpResetTimer
-        interval: 1500
-        onTriggered: root.fpState = "idle"
     }
 
     Row {
@@ -861,7 +796,6 @@ Rectangle {
                             onAccepted: {
                                 if (!root.isQuickshell) {
                                     let currentUser = userHelper.currentItem ? userHelper.currentItem.uLogin : userModel.lastUser;
-                                    if (pwd.text === "") root.fpState = "scanning";   // [rotten] empreinte
                                     sddm.login(currentUser, pwd.text, root.sessionIndex);
                                 }
                             }

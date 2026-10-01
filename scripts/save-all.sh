@@ -24,7 +24,7 @@ fi
 
 # ── 2. Fichiers téléchargés → leur place ─────────────────────
 echo "==> Rangement des fichiers téléchargés"
-for f in backup-rice.sh save-all.sh patch-lock.py patch-topbar.py \
+for f in backup-rice.sh save-all.sh patch-lock.py patch-greeter.py patch-topbar.py \
          menage-apercu.sh nebula-kvantum.sh nebula-colors.sh; do
     if [[ -f "$DL/$f" ]]; then
         mv "$DL/$f" "$HOME/$f"
@@ -43,7 +43,7 @@ done
 # ── 3. Scripts → dossier scripts/ du dépôt ───────────────────
 echo "==> Copie des scripts dans le dépôt"
 mkdir -p "$REPO/scripts"
-for f in backup-rice.sh save-all.sh patch-lock.py patch-topbar.py \
+for f in backup-rice.sh save-all.sh patch-lock.py patch-greeter.py patch-topbar.py \
          menage-apercu.sh nebula-kvantum.sh nebula-colors.sh; do
     [[ -f "$HOME/$f" ]] && cp "$HOME/$f" "$REPO/scripts/" && echo "   ok  $f"
 done
