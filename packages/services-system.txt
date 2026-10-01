@@ -1,5 +1,7 @@
 bluetooth.service                  enabled disabled
 getty@.service                     enabled enabled
+hyprland-resume.service            enabled disabled
+hyprland-suspend.service           enabled disabled
 NetworkManager-dispatcher.service  enabled disabled
 NetworkManager-wait-online.service enabled disabled
 NetworkManager.service             enabled disabled

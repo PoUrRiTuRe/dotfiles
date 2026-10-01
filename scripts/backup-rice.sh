@@ -107,9 +107,14 @@ echo "==> Fichiers système (mot de passe ou empreinte demandé)"
 SYSTEM_ITEMS=(
     "/etc/pam.d/sddm"                 # login mot de passe puis empreinte
     "/etc/pam.d/sudo"                 # sudo avec empreinte
+    "/etc/pam.d/serpantinum-fprint"   # empreinte sur l'écran de verrouillage (SUPER + L)
     "/etc/sddm.conf.d"                # thème SDDM actif (nebula)
     "/usr/share/sddm/themes/nebula"   # le thème nebula
     "/var/lib/bluetooth"              # appairages Bluetooth (casque WH-1000XM4, clavier Lily58)
+    "/etc/systemd/logind.conf.d"      # capot / touche veille : pas de veille sur secteur
+    "/usr/local/bin/suspend-hyprland.sh"           # gèle Hyprland pendant la veille (NVIDIA)
+    "/etc/systemd/system/hyprland-suspend.service"
+    "/etc/systemd/system/hyprland-resume.service"
 )
 for item in "${SYSTEM_ITEMS[@]}"; do
     save_system "$item"

@@ -71,3 +71,6 @@ for i = 1, 10 do
   hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
   hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
+
+-- Capot fermé : verrouillage (la veille sur batterie est gérée par logind)
+hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("serpantinum lock"), { locked = true })

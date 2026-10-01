@@ -194,7 +194,6 @@ Scope {
         rootLock.locked = true;
         pamActionTimer.start();
         kbPollerRestartTimer.restart();
-        fprintStartTimer.restart();   // [rotten] empreinte
     }
 
     function finishUnlock() {
@@ -204,8 +203,6 @@ Scope {
 
     function completeUnlock() {
         if (!rootLock.locked) return;
-        if (fprintPam.active) fprintPam.abort();   // [rotten] libère le lecteur
-        lockUI.fpState = "idle";
         rootLock.locked = false;
         root.isUnlocking = false;
         kbWaiter.running = false;
@@ -235,7 +232,6 @@ Scope {
         property bool failed: false
         property bool authenticating: false
         property string statusText: I18n.t("lock.status.locked")
-        property string fpState: "idle"   // [rotten] idle / scanning / success / fail
     }
 
     Timer {
@@ -259,40 +255,6 @@ Scope {
                 lockUI.failed = true;
                 lockUI.statusText = I18n.t("lock.status.access_denied");
                 pamActionTimer.start();
-            }
-        }
-    }
-
-    // [rotten] Empreinte digitale, en parallèle du mot de passe
-    Timer {
-        id: fprintStartTimer
-        interval: 900
-        onTriggered: {
-            if (rootLock.locked && !root.isUnlocking && !fprintPam.active) {
-                lockUI.fpState = "scanning";
-                fprintPam.start();
-            }
-        }
-    }
-
-    Timer {
-        id: fprintSuccessTimer
-        interval: 650
-        onTriggered: root.finishUnlock()
-    }
-
-    PamContext {
-        id: fprintPam
-        config: "serpantinum-fprint"
-
-        onCompleted: (result) => {
-            if (!rootLock.locked || root.isUnlocking) return;
-            if (result === PamResult.Success) {
-                lockUI.fpState = "success";
-                fprintSuccessTimer.start();
-            } else {
-                lockUI.fpState = "fail";
-                fprintStartTimer.restart();
             }
         }
     }
@@ -333,63 +295,6 @@ Scope {
                     id: screenRoot
                     anchors.fill: parent
                     focus: true
-
-                    // [rotten] Indicateur d'empreinte : anneau → coche
-                    Item {
-                        id: fpIndicator
-                        z: 1000
-                        width: 76
-                        height: 76
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.bottom: parent.bottom
-                        anchors.bottomMargin: 60
-                        visible: lockUI.fpState !== "idle"
-                        property color accent: lockUI.fpState === "fail" ? "#ff0055"
-                                             : (lockUI.fpState === "success" ? "#e600ff" : "#00f0ff")
-                        Behavior on accent { ColorAnimation { duration: 250 } }
-                        transform: Translate { id: fpShake; x: 0 }
-
-                        Rectangle {
-                            anchors.fill: parent
-                            radius: width / 2
-                            color: lockUI.fpState === "success" ? Qt.alpha(fpIndicator.accent, 0.25) : "transparent"
-                            border.width: 3
-                            border.color: fpIndicator.accent
-                            Behavior on color { ColorAnimation { duration: 300 } }
-
-                            SequentialAnimation on scale {
-                                running: lockUI.fpState === "scanning"
-                                loops: Animation.Infinite
-                                NumberAnimation { to: 1.08; duration: 900; easing.type: Easing.InOutSine }
-                                NumberAnimation { to: 1.0; duration: 900; easing.type: Easing.InOutSine }
-                            }
-                        }
-
-                        Text {
-                            anchors.centerIn: parent
-                            text: lockUI.fpState === "success" ? String.fromCodePoint(0xF012C) : String.fromCodePoint(0xF0237)
-                            font.family: "JetBrainsMono Nerd Font"
-                            font.pixelSize: 38
-                            color: fpIndicator.accent
-                            scale: lockUI.fpState === "success" ? 1.15 : 1.0
-                            Behavior on scale { NumberAnimation { duration: 300; easing.type: Easing.OutBack } }
-                        }
-
-                        SequentialAnimation {
-                            id: fpShakeAnim
-                            NumberAnimation { target: fpShake; property: "x"; to: 10; duration: 50 }
-                            NumberAnimation { target: fpShake; property: "x"; to: -10; duration: 50 }
-                            NumberAnimation { target: fpShake; property: "x"; to: 6; duration: 50 }
-                            NumberAnimation { target: fpShake; property: "x"; to: 0; duration: 50 }
-                        }
-
-                        Connections {
-                            target: lockUI
-                            function onFpStateChanged() {
-                                if (lockUI.fpState === "fail") fpShakeAnim.restart();
-                            }
-                        }
-                    }
 
                     Rectangle {
                         anchors.fill: parent

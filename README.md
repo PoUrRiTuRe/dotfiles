@@ -14,6 +14,7 @@
 
 | | Component | Details |
 |---|---|---|
+| 🔒 | **Fingerprint on the lock screen** | `SUPER + L`: the reader listens alongside the password field; a cyan ring pulses, turns into a magenta check on success, shakes red on a wrong finger |
 | 🔐 | **`nebula` SDDM greeter** | Custom cyan / magenta theme on a nebula wallpaper, neon clock with a glow, login with **password or fingerprint** |
 | 🌈 | **Animated borders** | Cyan → magenta gradient that rotates continuously at a constant speed, with a smooth fade when focus changes |
 | 🎯 | **Chroma S cursor** | Precision crosshair with an animated RGB outline (*Chroma Cursors S* pack by Glimy, converted from Windows), smoothed animation |
@@ -26,7 +27,7 @@
 | 📐 | **Fixed top bar** | When the `SUPER + E` panel opens, the bar re-centers its clock and docks its indicators against the panel |
 | 🖥️ | **Terminal** | kitty (with `Ctrl + = / - / 0` zoom) + zsh + starship + a custom fastfetch + a Nebula-colored nano |
 | ✂️ | **Editor-like shell** | `Shift / Ctrl + Shift + ←→` to select, `Ctrl + A` to select the whole command, typing replaces the selection; `clear` and `Ctrl + L` do a real reset (scrollback saved locally first) |
-| 😴 | **Reliable sleep** | NVIDIA suspend services enabled; no automatic screen-off or sleep, closing the lid still suspends |
+| 😴 | **No freezes** | No automatic screen-off or sleep; on AC power, closing the lid only locks and the sleep key is ignored (the NVIDIA driver can freeze on wake-up) |
 | 🎮 | **Gaming** | Steam with Proton Experimental for every title |
 | 🎧 | **Bluetooth** | Saved pairings (Sony WH-1000XM4 headphones, Lily58 split keyboard) |
 
@@ -97,6 +98,8 @@ dotfiles/
 ├── system/                     # system files (copy with care)
 │   ├── etc/pam.d/sddm          # password first, then fingerprint
 │   ├── etc/pam.d/sudo          # fingerprint for sudo
+│   ├── etc/pam.d/serpantinum-fprint  # fingerprint on the lock screen
+│   ├── etc/systemd/logind.conf.d/    # lid / sleep key: no sleep on AC
 │   ├── etc/sddm.conf.d/        # enables the nebula theme
 │   ├── usr/share/sddm/themes/nebula/
 │   └── var/lib/bluetooth/      # pairings (only valid on this machine)
@@ -118,6 +121,7 @@ dotfiles/
 | `nebula-kvantum.sh` | Builds the Nebula Kvantum theme from KvArcDark and enables it |
 | `nebula-colors.sh` | Creates the Nebula KDE color scheme and applies it to Dolphin |
 | `patch-topbar.py` | Patches Serpantinum's top bar for the `SUPER + E` panel (`--restore` to undo) |
+| `patch-lock.py` | Adds fingerprint unlock and its animation to Serpantinum's lock screen (`--restore` to undo) |
 | `menage-apercu.sh` | Dry run used to remove KDE Plasma / GNOME while protecting useful packages |
 
 ---
@@ -235,6 +239,13 @@ auth  sufficient  pam_fprintd.so
 
 Then enroll your finger with `fprintd-enroll`. At the greeter: password + Enter, **or** empty field + Enter, then your finger.
 
+Fingerprint on the lock screen (`SUPER + L`):
+
+```bash
+sudo cp system/etc/pam.d/serpantinum-fprint /etc/pam.d/
+python3 scripts/patch-lock.py
+```
+
 ### 7. Bluetooth *(same machine only)*
 
 ```bash
@@ -254,11 +265,18 @@ systemctl --user enable hyprpolkitagent.service
 
 `packages/services-system.txt` and `packages/services-user.txt` list every service that was enabled, for reference.
 
-### 9. Serpantinum settings
+### 9. Lid and sleep key
+
+```bash
+sudo cp -a system/etc/systemd/logind.conf.d /etc/systemd/
+sudo systemctl kill -s HUP systemd-logind
+```
+
+### 10. Serpantinum settings
 
 `home/.config/serpantinum/settings.json` holds the bar layout, theme and idle settings (screen-off and sleep disabled). It is saved **without** the location used for the weather: Serpantinum will detect it again.
 
-### 10. Reboot 🎉
+### 11. Reboot 🎉
 
 ---
 
@@ -276,6 +294,9 @@ The changes that make this rice, to reapply if you switch shells or versions:
 - **Top bar**: Serpantinum's `bar/TopBar.qml` packs everything to the left when the `SUPER + E` panel opens; `scripts/patch-topbar.py` fixes it. Re-run it after a Serpantinum update.
 - **Sleep on NVIDIA**: the driver keeps video memory across sleep (`PreserveVideoMemoryAllocations=1`), which **requires** the `nvidia-suspend` / `nvidia-resume` / `nvidia-hibernate` services. Without them, the screen freezes on wake-up.
 - **Idle**: in Serpantinum's `settings.json`, `idle.actions.dpms` and `idle.actions.suspend` are disabled (dim and lock stay on).
+- **Sleep still freezes on NVIDIA** even with the services (`Failed to apply atomic modeset`), so `/etc/systemd/logind.conf.d/no-suspend.conf` stops sleep on AC: lid → lock, sleep key ignored.
+- **Lock screen fingerprint**: Serpantinum's lock screen only uses the `login` PAM service (no fingerprint, no option in its settings). `patch-lock.py` adds a second `PamContext` using `/etc/pam.d/serpantinum-fprint` (`pam_fprintd` only), running alongside the password one. Re-run it after a Serpantinum update.
+- **Check Serpantinum first**: before patching anything, look for an option in its settings (`~/.config/serpantinum/settings.json`, the `SUPER + H` guide). Patches are a last resort.
 - **zsh selection**: custom ZLE widgets defined **before** the plugins; kitty's `Ctrl + Shift + ←/→` (tab switching) is set to `no_op` so zsh receives it. Unknown keys print `~`: bind them with `bindkey` (e.g. `'^[[3~'` for Delete).
 - **Terminal apps in the launcher**: Quickshell ignores `Terminal=true`, so `~/.local/share/applications/nvim.desktop` launches `kitty nvim %F` instead.
 - **fastfetch**: matugen overwrites `config.jsonc`, so the real config is `perso.jsonc`, launched from `.zshrc` with `fastfetch --config`.
