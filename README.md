@@ -299,7 +299,7 @@ sudo systemctl kill -s HUP systemd-logind
 The changes that make this rice, to reapply if you switch shells or versions:
 
 - **Latency-free workspaces**: in `keybinds.lua`, use `hl.dsp.focus({ workspace = i })` instead of `serpantinum msg workspace`. Next / previous: `hl.dsp.focus({ workspace = "e+1" })` and `"e-1"` (open workspaces only, wrapping around; plain `"+1"` keeps creating new empty workspaces).
-- **Bluetooth keyboards**: Serpantinum's Bluetooth menu doesn't show the pairing code, so the keyboard keeps disconnecting. Pair from a terminal instead: `bluetoothctl`, then `agent KeyboardDisplay`, `default-agent`, `scan on`, `pair <MAC>`, type the 6-digit passkey **on the Bluetooth keyboard** + Enter, then `trust <MAC>` and `connect <MAC>`.
+- **Bluetooth keyboards**: Serpantinum's Bluetooth menu doesn't show the pairing code, so the keyboard keeps disconnecting. Pair from a terminal instead: `bluetoothctl`, then `agent KeyboardDisplay`, `default-agent`, `scan on`, `pair <MAC>`, type the 6-digit passkey **on the Bluetooth keyboard** + Enter, then `trust <MAC>` and `connect <MAC>`. On a ZMK keyboard, a **gear** icon on its screen (instead of the Wi-Fi-like icon) means the active Bluetooth profile has no pairing: `remove <MAC>` in `bluetoothctl` and pair again.
 - **Borders**: `border` (`smooth` curve) and `borderangle` (`linear` curve, `style = "loop"`) animations in `settings.lua`.
 - **Colors**: `screen_shader` in `settings.lua` → `~/.config/hypr/shaders/nvidia-like.glsl`. The three values sit at the top of the file; run `hyprctl reload` after editing it.
 - **Cursor**: `XCURSOR_THEME=ChromaS` and `XCURSOR_SIZE=32` in `env.lua`.

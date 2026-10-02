@@ -42,5 +42,5 @@ conversation sur claude.ai ; ce fichier en transmet l'essentiel. **Lis aussi
 ## Points ouverts
 - Dépôt public : voir règle 6.
 - Trousseau (gnome-keyring) non déverrouillé après une connexion par empreinte → choix A (Brave `--password-store=basic`), B (trousseau sans mot de passe) ou C (rien).
-- Firmware du Lily58 (mode bootloader déclenché par erreur), à voir plus tard.
+- Firmware du Lily58 (ZMK, mode bootloader déclenché par erreur), à voir plus tard. Le 2 octobre il a perdu son appairage (engrenage sur l'écran) → réappairé avec `bluetoothctl` ; si ça se reproduit, chercher la cause dans le keymap (`BT_CLR` / `BT_SEL` sur un calque ?).
 - `~` affiche `master ?` dans le prompt : le dossier perso est un dépôt git, sans doute par erreur. Ne rien supprimer sans vérifier.

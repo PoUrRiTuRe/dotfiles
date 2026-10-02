@@ -84,6 +84,9 @@
 ### ⌨️ Clavier Lily58 (Bluetooth)
 - [x] Appairé avec `bluetoothctl` + `agent KeyboardDisplay` : taper le code à 6 chiffres **sur le clavier** + Entrée
 - [x] Appairage sauvegardé avec celui du casque (`/var/lib/bluetooth`)
+- [x] **Panne du 2 octobre** : plus de sans-fil, **engrenage** au lieu du logo Wi-Fi sur l'écran du clavier. L'engrenage (ZMK) = profil Bluetooth actif **sans appairage** : le clavier avait perdu sa clé, alors que le PC le croyait encore connecté
+- [x] Réparé en réappairant : `remove` → `agent KeyboardDisplay` → `scan on` → `pair` (code tapé sur le clavier) → `trust` → `connect`
+- ℹ️ Normal : seule la moitié **gauche** (central) parle au PC ; la droite parle à la gauche. D'où « gauche en USB + droite sans fil » qui marche, et pas l'inverse
 
 ### 🔀 Workspaces suivant / précédent
 - [x] `SUPER + Tab` / `SUPER + Shift + Tab`
