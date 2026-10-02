@@ -20,6 +20,11 @@ alias ll='eza -lh --icons=auto --group-directories-first --git'
 alias la='eza -lah --icons=auto --group-directories-first --git'
 alias lt='eza --tree --level=2 --icons=auto --group-directories-first'
 
+# ssh : les serveurs ne connaissent pas le terminal « xterm-kitty »
+# (nano, htop, vim → « Error opening terminal »). On annonce un
+# terminal standard que toutes les machines connaissent, même avec sudo.
+alias ssh='TERM=xterm-256color ssh'
+
 # clear = vrai reset du terminal + fastfetch
 # Avant d'effacer, le contenu du terminal est sauvegardé dans
 # ~/.cache/terminal-logs/ (les 20 derniers sont gardés).

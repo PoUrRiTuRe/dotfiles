@@ -314,6 +314,7 @@ The changes that make this rice, to reapply if you switch shells or versions:
 - **Lock screen fingerprint**: Serpantinum's lock screen only uses the `login` PAM service (no fingerprint, no option in its settings). `patch-lock.py` adds a second `PamContext` using `/etc/pam.d/serpantinum-fprint` (`pam_fprintd` only), running alongside the password one. Re-run it after a Serpantinum update.
 - **Check Serpantinum first**: before patching anything, look for an option in its settings (`~/.config/serpantinum/settings.json`, the `SUPER + H` guide). Patches are a last resort.
 - **zsh selection**: custom ZLE widgets defined **before** the plugins; kitty's `Ctrl + Shift + ←/→` (tab switching) is set to `no_op` so zsh receives it. Unknown keys print `~`: bind them with `bindkey` (e.g. `'^[[3~'` for Delete).
+- **SSH from kitty**: remote machines don't know the `xterm-kitty` terminal (`Error opening terminal: xterm-kitty` in nano, htop…). `.zshrc` aliases `ssh` to `TERM=xterm-256color ssh`, which also works with `sudo` on the remote side.
 - **Terminal apps in the launcher**: Quickshell ignores `Terminal=true`, so `~/.local/share/applications/nvim.desktop` launches `kitty nvim %F` instead.
 - **fastfetch**: matugen overwrites `config.jsonc`, so the real config is `perso.jsonc`, launched from `.zshrc` with `fastfetch --config`.
 - **kitty**: `fullscreen_state = "0 0"` window rule, a workaround for the kitty bug that opens it maximized ([kitty#10442](https://github.com/kovidgoyal/kitty/issues/10442)). Remove it once the bug is fixed.

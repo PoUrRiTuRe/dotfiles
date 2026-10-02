@@ -30,6 +30,7 @@ conversation sur claude.ai ; ce fichier en transmet l'essentiel. **Lis aussi
 - GTK sombre : `GTK_THEME` dans `env.lua` **et** `~/.config/environment.d/gtk.conf` (le portail est un service systemd) ; icônes et thème via `gsettings` sous Wayland.
 - Veille NVIDIA : services `nvidia-suspend/resume/hibernate` + `hyprland-suspend/resume` (Hyprland en pause pendant la veille). Capot sur secteur = verrouillage par Hyprland (`switch:on:Lid Switch`), veille seulement sur batterie. **À tester** : réveil sur batterie.
 - Le lanceur de Serpantinum ignore `Terminal=true` : les applis terminal passent par `kitty <commande>` dans un `.desktop`.
+- SSH depuis kitty : `alias ssh='TERM=xterm-256color ssh'` dans `.zshrc` (sinon « Error opening terminal: xterm-kitty » sur les serveurs, même avec sudo).
 - kitty intercepte `Ctrl + Shift + ←/→` (onglets) : mis à `no_op` pour la sélection dans zsh.
 - Ménage KDE : des paquets utiles sont partis avec (`zbar`, `ark`). Avant d'en retirer d'autres, les ajouter à la liste protégée de `scripts/menage-apercu.sh`.
 - Hors Plasma, Dolphin ne voit un nouveau plugin KDE (ex. `ark` → « Compresser / Extraire ») qu'après `kbuildsycoca6 --noincremental` (Dolphin fermé).

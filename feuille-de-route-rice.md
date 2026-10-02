@@ -150,6 +150,10 @@
 - [x] Hors Plasma, Dolphin ne voit pas les nouvelles extensions tout seul : `killall dolphin && kbuildsycoca6 --noincremental`
 - [ ] Vérifier le clic droit dans Dolphin (sinon : *Configurer* → *Menus contextuels*, cocher les entrées d'Ark)
 
+### 🔌 nano en SSH (« Error opening terminal: xterm-kitty »)
+- [x] Les serveurs (Raspberry Pi de la SAE…) ne connaissent pas le terminal de kitty → nano, htop, vim refusent de s'ouvrir
+- [x] `.zshrc` : `alias ssh='TERM=xterm-256color ssh'` → on annonce un terminal standard, ça marche aussi avec `sudo`
+
 ### 🧭 Règle pour la suite
 - Avant de modifier un fichier de Serpantinum, **chercher d'abord une option** dans ses réglages ou son guide (`SUPER + H`). Les patchs restent le dernier recours.
 
