@@ -86,6 +86,8 @@
 - [x] Appairage sauvegardé avec celui du casque (`/var/lib/bluetooth`)
 - [x] **Panne du 2 octobre** : plus de sans-fil, **engrenage** au lieu du logo Wi-Fi sur l'écran du clavier. L'engrenage (ZMK) = profil Bluetooth actif **sans appairage** : le clavier avait perdu sa clé, alors que le PC le croyait encore connecté
 - [x] Réparé en réappairant : `remove` → `agent KeyboardDisplay` → `scan on` → `pair` (code tapé sur le clavier) → `trust` → `connect`
+- [x] Cause trouvée dans le keymap : **Lower + Échap = `BT_CLR`** (efface l'appairage), Lower + 2…5 = profils vides
+- [ ] Déplacer le Bluetooth sur un calque Adjust (Lower + Raise) avec le keymap-editor, puis flasher les deux moitiés
 - ℹ️ Normal : seule la moitié **gauche** (central) parle au PC ; la droite parle à la gauche. D'où « gauche en USB + droite sans fil » qui marche, et pas l'inverse
 
 ### 🔀 Workspaces suivant / précédent

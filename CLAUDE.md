@@ -42,5 +42,5 @@ conversation sur claude.ai ; ce fichier en transmet l'essentiel. **Lis aussi
 ## Points ouverts
 - Dépôt public : voir règle 6.
 - Trousseau (gnome-keyring) non déverrouillé après une connexion par empreinte → choix A (Brave `--password-store=basic`), B (trousseau sans mot de passe) ou C (rien).
-- Firmware du Lily58 (ZMK, mode bootloader déclenché par erreur), à voir plus tard. Le 2 octobre il a perdu son appairage (engrenage sur l'écran) → réappairé avec `bluetoothctl` ; si ça se reproduit, chercher la cause dans le keymap (`BT_CLR` / `BT_SEL` sur un calque ?).
+- Firmware du Lily58 (ZMK, mode bootloader déclenché par erreur), à voir plus tard. Le 2 octobre il a perdu son appairage (engrenage sur l'écran) → réappairé avec `bluetoothctl` ; cause trouvée : calque Lower de `PoUrRiTuRe/rotten_lily58_keymap_config` = `BT_CLR` sur Échap et `BT_SEL 0-4` sur 1-5 (Lower + Échap efface l'appairage). Correction proposée : calque Adjust (Lower + Raise). L'utilisateur modifie son keymap avec https://nickcoutsos.github.io/keymap-editor/ (commit direct sur ce dépôt → GitHub Actions compile les `.uf2`).
 - `~` affiche `master ?` dans le prompt : le dossier perso est un dépôt git, sans doute par erreur. Ne rien supprimer sans vérifier.
