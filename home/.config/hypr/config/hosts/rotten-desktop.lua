@@ -14,14 +14,16 @@
 local SPAN_WORKSPACES = true
 
 local MAIN   = "DP-2"      -- MSI G32CQ5P 31.5" VA, 2560x1440 @ 165 Hz
-local SECOND = "HDMI-A-2"  -- iiyama PL2770H 27" IPS, 1920x1080 @ 165 Hz
+local SECOND = "HDMI-A-2"  -- iiyama PL2770H 27" IPS, 1920x1080 @ 180 Hz
 local OFFSET = 10
 
 -- Default rule for any other monitor (TV, projector…)
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1.0 })
 
--- iiyama on the left, MSI on the right
-hl.monitor({ output = SECOND, mode = "1920x1080@164.92", position = "0x0",    scale = 1.0 })
+-- iiyama on the left, MSI on the right, no gap between them (a gap stops
+-- the cursor from crossing). Don't set monitors in GUI tools such as hyprmod:
+-- their file (hyprland-gui.lua) is loaded last and overrides these rules.
+hl.monitor({ output = SECOND, mode = "1920x1080@180.01", position = "0x0",    scale = 1.0 })
 hl.monitor({ output = MAIN,   mode = "2560x1440@165",    position = "1920x0", scale = 1.0 })
 
 -- The MSI is the primary monitor for X11 / Proton games (they open on it)
