@@ -87,7 +87,8 @@ dotfiles/
 │   ├── .config/kdeglobals      # KDE colors used by Dolphin
 │   ├── .config/dolphinrc
 │   ├── .config/gtk-3.0/ .config/gtk-4.0/
-│   ├── .config/environment.d/  # GTK_THEME for systemd services (portal)
+│   ├── .config/environment.d/  # GTK_THEME and cursor for systemd services (portal, Quickshell)
+│   ├── .icons/default/         # default cursor theme → ChromaS
 │   ├── .config/starship.toml
 │   ├── .config/serpantinum/settings.json  # bar, theme, idle (location removed)
 │   ├── .local/share/color-schemes/   # Nebula KDE color scheme
@@ -216,7 +217,7 @@ Install **Serpantinum cleanly first**, then copy the config on top:
 ```bash
 cp -a home/.config/. ~/.config/
 cp -a home/.local/share/icons home/.local/share/color-schemes home/.local/share/applications ~/.local/share/
-cp -a home/.zshrc ~/
+cp -a home/.zshrc home/.icons ~/
 mkdir -p ~/Pictures && cp -a home/Pictures/Wallpapers ~/Pictures/
 chsh -s /usr/bin/zsh      # if zsh isn't the default shell (CachyOS uses fish)
 ```
@@ -330,7 +331,7 @@ The changes that make this rice, to reapply if you switch shells or versions:
 - **Bluetooth keyboards**: Serpantinum's Bluetooth menu doesn't show the pairing code, so the keyboard keeps disconnecting. Pair from a terminal instead: `bluetoothctl`, then `agent KeyboardDisplay`, `default-agent`, `scan on`, `pair <MAC>`, type the 6-digit passkey **on the Bluetooth keyboard** + Enter, then `trust <MAC>` and `connect <MAC>`. On a ZMK keyboard, a **gear** icon on its screen (instead of the Wi-Fi-like icon) means the active Bluetooth profile has no pairing: `remove <MAC>` in `bluetoothctl` and pair again.
 - **Borders**: `border` (`smooth` curve) and `borderangle` (`linear` curve, `style = "loop"`) animations in `settings.lua`.
 - **Colors**: `screen_shader` in `settings.lua` → `~/.config/hypr/shaders/nvidia-like.glsl`. The three values sit at the top of the file; run `hyprctl reload` after editing it.
-- **Cursor**: the same theme must be set in three places, otherwise different apps (and monitors) show different cursors: `XCURSOR_THEME=ChromaS` / `XCURSOR_SIZE=32` in `env.lua`, `gtk-cursor-theme-name` in `gtk-3.0/` and `gtk-4.0/settings.ini`, and `gsettings … cursor-theme 'ChromaS'`.
+- **Cursor**: the same theme must be set everywhere, otherwise different apps (and monitors) show different cursors: `XCURSOR_THEME=ChromaS` / `XCURSOR_SIZE=32` in `env.lua` (Hyprland and the apps it starts), `~/.config/environment.d/cursor.conf` (programs started by systemd, such as Serpantinum's Quickshell, which draws its own cursor over its wallpaper / desktop layers), `~/.icons/default/index.theme` (`Inherits=ChromaS`, fallback for programs that read no setting), `gtk-cursor-theme-name` in `gtk-3.0/` and `gtk-4.0/settings.ini`, and `gsettings … cursor-theme 'ChromaS'`.
 - **Workspaces across two monitors** (desktop): Hyprland gives each monitor its own workspace, so `hosts/rotten-desktop.lua` pairs them — workspace N on the main monitor with N + 10 on the second one — and binds `SUPER + N`, `SUPER + SHIFT + N` and `SUPER + Tab` to Lua functions that switch both screens at once. `keybinds.lua` skips its own workspace keys when a host file sets `_G.workspace_binds_defined`.
 - **Several machines**: the hostname picks the config. `config/monitors.lua` loads `config/hosts/<hostname>.lua` (screens of that machine, automatic setup if the file is missing); `backup-rice.sh` saves system files and package lists in `system/<hostname>/` and `packages/<hostname>/`. Hostnames: `rotten-laptop` (ThinkPad P53), `rotten-desktop` (desktop PC).
 - **Qt apps (Dolphin)**: `QT_QPA_PLATFORMTHEME=qt6ct` **and** `QT_STYLE_OVERRIDE=kvantum` in `env.lua`. Without the second one, KDE apps force the light Breeze style outside Plasma.
