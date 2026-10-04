@@ -35,4 +35,5 @@ Roboto|/home/rotten_guy/.local/share/serpantinum/src/assets/fonts/Roboto-Regular
 SF Mono|/home/rotten_guy/.local/share/serpantinum/src/assets/fonts/SFMono-Regular.otf
 SF Pro Display|/home/rotten_guy/.local/share/serpantinum/src/assets/fonts/SF-Pro-Display-Regular.otf
 SF Pro Display Semibold|/home/rotten_guy/.local/share/serpantinum/src/assets/fonts/SF-Pro-Display-Semibold.otf
+Symbols Nerd Font Mono|/home/rotten_guy/.local/share/serpantinum/src/assets/fonts/SymbolsNerdFontMono-Regular.ttf
 FONTSPRING DEMO - TT Commons Pro|/home/rotten_guy/.local/share/serpantinum/src/assets/fonts/TTCommonsPro_regular.otf

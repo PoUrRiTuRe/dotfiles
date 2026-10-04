@@ -7,7 +7,7 @@ output_path = "~/.local/state/serpantinum/qs_colors.json"
 
 [templates.fastfetch]
 input_path = "templates/fastfetch.jsonc.template"
-output_path = "~/.config/fastfetch/matugen.jsonc"
+output_path = "~/.config/fastfetch/config.jsonc"
 
 [templates.kitty]
 input_path = "templates/kitty-colors.conf.template"

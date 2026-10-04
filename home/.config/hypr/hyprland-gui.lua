@@ -1,0 +1,1 @@
+-- disabled: monitors are set in config/hosts/rotten-desktop.lua

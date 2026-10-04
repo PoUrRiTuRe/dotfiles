@@ -1,0 +1,10 @@
+brave-bin
+hyprshade
+lib32-nvidia-580xx-utils
+nvidia-580xx-dkms
+nvidia-580xx-utils
+papirus-folders
+vesktop
+wl-gammarelay-rs
+yay-bin
+yay-bin-debug
