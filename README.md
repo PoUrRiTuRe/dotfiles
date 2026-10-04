@@ -193,12 +193,26 @@ yay -S papirus-folders hyprshade noise-suppression-for-voice
 
 ## 🚀 Installing on a fresh system
 
+### 0. Hostname and Serpantinum
+
+The hostname picks the machine-specific files (`hosts/<hostname>.lua`, `system/<hostname>/`), so set it first, then install Serpantinum with its own installer. The installer **replaces `~/.config/hypr`** with its defaults (backup in `~/.config/hypr_backup/`), which is why the config below is copied afterwards.
+
+```bash
+sudo hostnamectl hostname rotten-desktop      # or rotten-laptop
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ilyamiro/serpantinum/master/install/install.sh)"
+```
+
+Reboot once and check that the default Serpantinum session works before going further.
+
 ### 1. Clone the repository
 
 ```bash
 git clone git@github.com:PoUrRiTuRe/dotfiles.git ~/dotfiles-backup
 cd ~/dotfiles-backup
+cp scripts/save-all.sh scripts/backup-rice.sh ~/ && chmod +x ~/save-all.sh ~/backup-rice.sh
 ```
+
+Cloning over SSH needs an SSH key added to GitHub (`ssh-keygen -t ed25519`, then paste `~/.ssh/id_ed25519.pub` in GitHub → *Settings* → *SSH keys*) and a git identity (`git config --global user.name …` / `user.email …`).
 
 ### 2. User config
 
@@ -297,6 +311,19 @@ sudo systemctl kill -s HUP systemd-logind
 `home/.config/serpantinum/settings.json` holds the bar layout, theme and idle settings (screen-off and sleep disabled). It is saved **without** the location used for the weather: Serpantinum will detect it again.
 
 ### 11. Reboot 🎉
+
+### Desktop-specific steps (`rotten-desktop`)
+
+- **GPU driver**: the GTX 1080 Ti (Pascal) is not supported by the current `nvidia` / `nvidia-open` packages. Use the legacy branch: `yay -S nvidia-580xx-dkms nvidia-580xx-utils lib32-nvidia-580xx-utils` (with `linux-headers`; check the exact package names with `yay -Ss nvidia-580xx`), then reboot.
+- **Skip** steps 6 (fingerprint), 7 (Bluetooth pairings) and 9 (lid / laptop sleep fix): they belong to the laptop.
+- **Monitors**: run `hyprctl monitors`, then put the real output names and modes in `home/.config/hypr/config/hosts/rotten-desktop.lua` (and `~/.config/hypr/…`), and `hyprctl reload`.
+- **Data disk** (NTFS, kept as is): find its UUID with `lsblk -f`, then add to `/etc/fstab`:
+  ```
+  UUID=<uuid>  /mnt/data  ntfs3  defaults,uid=1000,gid=1000,windows_names,nofail  0 0
+  ```
+  `nofail` lets the PC boot even if the disk is missing. Test with `sudo mkdir -p /mnt/data && sudo mount -a`.
+- **Microphone**: `yay -S noise-suppression-for-voice`, then `systemctl --user restart pipewire pipewire-pulse wireplumber` (see [Tweaks](#-tweaks), audio routing).
+- Then run `~/save-all.sh`: it creates `system/rotten-desktop/` and `packages/rotten-desktop/` in the repository.
 
 ---
 
