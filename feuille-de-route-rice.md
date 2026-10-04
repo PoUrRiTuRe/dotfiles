@@ -84,6 +84,11 @@
 ### ⌨️ Clavier Lily58 (Bluetooth)
 - [x] Appairé avec `bluetoothctl` + `agent KeyboardDisplay` : taper le code à 6 chiffres **sur le clavier** + Entrée
 - [x] Appairage sauvegardé avec celui du casque (`/var/lib/bluetooth`)
+- [x] **Panne du 2 octobre** : plus de sans-fil, **engrenage** au lieu du logo Wi-Fi sur l'écran du clavier. L'engrenage (ZMK) = profil Bluetooth actif **sans appairage** : le clavier avait perdu sa clé, alors que le PC le croyait encore connecté
+- [x] Réparé en réappairant : `remove` → `agent KeyboardDisplay` → `scan on` → `pair` (code tapé sur le clavier) → `trust` → `connect`
+- [x] Cause trouvée dans le keymap : **Lower + Échap = `BT_CLR`** (efface l'appairage), Lower + 2…5 = profils vides
+- [ ] Déplacer le Bluetooth sur un calque Adjust (Lower + Raise) avec le keymap-editor, puis flasher les deux moitiés
+- ℹ️ Normal : seule la moitié **gauche** (central) parle au PC ; la droite parle à la gauche. D'où « gauche en USB + droite sans fil » qui marche, et pas l'inverse
 
 ### 🔀 Workspaces suivant / précédent
 - [x] `SUPER + Tab` / `SUPER + Shift + Tab`
@@ -145,6 +150,29 @@
 - [x] Hors Plasma, Dolphin ne voit pas les nouvelles extensions tout seul : `killall dolphin && kbuildsycoca6 --noincremental`
 - [ ] Vérifier le clic droit dans Dolphin (sinon : *Configurer* → *Menus contextuels*, cocher les entrées d'Ark)
 
+### 🔌 nano en SSH (« Error opening terminal: xterm-kitty »)
+- [x] Les serveurs (Raspberry Pi de la SAE…) ne connaissent pas le terminal de kitty → nano, htop, vim refusent de s'ouvrir
+- [x] `.zshrc` : `alias ssh='TERM=xterm-256color ssh'` → on annonce un terminal standard, ça marche aussi avec `sudo`
+
+### 🎯 Nouveau curseur : Bibata noir + croix
+- [x] Thème `Bibata-Nebula-Cross` : **Bibata Modern Classic** (noir, bords arrondis, contour blanc) + sa propre **croix** (`crosshair`) en curseur principal → même style et même taille que le reste du pack
+- [x] `env.lua`, `gtk-3.0` / `gtk-4.0` `settings.ini` mis à jour ; `gsettings` à refaire une fois (voir la conversation)
+- [x] **Contour RGB animé** sur tous les curseurs (le contour blanc de Bibata change de couleur, ~2,3 s par tour), comme le pack Windows Chroma
+- [x] Curseur **occupé** (`wait`, `progress`, `left_ptr_watch`) : sablier + croix + anneau arc-en-ciel animé de Chroma (reconstruit d'après `Busy.ani`, les sites du pack étant bloqués depuis Claude Code)
+- [x] Fabriqué par `scripts/make-cursors.py` (Bibata + Chroma S → `Bibata-Nebula-Cross`), tailles 24 / 32 / 48
+- [x] L'ancien curseur Chroma S reste installé (retour possible en remettant `ChromaS`)
+
+### 🖥️ Deux machines : portable + PC fixe
+- [x] Noms de machine : `rotten-laptop` (P53) et `rotten-desktop` (PC fixe) — tirets, pas de `_` (interdit dans un nom de machine)
+- [x] Hyprland : `config/monitors.lua` charge `config/hosts/<nom>.lua` (écrans de chaque PC) ; nom inconnu → réglage automatique
+- [x] `backup-rice.sh` range `system/<nom>/` et `packages/<nom>/` ; le reste (`home/`) est commun aux deux PC
+- [x] `save-all.sh` installe les modifs de l'autre PC, mais **ne touche pas** un fichier modifié ici entre-temps (il prévient)
+- [x] `backup-rice.sh` sauvegarde aussi `/etc/fstab` (les disques montés) pour chaque machine
+- Disques : **portable** = 2 NVMe (système + `/home` séparé) · **fixe** = NVMe Crucial 1 To (système **et** `/home`, Windows effacé) + disque de 3 To gardé tel quel (NTFS, monté dans `/mnt/data`)
+- [ ] PC fixe : avant d'effacer Windows, copier ce qui compte de C: vers le 3 To (C: = ~816 Go utilisés, 3 To = ~461 Go libres → trier, les jeux se retéléchargent)
+- [ ] PC fixe : Arch + pilote `nvidia-580xx-dkms` (GTX 1080 Ti), remplir `hosts/rotten-desktop.lua` avec `hyprctl monitors`, monter le 3 To (ligne `ntfs3` dans `/etc/fstab`)
+- [ ] Vérifier processeur / carte mère du fixe (i7-9700K et B650 incompatibles : l'un des deux est faux)
+
 ### 🧭 Règle pour la suite
 - Avant de modifier un fichier de Serpantinum, **chercher d'abord une option** dans ses réglages ou son guide (`SUPER + H`). Les patchs restent le dernier recours.
 
@@ -182,6 +210,7 @@
 | `nebula-kvantum.sh` | Crée le thème Kvantum Nebula pour Dolphin |
 | `nebula-colors.sh` | Crée le jeu de couleurs KDE Nebula et l'impose à Dolphin |
 | `patch-topbar.py` | Corrige la barre de Serpantinum (`--restore` pour annuler) |
+| `make-cursors.py` | Fabrique le curseur Bibata-Nebula-Cross (Bibata + contour RGB + curseur occupé Chroma) |
 | `menage-apercu.sh` | Essai à blanc du ménage KDE / GNOME, avec liste de paquets protégés |
 | `patch-lock.py` | Empreinte + animation sur l'écran de verrouillage (`--restore` pour annuler) |
 | `save-all.sh` | Sauvegarde en une commande : récupère GitHub **et installe dans `~` la config et les scripts modifiés sur GitHub** (fichiers système seulement signalés), range les fichiers téléchargés, copie les scripts, lance la sauvegarde |
@@ -204,7 +233,9 @@
 | `~/.config/gtk-3.0/`, `gtk-4.0/` | fenêtres GTK sombres, icônes, curseur |
 | `~/.config/environment.d/gtk.conf` | `GTK_THEME` pour le portail |
 | `~/.local/share/applications/nvim.desktop` | Neovim depuis le lanceur |
-| `~/.local/share/icons/ChromaS/` | curseur |
+| `~/.local/share/icons/Bibata-Nebula-Cross/` | curseur actuel (Bibata noir + croix) |
+| `~/.local/share/icons/ChromaS/` | ancien curseur |
+| `~/.config/hypr/config/monitors.lua` + `hosts/` | écrans selon la machine |
 | `~/.local/share/serpantinum/.../TopBar.qml` | barre corrigée (via `patch-topbar.py`) |
 | `~/.zshrc` | fastfetch, eza, plugins, touches d'édition, sélection, `clear` complet + `Ctrl + L` |
 | `/etc/pam.d/sddm`, `/etc/pam.d/sudo` | mot de passe + empreinte |

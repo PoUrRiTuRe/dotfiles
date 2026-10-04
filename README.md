@@ -17,7 +17,7 @@
 | 🔒 | **Fingerprint animation** | Lock screen (`SUPER + L`): the reader listens alongside the password field. Greeter: empty field + Enter. In both, a cyan ring pulses, turns into a magenta check on success, shakes red on a wrong finger |
 | 🔐 | **`nebula` SDDM greeter** | Custom cyan / magenta theme on a nebula wallpaper, neon clock with a glow, login with **password or fingerprint** |
 | 🌈 | **Animated borders** | Cyan → magenta gradient that rotates continuously at a constant speed, with a smooth fade when focus changes |
-| 🎯 | **Chroma S cursor** | Precision crosshair with an animated RGB outline (*Chroma Cursors S* pack by Glimy, converted from Windows), smoothed animation |
+| 🎯 | **Bibata cursor + RGB outline** | Black *Bibata Modern Classic* cursors with an animated RGB outline (à la *Chroma*), Bibata's crosshair as the main pointer, Chroma-style busy cursor |
 | 🎨 | **"NVIDIA-style" colors** | Screen shader replicating the NVIDIA Control Panel: brightness 60 / contrast 65 / digital vibrance 85 |
 | 🗂️ | **Dolphin "Nebula"** | Kvantum + KDE color scheme: translucent night-blue windows blurred by Hyprland, white text, cyan selection |
 | 🌙 | **Dark GTK dialogs** | "Save as" / "Open" windows in dark mode, Papirus icons with cyan folders |
@@ -62,7 +62,9 @@ The GTK file dialog (used by Brave and other apps through the desktop portal), f
 ### Not pictured (it moves!)
 
 - **Window borders**: a thin cyan → magenta gradient slowly spins around the focused window (one full turn every ~10 s, linear speed so it never jerks), and fades smoothly to grey when the window loses focus.
-- **Cursor**: a small black precision crosshair whose outline cycles through RGB colors in a smooth loop (~2.3 s per cycle). Every other cursor state (link, text, busy, resize…) comes from the same Chroma pack and is animated too.
+- **Cursor**: black [Bibata Modern Classic](https://github.com/ful1e5/Bibata_Cursor) cursors whose white outline cycles through RGB colors (~2.3 s per loop), like the Windows *Chroma* pack. The main pointer is Bibata's own crosshair, so it has the same size and style as the rest. The busy cursor is a small hourglass + the crosshair + Chroma's spinning rainbow ring. Built by `scripts/make-cursors.py` (sizes 24 / 32 / 48). The previous *Chroma S* theme is still installed.
+
+![Cursors](assets/cursor-preview.png)
 - **Colors**: the screen shader makes everything more vivid, like NVIDIA's *Digital Vibrance* on Windows, without burning already-saturated colors.
 
 ---
@@ -92,11 +94,12 @@ dotfiles/
 │   ├── .config/serpantinum/settings.json  # bar, theme, idle (location removed)
 │   ├── .local/share/color-schemes/   # Nebula KDE color scheme
 │   ├── .local/share/applications/    # launcher entries (Neovim in kitty)
-│   ├── .local/share/icons/ChromaS/
+│   ├── .local/share/icons/Bibata-Nebula-Cross/  # current cursor
+│   ├── .local/share/icons/ChromaS/              # previous cursor
 │   ├── .local/share/serpantinum/
 │   ├── .zshrc
 │   └── Pictures/Wallpapers/
-├── system/                     # system files (copy with care)
+├── system/<machine>/           # system files per machine (copy with care)
 │   ├── etc/pam.d/sddm          # password first, then fingerprint
 │   ├── etc/pam.d/sudo          # fingerprint for sudo
 │   ├── etc/pam.d/serpantinum-fprint  # fingerprint on the lock screen
@@ -106,7 +109,7 @@ dotfiles/
 │   ├── etc/sddm.conf.d/        # enables the nebula theme
 │   ├── usr/share/sddm/themes/nebula/
 │   └── var/lib/bluetooth/      # pairings (only valid on this machine)
-├── packages/
+├── packages/<machine>/          # per machine: rotten-laptop, rotten-desktop
 │   ├── pacman.txt              # installed official packages
 │   ├── aur.txt                 # installed AUR packages
 │   ├── services-system.txt     # enabled system services
@@ -122,6 +125,7 @@ dotfiles/
 |---|---|
 | `backup-rice.sh` | Copies everything above into the repo, then commits and pushes |
 | `nebula-kvantum.sh` | Builds the Nebula Kvantum theme from KvArcDark and enables it |
+| `make-cursors.py` | Builds the `Bibata-Nebula-Cross` cursor theme (Bibata + RGB outline + Chroma busy ring) |
 | `nebula-colors.sh` | Creates the Nebula KDE color scheme and applies it to Dolphin |
 | `patch-topbar.py` | Patches Serpantinum's top bar for the `SUPER + E` panel (`--restore` to undo) |
 | `patch-lock.py` | Adds fingerprint unlock and its animation to Serpantinum's lock screen (`--restore` to undo) |
@@ -181,7 +185,7 @@ sudo pacman -S --needed hyprland hyprpolkitagent kitty zsh starship fastfetch ez
 yay -S papirus-folders hyprshade
 ```
 
-> 💡 `packages/pacman.txt` and `packages/aur.txt` list everything that was installed. Use them as a reference, not as a list to install in one go.
+> 💡 `packages/<machine>/pacman.txt` and `packages/<machine>/aur.txt` list everything that was installed. Use them as a reference, not as a list to install in one go.
 
 ---
 
@@ -216,7 +220,7 @@ These settings live in GNOME's settings database, not in files, so they must be 
 gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'
-gsettings set org.gnome.desktop.interface cursor-theme 'ChromaS'
+gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Nebula-Cross'
 gsettings set org.gnome.desktop.interface cursor-size 32
 papirus-folders -C cyan --theme Papirus-Dark
 ```
@@ -230,8 +234,8 @@ python3 scripts/patch-topbar.py
 ### 5. `nebula` SDDM greeter
 
 ```bash
-sudo cp -a system/usr/share/sddm/themes/nebula /usr/share/sddm/themes/
-sudo cp -a system/etc/sddm.conf.d /etc/
+sudo cp -a system/rotten-laptop/usr/share/sddm/themes/nebula /usr/share/sddm/themes/
+sudo cp -a system/rotten-laptop/etc/sddm.conf.d /etc/
 sudo systemctl enable sddm
 ```
 
@@ -249,7 +253,7 @@ Then enroll your finger with `fprintd-enroll`. At the greeter: password + Enter,
 Fingerprint on the lock screen (`SUPER + L`):
 
 ```bash
-sudo cp system/etc/pam.d/serpantinum-fprint /etc/pam.d/
+sudo cp system/rotten-laptop/etc/pam.d/serpantinum-fprint /etc/pam.d/
 python3 scripts/patch-lock.py
 ```
 
@@ -259,7 +263,7 @@ The greeter backup already contains the animation; if you start from the origina
 
 ```bash
 sudo systemctl stop bluetooth
-sudo cp -a system/var/lib/bluetooth/. /var/lib/bluetooth/
+sudo cp -a system/rotten-laptop/var/lib/bluetooth/. /var/lib/bluetooth/
 sudo systemctl enable --now bluetooth
 ```
 
@@ -272,14 +276,14 @@ sudo systemctl enable nvidia-suspend.service nvidia-resume.service nvidia-hibern
 systemctl --user enable hyprpolkitagent.service
 ```
 
-`packages/services-system.txt` and `packages/services-user.txt` list every service that was enabled, for reference.
+`packages/<machine>/services-system.txt` and `packages/<machine>/services-user.txt` list every service that was enabled, for reference.
 
 ### 9. Lid, sleep key and NVIDIA sleep fix
 
 ```bash
-sudo cp -a system/etc/systemd/logind.conf.d /etc/systemd/
-sudo cp system/usr/local/bin/suspend-hyprland.sh /usr/local/bin/
-sudo cp system/etc/systemd/system/hyprland-{suspend,resume}.service /etc/systemd/system/
+sudo cp -a system/rotten-laptop/etc/systemd/logind.conf.d /etc/systemd/
+sudo cp system/rotten-laptop/usr/local/bin/suspend-hyprland.sh /usr/local/bin/
+sudo cp system/rotten-laptop/etc/systemd/system/hyprland-{suspend,resume}.service /etc/systemd/system/
 sudo chmod +x /usr/local/bin/suspend-hyprland.sh
 sudo systemctl daemon-reload
 sudo systemctl enable hyprland-suspend.service hyprland-resume.service
@@ -299,10 +303,11 @@ sudo systemctl kill -s HUP systemd-logind
 The changes that make this rice, to reapply if you switch shells or versions:
 
 - **Latency-free workspaces**: in `keybinds.lua`, use `hl.dsp.focus({ workspace = i })` instead of `serpantinum msg workspace`. Next / previous: `hl.dsp.focus({ workspace = "e+1" })` and `"e-1"` (open workspaces only, wrapping around; plain `"+1"` keeps creating new empty workspaces).
-- **Bluetooth keyboards**: Serpantinum's Bluetooth menu doesn't show the pairing code, so the keyboard keeps disconnecting. Pair from a terminal instead: `bluetoothctl`, then `agent KeyboardDisplay`, `default-agent`, `scan on`, `pair <MAC>`, type the 6-digit passkey **on the Bluetooth keyboard** + Enter, then `trust <MAC>` and `connect <MAC>`.
+- **Bluetooth keyboards**: Serpantinum's Bluetooth menu doesn't show the pairing code, so the keyboard keeps disconnecting. Pair from a terminal instead: `bluetoothctl`, then `agent KeyboardDisplay`, `default-agent`, `scan on`, `pair <MAC>`, type the 6-digit passkey **on the Bluetooth keyboard** + Enter, then `trust <MAC>` and `connect <MAC>`. On a ZMK keyboard, a **gear** icon on its screen (instead of the Wi-Fi-like icon) means the active Bluetooth profile has no pairing: `remove <MAC>` in `bluetoothctl` and pair again.
 - **Borders**: `border` (`smooth` curve) and `borderangle` (`linear` curve, `style = "loop"`) animations in `settings.lua`.
 - **Colors**: `screen_shader` in `settings.lua` → `~/.config/hypr/shaders/nvidia-like.glsl`. The three values sit at the top of the file; run `hyprctl reload` after editing it.
-- **Cursor**: `XCURSOR_THEME=ChromaS` and `XCURSOR_SIZE=32` in `env.lua`.
+- **Cursor**: `XCURSOR_THEME=Bibata-Nebula-Cross` and `XCURSOR_SIZE=32` in `env.lua`, plus `gtk-cursor-theme-name` in `gtk-3.0/` and `gtk-4.0/settings.ini` and `gsettings`. The theme is Bibata Modern Classic with `left_ptr` replaced by `crosshair`.
+- **Several machines**: the hostname picks the config. `config/monitors.lua` loads `config/hosts/<hostname>.lua` (screens of that machine, automatic setup if the file is missing); `backup-rice.sh` saves system files and package lists in `system/<hostname>/` and `packages/<hostname>/`. Hostnames: `rotten-laptop` (ThinkPad P53), `rotten-desktop` (desktop PC).
 - **Qt apps (Dolphin)**: `QT_QPA_PLATFORMTHEME=qt6ct` **and** `QT_STYLE_OVERRIDE=kvantum` in `env.lua`. Without the second one, KDE apps force the light Breeze style outside Plasma.
 - **Dolphin service menus outside Plasma**: after installing a KDE plugin (e.g. `ark` for "Compress" / "Extract"), Dolphin doesn't see it until its plugin cache is rebuilt, which Plasma normally does for you: `killall dolphin && kbuildsycoca6 --noincremental`.
 - **GTK dialogs**: `GTK_THEME=Adwaita:dark` in `env.lua` **and** in `~/.config/environment.d/gtk.conf`, because the dialog is drawn by the desktop portal, a systemd service that doesn't see Hyprland's variables. Restart it after changes: `systemctl --user restart xdg-desktop-portal-gtk xdg-desktop-portal`.
@@ -314,6 +319,7 @@ The changes that make this rice, to reapply if you switch shells or versions:
 - **Lock screen fingerprint**: Serpantinum's lock screen only uses the `login` PAM service (no fingerprint, no option in its settings). `patch-lock.py` adds a second `PamContext` using `/etc/pam.d/serpantinum-fprint` (`pam_fprintd` only), running alongside the password one. Re-run it after a Serpantinum update.
 - **Check Serpantinum first**: before patching anything, look for an option in its settings (`~/.config/serpantinum/settings.json`, the `SUPER + H` guide). Patches are a last resort.
 - **zsh selection**: custom ZLE widgets defined **before** the plugins; kitty's `Ctrl + Shift + ←/→` (tab switching) is set to `no_op` so zsh receives it. Unknown keys print `~`: bind them with `bindkey` (e.g. `'^[[3~'` for Delete).
+- **SSH from kitty**: remote machines don't know the `xterm-kitty` terminal (`Error opening terminal: xterm-kitty` in nano, htop…). `.zshrc` aliases `ssh` to `TERM=xterm-256color ssh`, which also works with `sudo` on the remote side.
 - **Terminal apps in the launcher**: Quickshell ignores `Terminal=true`, so `~/.local/share/applications/nvim.desktop` launches `kitty nvim %F` instead.
 - **fastfetch**: matugen overwrites `config.jsonc`, so the real config is `perso.jsonc`, launched from `.zshrc` with `fastfetch --config`.
 - **kitty**: `fullscreen_state = "0 0"` window rule, a workaround for the kitty bug that opens it maximized ([kitty#10442](https://github.com/kovidgoyal/kitty/issues/10442)). Remove it once the bug is fixed.
@@ -329,6 +335,7 @@ Everything that was done, why, and what was set aside: see [`feuille-de-route-ri
 ## 🙏 Credits
 
 - [Hyprland](https://hyprland.org) · Serpantinum · [LazyVim](https://www.lazyvim.org) · [eza](https://github.com/eza-community/eza) · [Kvantum](https://github.com/tsujan/Kvantum) · [Papirus](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme)
+- **[Bibata Cursor](https://github.com/ful1e5/Bibata_Cursor)** by **ful1e5** (GPL-3.0, license in the theme folder).
 - **Chroma Cursors S** cursors by **Glimy**, converted to the Linux format for personal use. Check the pack's license before making this repository public.
 - `nebula` SDDM theme: modified from the `material-you` theme shipped with Serpantinum.
 - Built with the help of **[Claude](https://claude.ai)** (Anthropic): most of this setup was configured, debugged and documented together with Claude, from the greeter theme to the backup script.

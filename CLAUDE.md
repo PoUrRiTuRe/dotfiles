@@ -21,7 +21,7 @@ conversation sur claude.ai ; ce fichier en transmet l'essentiel. **Lis aussi
 3. **Vérifier qu'un fichier est complet** après modification (`tail`) : un collage dans nano a déjà coupé le `.zshrc`.
 4. **Ne jamais lancer les scripts de l'utilisateur avec sudo** quand ils le refusent (`backup-rice.sh`, `save-all.sh`). Demander confirmation avant toute commande `sudo` ou modification dans `/etc`, `/usr`.
 5. **Confidentialité** : la position (IP, GPS) dans `settings.json` de Serpantinum est retirée par `backup-rice.sh` ; les logs de terminal (`~/.cache/terminal-logs`) ne vont jamais sur GitHub.
-6. **Dépôt public** : ⚠️ il contient `system/var/lib/bluetooth/` (clés d'appairage), le curseur Chroma S (licence de Glimy à vérifier) et des fonds d'écran. Décision en attente : repasser en privé, ou nettoyer (retirer les clés, purger l'historique git, refaire l'appairage).
+6. **Dépôt public** (l'utilisateur le garde public pour l'instant, ne plus insister) : il contient `system/rotten-laptop/var/lib/bluetooth/` (clés d'appairage), le curseur Chroma S (licence de Glimy à vérifier) et des fonds d'écran. Décision en attente : repasser en privé, ou nettoyer (retirer les clés, purger l'historique git, refaire l'appairage).
 7. Après chaque changement : mettre à jour `backup-rice.sh` si un nouveau fichier est concerné, puis le README et la feuille de route, puis sauvegarder avec `~/save-all.sh` (ou `~/backup-rice.sh`, réponse `o`).
 
 ## Pièges déjà résolus (ne pas réintroduire)
@@ -30,9 +30,16 @@ conversation sur claude.ai ; ce fichier en transmet l'essentiel. **Lis aussi
 - GTK sombre : `GTK_THEME` dans `env.lua` **et** `~/.config/environment.d/gtk.conf` (le portail est un service systemd) ; icônes et thème via `gsettings` sous Wayland.
 - Veille NVIDIA : services `nvidia-suspend/resume/hibernate` + `hyprland-suspend/resume` (Hyprland en pause pendant la veille). Capot sur secteur = verrouillage par Hyprland (`switch:on:Lid Switch`), veille seulement sur batterie. **À tester** : réveil sur batterie.
 - Le lanceur de Serpantinum ignore `Terminal=true` : les applis terminal passent par `kitty <commande>` dans un `.desktop`.
+- SSH depuis kitty : `alias ssh='TERM=xterm-256color ssh'` dans `.zshrc` (sinon « Error opening terminal: xterm-kitty » sur les serveurs, même avec sudo).
 - kitty intercepte `Ctrl + Shift + ←/→` (onglets) : mis à `no_op` pour la sélection dans zsh.
 - Ménage KDE : des paquets utiles sont partis avec (`zbar`, `ark`). Avant d'en retirer d'autres, les ajouter à la liste protégée de `scripts/menage-apercu.sh`.
 - Hors Plasma, Dolphin ne voit un nouveau plugin KDE (ex. `ark` → « Compresser / Extraire ») qu'après `kbuildsycoca6 --noincremental` (Dolphin fermé).
+
+## Deux machines
+- `rotten-laptop` (ThinkPad P53, 2 NVMe : système + `/home` séparé) et `rotten-desktop` (PC fixe : GTX 1080 Ti → pilote `nvidia-580xx-dkms`, 2 écrans 165 Hz, pas d'empreinte ; NVMe Crucial 1 To = système + `/home`, disque de 3 To NTFS gardé tel quel → `/mnt/data`).
+- Curseur : `scripts/make-cursors.py` régénère `Bibata-Nebula-Cross` (ne pas éditer les fichiers à la main).
+- `home/` est **commun** ; ce qui dépend de la machine va dans `home/.config/hypr/config/hosts/<nom>.lua`, `system/<nom>/`, `packages/<nom>/`.
+- Ne jamais copier sur le fixe les PAM d'empreinte, la veille NVIDIA du P53, le capot ni le Bluetooth du portable.
 
 ## Flux de travail avec Claude Code (cloud)
 - Le dépôt local de l'utilisateur est `~/dotfiles-backup` (branche `main`). Claude Code travaille sur une branche `claude/...` puis la fusionne dans `main` via une PR.
@@ -40,7 +47,6 @@ conversation sur claude.ai ; ce fichier en transmet l'essentiel. **Lis aussi
 - Claude ne peut pas changer la visibilité du dépôt (public/privé) : l'utilisateur le fait dans GitHub → *Settings* → *Danger Zone*.
 
 ## Points ouverts
-- Dépôt public : voir règle 6.
 - Trousseau (gnome-keyring) non déverrouillé après une connexion par empreinte → choix A (Brave `--password-store=basic`), B (trousseau sans mot de passe) ou C (rien).
-- Firmware du Lily58 (mode bootloader déclenché par erreur), à voir plus tard.
+- Firmware du Lily58 (ZMK, mode bootloader déclenché par erreur), à voir plus tard. Le 2 octobre il a perdu son appairage (engrenage sur l'écran) → réappairé avec `bluetoothctl` ; cause trouvée : calque Lower de `PoUrRiTuRe/rotten_lily58_keymap_config` = `BT_CLR` sur Échap et `BT_SEL 0-4` sur 1-5 (Lower + Échap efface l'appairage). Correction proposée : calque Adjust (Lower + Raise). L'utilisateur modifie son keymap avec https://nickcoutsos.github.io/keymap-editor/ (commit direct sur ce dépôt → GitHub Actions compile les `.uf2`).
 - `~` affiche `master ?` dans le prompt : le dossier perso est un dépôt git, sans doute par erreur. Ne rien supprimer sans vérifier.

@@ -8,6 +8,11 @@ set -uo pipefail
 
 DEST="$HOME/dotfiles-backup"
 DATE="$(date '+%Y-%m-%d %H:%M')"
+# Nom de la machine (rotten-laptop, rotten-desktop…) : les fichiers système
+# et la liste des paquets sont rangés dans system/<machine>/ et packages/<machine>/
+HOST="$(cat /etc/hostname 2>/dev/null || uname -n)"
+SYS="$DEST/system/$HOST"
+PKG="$DEST/packages/$HOST"
 
 # ── 0. Vérifications ─────────────────────────────────────────
 if [[ $EUID -eq 0 ]]; then
@@ -21,8 +26,8 @@ for cmd in git pacman; do
     fi
 done
 
-echo "==> Sauvegarde dans $DEST"
-mkdir -p "$DEST"/{home,system,packages}
+echo "==> Sauvegarde dans $DEST (machine : $HOST)"
+mkdir -p "$DEST/home" "$SYS" "$PKG"
 
 # Copie un élément du /home en gardant son chemin
 save_home() {
@@ -46,9 +51,9 @@ save_system() {
         return
     fi
     rel="${src#/}"
-    sudo mkdir -p "$DEST/system/$(dirname "$rel")"
-    sudo rm -rf "$DEST/system/$rel"
-    sudo cp -a "$src" "$DEST/system/$rel"
+    sudo mkdir -p "$SYS/$(dirname "$rel")"
+    sudo rm -rf "${SYS:?}/$rel"
+    sudo cp -a "$src" "$SYS/$rel"
     echo "   ok  $src"
 }
 
@@ -81,7 +86,8 @@ HOME_ITEMS=(
     "$HOME/.zshenv"
     "$HOME/.p10k.zsh"
     "$HOME/.local/bin"                # scripts et commandes perso (serpantinum ?)
-    "$HOME/.local/share/icons/ChromaS"    # curseurs Chroma S (croix de précision)
+    "$HOME/.local/share/icons/ChromaS"    # ancien curseur Chroma S (croix de précision)
+    "$HOME/.local/share/icons/Bibata-Nebula-Cross" # curseur actuel : Bibata noir + croix
     "$HOME/Pictures/Wallpapers"
 )
 for item in "${HOME_ITEMS[@]}"; do
@@ -105,6 +111,7 @@ fi
 # ── 2. Fichiers système modifiés ─────────────────────────────
 echo "==> Fichiers système (mot de passe ou empreinte demandé)"
 SYSTEM_ITEMS=(
+    "/etc/fstab"                      # disques montés au démarrage (/home sur le 2e NVMe, disque de données…)
     "/etc/pam.d/sddm"                 # login mot de passe puis empreinte
     "/etc/pam.d/sudo"                 # sudo avec empreinte
     "/etc/pam.d/serpantinum-fprint"   # empreinte sur l'écran de verrouillage (SUPER + L)
@@ -119,22 +126,22 @@ SYSTEM_ITEMS=(
 for item in "${SYSTEM_ITEMS[@]}"; do
     save_system "$item"
 done
-sudo chown -R "$USER:$USER" "$DEST/system"
+sudo chown -R "$USER:$USER" "$SYS"
 # Le cache Bluetooth liste tous les appareils croisés (voisins, téléphones...) :
 # inutile, on ne garde que les appairages
-rm -rf "$DEST"/system/var/lib/bluetooth/*/cache
+rm -rf "$SYS"/var/lib/bluetooth/*/cache
 
 # ── 3. Liste des paquets ─────────────────────────────────────
 echo "==> Liste des paquets"
-pacman -Qqen > "$DEST/packages/pacman.txt"   # dépôts officiels
-pacman -Qqem > "$DEST/packages/aur.txt"      # AUR / hors dépôts
+pacman -Qqen > "$PKG/pacman.txt"   # dépôts officiels
+pacman -Qqem > "$PKG/aur.txt"      # AUR / hors dépôts
 
 # Réglages qui ne sont pas des fichiers : services activés et gsettings
-systemctl list-unit-files --state=enabled --no-legend > "$DEST/packages/services-system.txt"
-systemctl --user list-unit-files --state=enabled --no-legend > "$DEST/packages/services-user.txt"
-gsettings list-recursively org.gnome.desktop.interface > "$DEST/packages/gsettings-interface.txt" 2>/dev/null
+systemctl list-unit-files --state=enabled --no-legend > "$PKG/services-system.txt"
+systemctl --user list-unit-files --state=enabled --no-legend > "$PKG/services-user.txt"
+gsettings list-recursively org.gnome.desktop.interface > "$PKG/gsettings-interface.txt" 2>/dev/null
 echo "   ok  services activés + gsettings"
-echo "   ok  $(wc -l < "$DEST/packages/pacman.txt") officiels, $(wc -l < "$DEST/packages/aur.txt") AUR"
+echo "   ok  $(wc -l < "$PKG/pacman.txt") officiels, $(wc -l < "$PKG/aur.txt") AUR"
 
 # ── 4. Nettoyage des dépôts git imbriqués ────────────────────
 find "$DEST" -mindepth 2 -name ".git" -type d -prune -exec rm -rf {} +

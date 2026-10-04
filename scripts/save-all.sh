@@ -11,6 +11,7 @@
 set -uo pipefail
 
 REPO="$HOME/dotfiles-backup"
+HOST="$(cat /etc/hostname 2>/dev/null || uname -n)"
 DL="$HOME/Downloads"
 SCRIPTS=(backup-rice.sh save-all.sh patch-lock.py patch-greeter.py patch-topbar.py
          menage-apercu.sh nebula-kvantum.sh nebula-colors.sh)
@@ -24,6 +25,20 @@ install_file() {
     local src="$1" dst="$2"
     mkdir -p "$(dirname "$dst")"
     cp -a "$src" "$dst.tmp-save-all" && mv -f "$dst.tmp-save-all" "$dst"
+}
+
+# Installe un fichier du dépôt dans ~, sauf si tu l'as modifié ici depuis
+# la dernière sauvegarde (utile avec deux PC : rien n'est écrasé en douce)
+#   $1 = chemin dans le dépôt, $2 = destination
+install_from_repo() {
+    local f="$1" dst="$2"
+    if [[ -e "$dst" ]] && ! cmp -s "$dst" "$REPO/$f" \
+       && ! git show "$BEFORE:$f" 2>/dev/null | cmp -s - "$dst"; then
+        echo "   !!  $dst modifié ici ET sur GitHub : gardé tel quel"
+        echo "       (version GitHub : $REPO/$f, à fusionner à la main)"
+        return 1
+    fi
+    install_file "$REPO/$f" "$dst"
 }
 
 # ── 1. GitHub d'abord, pour éviter les conflits ──────────────
@@ -45,17 +60,17 @@ if [[ -n "$CHANGED" ]]; then
             home/.config/serpantinum/settings.json)
                 echo "   !!  $f : à reporter à la main (le dépôt n'a pas ta position)" ;;
             home/*)
-                install_file "$REPO/$f" "$HOME/${f#home/}"
-                echo "   ok  ~/${f#home/}" ;;
+                install_from_repo "$f" "$HOME/${f#home/}" \
+                    && echo "   ok  ~/${f#home/}" ;;
             scripts/*)
                 name="${f#scripts/}"
                 if [[ " ${SCRIPTS[*]} " == *" $name "* ]]; then
-                    install_file "$REPO/$f" "$HOME/$name"
-                    chmod +x "$HOME/$name"
-                    echo "   ok  ~/$name"
+                    install_from_repo "$f" "$HOME/$name" \
+                        && chmod +x "$HOME/$name" && echo "   ok  ~/$name"
                 fi ;;
-            system/*)
-                SYSTEM_CHANGED+=("/${f#system/}") ;;
+            # Fichiers système : seulement ceux de cette machine
+            system/"$HOST"/*)
+                SYSTEM_CHANGED+=("/${f#system/"$HOST"/}") ;;
         esac
     done <<< "$CHANGED"
     if (( ${#SYSTEM_CHANGED[@]} )); then
