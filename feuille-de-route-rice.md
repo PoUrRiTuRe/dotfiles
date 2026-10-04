@@ -154,6 +154,19 @@
 - [x] Les serveurs (Raspberry Pi de la SAE…) ne connaissent pas le terminal de kitty → nano, htop, vim refusent de s'ouvrir
 - [x] `.zshrc` : `alias ssh='TERM=xterm-256color ssh'` → on annonce un terminal standard, ça marche aussi avec `sudo`
 
+### 🎯 Nouveau curseur : Bibata noir + croix
+- [x] Thème `Bibata-Nebula-Cross` : **Bibata Modern Classic** (noir, bords arrondis, contour blanc) + sa propre **croix** (`crosshair`) en curseur principal → même style et même taille que le reste du pack
+- [x] `env.lua`, `gtk-3.0` / `gtk-4.0` `settings.ini` mis à jour ; `gsettings` à refaire une fois (voir la conversation)
+- [x] L'ancien curseur Chroma S reste installé (retour possible en remettant `ChromaS`)
+
+### 🖥️ Deux machines : portable + PC fixe
+- [x] Noms de machine : `rotten-laptop` (P53) et `rotten-desktop` (PC fixe) — tirets, pas de `_` (interdit dans un nom de machine)
+- [x] Hyprland : `config/monitors.lua` charge `config/hosts/<nom>.lua` (écrans de chaque PC) ; nom inconnu → réglage automatique
+- [x] `backup-rice.sh` range `system/<nom>/` et `packages/<nom>/` ; le reste (`home/`) est commun aux deux PC
+- [x] `save-all.sh` installe les modifs de l'autre PC, mais **ne touche pas** un fichier modifié ici entre-temps (il prévient)
+- [ ] PC fixe : SSD NVMe dédié à Linux, Arch + pilote `nvidia-580xx-dkms` (GTX 1080 Ti), remplir `hosts/rotten-desktop.lua` avec `hyprctl monitors`
+- [ ] Vérifier processeur / carte mère du fixe (i7-9700K et B650 incompatibles : l'un des deux est faux)
+
 ### 🧭 Règle pour la suite
 - Avant de modifier un fichier de Serpantinum, **chercher d'abord une option** dans ses réglages ou son guide (`SUPER + H`). Les patchs restent le dernier recours.
 
@@ -213,7 +226,9 @@
 | `~/.config/gtk-3.0/`, `gtk-4.0/` | fenêtres GTK sombres, icônes, curseur |
 | `~/.config/environment.d/gtk.conf` | `GTK_THEME` pour le portail |
 | `~/.local/share/applications/nvim.desktop` | Neovim depuis le lanceur |
-| `~/.local/share/icons/ChromaS/` | curseur |
+| `~/.local/share/icons/Bibata-Nebula-Cross/` | curseur actuel (Bibata noir + croix) |
+| `~/.local/share/icons/ChromaS/` | ancien curseur |
+| `~/.config/hypr/config/monitors.lua` + `hosts/` | écrans selon la machine |
 | `~/.local/share/serpantinum/.../TopBar.qml` | barre corrigée (via `patch-topbar.py`) |
 | `~/.zshrc` | fastfetch, eza, plugins, touches d'édition, sélection, `clear` complet + `Ctrl + L` |
 | `/etc/pam.d/sddm`, `/etc/pam.d/sudo` | mot de passe + empreinte |

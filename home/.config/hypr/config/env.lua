@@ -2,8 +2,9 @@ hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 
--- Curseur Chroma S (croix de précision animée)
-hl.env("XCURSOR_THEME", "ChromaS")
+-- Curseur Bibata noir, croix de précision en curseur principal
+-- (ancien : "ChromaS", toujours installé si tu veux revenir)
+hl.env("XCURSOR_THEME", "Bibata-Nebula-Cross")
 hl.env("XCURSOR_SIZE", "32")
 
 -- Applis Qt (Dolphin...) : thème géré par qt6ct + Kvantum
