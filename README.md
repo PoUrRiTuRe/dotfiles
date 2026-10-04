@@ -321,7 +321,7 @@ sudo systemctl kill -s HUP systemd-logind
   ```
   UUID=<uuid>  /mnt/data  ntfs3  defaults,uid=1000,gid=1000,windows_names,nofail  0 0
   ```
-  `nofail` lets the PC boot even if the disk is missing. Test with `sudo mkdir -p /mnt/data && sudo mount -a`.
+  `nofail` lets the PC boot even if the disk is missing. Test with `sudo mkdir -p /mnt/data && sudo mount -a`. If the kernel log says `volume is dirty` (Windows fast startup / unclean shutdown), clear the flag with `sudo pacman -S ntfsprogs && sudo ntfsfix -d /dev/sdX1`, then mount again.
 - **Microphone**: `yay -S noise-suppression-for-voice`, then `systemctl --user restart pipewire pipewire-pulse wireplumber` (see [Tweaks](#-tweaks), audio routing).
 - Then run `~/save-all.sh`: it creates `system/rotten-desktop/` and `packages/rotten-desktop/` in the repository.
 
