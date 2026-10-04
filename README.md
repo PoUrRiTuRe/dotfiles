@@ -314,7 +314,7 @@ sudo systemctl kill -s HUP systemd-logind
 
 ### Desktop-specific steps (`rotten-desktop`)
 
-- **GPU driver**: the GTX 1080 Ti (Pascal) is not supported by the current `nvidia` / `nvidia-open` packages. Use the legacy branch: `yay -S nvidia-580xx-dkms nvidia-580xx-utils lib32-nvidia-580xx-utils` (with `linux-headers`; check the exact package names with `yay -Ss nvidia-580xx`), then reboot.
+- **GPU driver**: the GTX 1080 Ti (Pascal) is not supported by the current `nvidia` / `nvidia-open` packages. Use the legacy branch: `yay -S nvidia-580xx-dkms nvidia-580xx-utils lib32-nvidia-580xx-utils` (check the exact names with `yay -Ss nvidia-580xx`). **Install `linux-headers` first**: without it DKMS silently builds nothing and the system stays on `nouveau`. Then remove `kms` from `HOOKS` in `/etc/mkinitcpio.conf` (it pulls `nouveau` into the initramfs), run `sudo mkinitcpio -P` and reboot. Check with `lspci -k | grep -A3 VGA` (`Kernel driver in use: nvidia`) and `nvidia-smi`.
 - **Skip** steps 6 (fingerprint), 7 (Bluetooth pairings) and 9 (lid / laptop sleep fix): they belong to the laptop.
 - **Monitors**: run `hyprctl monitors`, then put the real output names and modes in `home/.config/hypr/config/hosts/rotten-desktop.lua` (and `~/.config/hypr/…`), and `hyprctl reload`.
 - **Data disk** (NTFS, kept as is): find its UUID with `lsblk -f`, then add to `/etc/fstab`:
