@@ -282,7 +282,7 @@ Item {
     property real screenMinLeft: isFill ? fillInset : (barWindow ? (barWindow.s(1) + distinctEdgePadding) : distinctEdgePadding)
     property real screenMaxRight: isFill ? (contentWrapper.width - fillInset) : (barWindow ? (contentWrapper.width - barWindow.s(1) - distinctEdgePadding) : (contentWrapper.width - distinctEdgePadding))
 
-    // [rotten] Place réservée au panneau SUPER+E : la barre se cale contre lui
+    // [nebula] Space reserved for the SUPER+E panel: the bar lines up against it
     property real sysPanelReserve: 510
     property real effMaxRight: layoutState === "sys" ? (screenMaxRight - sysPanelReserve) : screenMaxRight
 

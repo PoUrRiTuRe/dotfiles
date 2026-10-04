@@ -2,7 +2,7 @@
 Type=Application
 Name=Neovim
 GenericName=Text Editor
-Comment=LazyVim dans kitty
+Comment=LazyVim in kitty
 Exec=kitty nvim %F
 Icon=nvim
 Terminal=false

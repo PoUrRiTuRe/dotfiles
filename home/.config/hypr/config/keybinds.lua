@@ -60,17 +60,17 @@ hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("serpantinum msg toggle volume"))
 hl.bind(mainMod .. " + H", hl.dsp.exec_cmd("serpantinum msg toggle guide"))
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("serpantinum msg toggle autohide"))
 
--- Workspace suivant / précédent (seulement les workspaces ouverts, en boucle)
+-- Next / previous workspace (open workspaces only, wrapping around)
 hl.bind(mainMod .. " + TAB", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.focus({ workspace = "e-1" }))
 
--- Workspaces : dispatchers natifs de Hyprland (instantanés)
--- au lieu de passer par "serpantinum msg workspace"
+-- Workspaces: native Hyprland dispatchers (instant)
+-- instead of going through "serpantinum msg workspace"
 for i = 1, 10 do
   local key = tostring(i % 10)
   hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
   hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
--- Capot fermé : verrouillage (la veille sur batterie est gérée par logind)
+-- Lid closed: lock (sleep on battery is handled by logind)
 hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("serpantinum lock"), { locked = true })

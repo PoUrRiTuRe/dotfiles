@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 # ─────────────────────────────────────────────────────────────
-#  patch-lock.py — empreinte digitale sur l'écran de verrouillage
-#  de Serpantinum (SUPER + L)
+#  patch-lock.py — fingerprint on the Serpantinum lock screen
+#  (SUPER + L)
 #
-#  - le lecteur d'empreinte écoute EN MÊME TEMPS que le champ mot de passe
-#  - animation : anneau cyan qui pulse → coche magenta (succès)
-#                                      → tremblement rouge (doigt refusé)
+#  - the fingerprint reader listens AT THE SAME TIME as the password field
+#  - animation: pulsing cyan ring → magenta check mark (success)
+#                                   → red shake (finger rejected)
 #
-#  Prérequis : le fichier PAM /etc/pam.d/serpantinum-fprint (voir README)
+#  Requires: the PAM file /etc/pam.d/serpantinum-fprint (see README)
 #
-#  Usage :  python3 patch-lock.py            (applique)
-#           python3 patch-lock.py --restore  (remet l'original)
+#  Usage:  python3 patch-lock.py            (apply)
+#          python3 patch-lock.py --restore  (restore the original)
 # ─────────────────────────────────────────────────────────────
 import sys, shutil, pathlib
 
@@ -19,19 +19,19 @@ backup = path.with_name("Lock.qml.orig")
 
 if "--restore" in sys.argv:
     if not backup.exists():
-        sys.exit("!! Pas de sauvegarde Lock.qml.orig : rien à restaurer.")
+        sys.exit("!! No Lock.qml.orig backup: nothing to restore.")
     shutil.copy2(backup, path)
-    print("==> Lock.qml d'origine restauré. Recharge Serpantinum (SUPER + R).")
+    print("==> Original Lock.qml restored. Reload Serpantinum (SUPER + R).")
     sys.exit(0)
 
 if not pathlib.Path("/etc/pam.d/serpantinum-fprint").exists():
-    sys.exit("!! /etc/pam.d/serpantinum-fprint n'existe pas : crée-le d'abord (voir les instructions).")
+    sys.exit("!! /etc/pam.d/serpantinum-fprint doesn't exist: create it first (see README).")
 
 src = path.read_text(encoding="utf-8")
 if "fprintPam" in src:
-    sys.exit("==> Déjà patché. (--restore pour revenir à l'original)")
+    sys.exit("==> Already patched. (--restore to go back to the original)")
 
-FPRINT_BLOCK = '''    // [rotten] Empreinte digitale, en parallèle du mot de passe
+FPRINT_BLOCK = '''    // [nebula] Fingerprint, in parallel with the password
     Timer {
         id: fprintStartTimer
         interval: 900
@@ -68,7 +68,7 @@ FPRINT_BLOCK = '''    // [rotten] Empreinte digitale, en parallèle du mot de pa
 '''
 
 OVERLAY = '''
-                    // [rotten] Indicateur d'empreinte : anneau → coche
+                    // [nebula] Fingerprint indicator: ring → check mark
                     Item {
                         id: fpIndicator
                         z: 1000
@@ -127,32 +127,32 @@ OVERLAY = '''
 '''
 
 edits = [
-    # 1. État de l'empreinte
+    # 1. Fingerprint state
     (
         '        property string statusText: I18n.t("lock.status.locked")\n    }',
         '        property string statusText: I18n.t("lock.status.locked")\n'
-        '        property string fpState: "idle"   // [rotten] idle / scanning / success / fail\n    }',
+        '        property string fpState: "idle"   // [nebula] idle / scanning / success / fail\n    }',
     ),
-    # 2. Au verrouillage : démarrer l'écoute du lecteur
+    # 2. On lock: start listening to the reader
     (
         "        pamActionTimer.start();\n        kbPollerRestartTimer.restart();\n    }",
         "        pamActionTimer.start();\n        kbPollerRestartTimer.restart();\n"
-        "        fprintStartTimer.restart();   // [rotten] empreinte\n    }",
+        "        fprintStartTimer.restart();   // [nebula] fingerprint\n    }",
     ),
-    # 3. Au déverrouillage : libérer le lecteur
+    # 3. On unlock: release the reader
     (
         "        if (!rootLock.locked) return;\n        rootLock.locked = false;",
         "        if (!rootLock.locked) return;\n"
-        "        if (fprintPam.active) fprintPam.abort();   // [rotten] libère le lecteur\n"
+        "        if (fprintPam.active) fprintPam.abort();   // [nebula] release the reader\n"
         "        lockUI.fpState = \"idle\";\n"
         "        rootLock.locked = false;",
     ),
-    # 4. La session PAM d'empreinte
+    # 4. The fingerprint PAM session
     (
         "    Process {\n        id: suspendProcess",
         FPRINT_BLOCK + "    Process {\n        id: suspendProcess",
     ),
-    # 5. L'animation, par-dessus l'écran de verrouillage
+    # 5. The animation, on top of the lock screen
     (
         "                    id: screenRoot\n                    anchors.fill: parent\n                    focus: true\n",
         "                    id: screenRoot\n                    anchors.fill: parent\n                    focus: true\n" + OVERLAY,
@@ -162,12 +162,12 @@ edits = [
 for old, new in edits:
     n = src.count(old)
     if n != 1:
-        sys.exit(f"!! Passage attendu trouvé {n} fois (au lieu d'une) : Serpantinum a peut-être changé.\n"
-                 f"   {old.strip().splitlines()[0]}\n   Rien n'a été modifié.")
+        sys.exit(f"!! Expected snippet found {n} times (instead of once): Serpantinum may have changed.\n"
+                 f"   {old.strip().splitlines()[0]}\n   Nothing was modified.")
     src = src.replace(old, new)
 
 if not backup.exists():
     shutil.copy2(path, backup)
-    print(f"==> Original sauvegardé : {backup.name}")
+    print(f"==> Original saved: {backup.name}")
 path.write_text(src, encoding="utf-8")
-print("==> Lock.qml patché. Recharge Serpantinum (SUPER + R), puis teste avec SUPER + L.")
+print("==> Lock.qml patched. Reload Serpantinum (SUPER + R), then test with SUPER + L.")

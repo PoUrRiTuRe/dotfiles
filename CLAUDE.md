@@ -1,52 +1,62 @@
-# CLAUDE.md — contexte pour Claude Code
+# CLAUDE.md
 
-Ce dépôt sauvegarde le rice Hyprland de rotten_guy. Il a été construit au fil d'une longue
-conversation sur claude.ai ; ce fichier en transmet l'essentiel. **Lis aussi
-`feuille-de-route-rice.md`** (historique complet, en français) et `README.md` (installation, en anglais).
+Guidelines for AI-assisted changes to this repository. Read `README.md` (installation and tweaks) and `ROADMAP.md` (history and open points) before making changes.
 
-## L'utilisateur
-- Étudiant en BUT2 (informatique / réseaux), parle **français**, ton décontracté : réponds en français.
-- Débutant-intermédiaire sous Linux : explique **pourquoi** une commande fait ce qu'elle fait, sans jargon inutile.
-- Quand il demande une modification d'un fichier de config, il veut **le fichier complet**, pas seulement le passage modifié.
+## Project
 
-## La machine
-- ThinkPad P53 · Arch Linux · **Hyprland 0.56 en config Lua** (`~/.config/hypr/hyprland.lua` + `config/*.lua`, syntaxe `hl.bind`, `hl.config`, `hl.env`…).
-- Shell graphique **Serpantinum** (Quickshell), installé dans `~/.local/share/serpantinum` (hors pacman).
-- GPU **NVIDIA Quadro RTX 3000** seule (BIOS en carte dédiée) : la veille peut figer l'écran au réveil.
-- Terminal kitty + zsh + starship. Clavier Bluetooth **Lily58**, casque Sony WH-1000XM4, lecteur d'empreinte (fprintd).
+Dotfiles for a Hyprland desktop ("Nebula" theme, cyan / magenta) on Arch Linux:
 
-## Règles apprises (importantes)
-1. **Toujours chercher d'abord une option dans Serpantinum** (`~/.config/serpantinum/settings.json`, guide `SUPER + H`). Ne patcher son code qu'en dernier recours, avec un script qui sauvegarde l'original et propose `--restore` (voir `scripts/patch-*.py`).
-2. **matugen réécrit certains fichiers** (fastfetch `config.jsonc`, couleurs kitty) : ne pas modifier ces fichiers générés, passer par des fichiers à part.
-3. **Vérifier qu'un fichier est complet** après modification (`tail`) : un collage dans nano a déjà coupé le `.zshrc`.
-4. **Ne jamais lancer les scripts de l'utilisateur avec sudo** quand ils le refusent (`backup-rice.sh`, `save-all.sh`). Demander confirmation avant toute commande `sudo` ou modification dans `/etc`, `/usr`.
-5. **Confidentialité** : la position (IP, GPS) dans `settings.json` de Serpantinum est retirée par `backup-rice.sh` ; les logs de terminal (`~/.cache/terminal-logs`) ne vont jamais sur GitHub.
-6. **Dépôt public** (l'utilisateur le garde public pour l'instant, ne plus insister) : il contient `system/rotten-laptop/var/lib/bluetooth/` (clés d'appairage), le curseur Chroma S (licence de Glimy à vérifier) et des fonds d'écran. Décision en attente : repasser en privé, ou nettoyer (retirer les clés, purger l'historique git, refaire l'appairage).
-7. Après chaque changement : mettre à jour `backup-rice.sh` si un nouveau fichier est concerné, puis le README et la feuille de route, puis sauvegarder avec `~/save-all.sh` (ou `~/backup-rice.sh`, réponse `o`).
+- **Hyprland 0.56 with a Lua config**: `~/.config/hypr/hyprland.lua` + `config/*.lua` (`hl.bind`, `hl.config`, `hl.env`, `hl.monitor`…).
+- **Serpantinum** (Quickshell) as the shell, installed in `~/.local/share/serpantinum` (not managed by pacman).
+- kitty + zsh + starship, Dolphin themed with Kvantum, SDDM `nebula` theme.
+- NVIDIA GPUs on both machines (sleep / wake-up needs care).
 
-## Pièges déjà résolus (ne pas réintroduire)
-- Workspaces : dispatchers natifs `hl.dsp.focus({ workspace = i })`, pas `serpantinum msg workspace` (latence). `SUPER + Tab` utilise `"e+1"` / `"e-1"` (`"+1"` crée des workspaces à l'infini).
-- Dolphin : `QT_QPA_PLATFORMTHEME=qt6ct` **et** `QT_STYLE_OVERRIDE=kvantum` ; jeu de couleurs KDE « Nebula ».
-- GTK sombre : `GTK_THEME` dans `env.lua` **et** `~/.config/environment.d/gtk.conf` (le portail est un service systemd) ; icônes et thème via `gsettings` sous Wayland.
-- Veille NVIDIA : services `nvidia-suspend/resume/hibernate` + `hyprland-suspend/resume` (Hyprland en pause pendant la veille). Capot sur secteur = verrouillage par Hyprland (`switch:on:Lid Switch`), veille seulement sur batterie. **À tester** : réveil sur batterie.
-- Le lanceur de Serpantinum ignore `Terminal=true` : les applis terminal passent par `kitty <commande>` dans un `.desktop`.
-- SSH depuis kitty : `alias ssh='TERM=xterm-256color ssh'` dans `.zshrc` (sinon « Error opening terminal: xterm-kitty » sur les serveurs, même avec sudo).
-- kitty intercepte `Ctrl + Shift + ←/→` (onglets) : mis à `no_op` pour la sélection dans zsh.
-- Ménage KDE : des paquets utiles sont partis avec (`zbar`, `ark`). Avant d'en retirer d'autres, les ajouter à la liste protégée de `scripts/menage-apercu.sh`.
-- Hors Plasma, Dolphin ne voit un nouveau plugin KDE (ex. `ark` → « Compresser / Extraire ») qu'après `kbuildsycoca6 --noincremental` (Dolphin fermé).
+## Machines
 
-## Deux machines
-- `rotten-laptop` (ThinkPad P53, 2 NVMe : système + `/home` séparé) et `rotten-desktop` (PC fixe : GTX 1080 Ti → pilote `nvidia-580xx-dkms`, 2 écrans 165 Hz, pas d'empreinte ; NVMe Crucial 1 To = système + `/home`, disque de 3 To NTFS gardé tel quel → `/mnt/data`).
-- Curseur : `scripts/make-cursors.py` régénère `Bibata-Nebula-Cross` (ne pas éditer les fichiers à la main).
-- `home/` est **commun** ; ce qui dépend de la machine va dans `home/.config/hypr/config/hosts/<nom>.lua`, `system/<nom>/`, `packages/<nom>/`.
-- Ne jamais copier sur le fixe les PAM d'empreinte, la veille NVIDIA du P53, le capot ni le Bluetooth du portable.
+| Hostname | Hardware | Notes |
+|---|---|---|
+| `rotten-laptop` | ThinkPad P53, Quadro RTX 3000 | fingerprint reader, lid handling, NVIDIA sleep fix, `/home` on a second NVMe drive |
+| `rotten-desktop` | GTX 1080 Ti (legacy driver `nvidia-580xx-dkms`), two 165 Hz monitors | no fingerprint reader, 3 TB NTFS data disk on `/mnt/data` |
 
-## Flux de travail avec Claude Code (cloud)
-- Le dépôt local de l'utilisateur est `~/dotfiles-backup` (branche `main`). Claude Code travaille sur une branche `claude/...` puis la fusionne dans `main` via une PR.
-- ⚠️ `save-all.sh` fait `git pull --rebase`, **puis recopie `~/*.sh` et `~/*.py` dans `scripts/`** : un script modifié par Claude dans le dépôt doit aussi être copié dans `~` (`cp ~/dotfiles-backup/scripts/<script> ~/`), sinon l'ancienne version l'écrase.
-- Claude ne peut pas changer la visibilité du dépôt (public/privé) : l'utilisateur le fait dans GitHub → *Settings* → *Danger Zone*.
+- `home/` is **shared** by both machines.
+- Machine-specific files go in `home/.config/hypr/config/hosts/<hostname>.lua`, `system/<hostname>/` and `packages/<hostname>/`.
+- Never apply the laptop's fingerprint PAM files, lid / sleep fixes or Bluetooth pairings to the desktop.
 
-## Points ouverts
-- Trousseau (gnome-keyring) non déverrouillé après une connexion par empreinte → choix A (Brave `--password-store=basic`), B (trousseau sans mot de passe) ou C (rien).
-- Firmware du Lily58 (ZMK, mode bootloader déclenché par erreur), à voir plus tard. Le 2 octobre il a perdu son appairage (engrenage sur l'écran) → réappairé avec `bluetoothctl` ; cause trouvée : calque Lower de `PoUrRiTuRe/rotten_lily58_keymap_config` = `BT_CLR` sur Échap et `BT_SEL 0-4` sur 1-5 (Lower + Échap efface l'appairage). Correction proposée : calque Adjust (Lower + Raise). L'utilisateur modifie son keymap avec https://nickcoutsos.github.io/keymap-editor/ (commit direct sur ce dépôt → GitHub Actions compile les `.uf2`).
-- `~` affiche `master ?` dans le prompt : le dossier perso est un dépôt git, sans doute par erreur. Ne rien supprimer sans vérifier.
+## Repository layout
+
+- `home/` — mirror of `~` (config files), restored into `~` by `save-all.sh`.
+- `system/<hostname>/` — system files (copied by hand with `sudo`).
+- `packages/<hostname>/` — package lists, enabled services, `gsettings`.
+- `scripts/` — backup, theming and patch scripts.
+- `assets/` — README images.
+
+## Conventions
+
+1. **Everything committed is in English**: code comments, script messages, documentation, commit messages.
+2. **No personal information** in the repository (location, school or work details, private notes). `backup-rice.sh` strips the location from Serpantinum's `settings.json`; terminal logs (`~/.cache/terminal-logs`) are never committed.
+3. **Prefer Serpantinum options** (`~/.config/serpantinum/settings.json`, guide on `SUPER + H`) over patching its code. Patches are a last resort and must be scripts that back up the original and support `--restore` (see `scripts/patch-*.py`).
+4. **Don't edit files generated by matugen** (fastfetch `config.jsonc`, kitty colors): use separate files instead.
+5. **Generated cursor theme**: `scripts/make-cursors.py` builds `Bibata-Nebula-Cross`; regenerate it instead of editing the cursor files.
+6. **Check that edited files are complete** (`tail`), and syntax-check scripts (`bash -n`, `python3 -m py_compile`).
+7. **No `sudo` for the user's scripts** (`backup-rice.sh`, `save-all.sh` refuse it). Changes under `/etc` or `/usr` are given as explicit commands for the maintainer to run.
+8. After each change: update `backup-rice.sh` if a new file must be saved, then `README.md` and `ROADMAP.md`.
+
+## Workflow
+
+- The maintainer's local clone is `~/dotfiles-backup` (branch `main`).
+- Changes are made on a feature branch, then merged into `main` through a pull request.
+- On each machine, `~/save-all.sh` pulls `main`, installs changed `home/` and `scripts/` files into `~` (files modified locally since the last backup are kept and reported), lists changed `system/<hostname>/` files, then runs the backup.
+- Communicate with the maintainer in French; keep the repository in English.
+
+## Known pitfalls (do not reintroduce)
+
+- Workspaces: native `hl.dsp.focus({ workspace = i })`, not `serpantinum msg workspace` (latency). `SUPER + Tab` uses `"e+1"` / `"e-1"` (`"+1"` creates workspaces endlessly).
+- Dolphin needs `QT_QPA_PLATFORMTHEME=qt6ct` **and** `QT_STYLE_OVERRIDE=kvantum`.
+- Dark GTK: `GTK_THEME` in `env.lua` **and** `~/.config/environment.d/gtk.conf` (the portal is a systemd service); icons, theme and cursor through `gsettings` under Wayland.
+- NVIDIA sleep: `nvidia-suspend/resume/hibernate` services + `hyprland-suspend/resume` (Hyprland paused during sleep).
+- Serpantinum's launcher ignores `Terminal=true`: terminal apps use `kitty <command>` in their `.desktop` file.
+- kitty grabs `Ctrl + Shift + ←/→`: mapped to `no_op` so zsh can use them for selection.
+- SSH from kitty: `alias ssh='TERM=xterm-256color ssh'` (otherwise "Error opening terminal: xterm-kitty").
+- KDE cleanup removed useful packages (`zbar`, `ark`): add packages to the protected list in `scripts/kde-cleanup-preview.sh` before removing more.
+- Outside Plasma, Dolphin only sees new KDE plugins after `kbuildsycoca6 --noincremental` (Dolphin closed).
+- ZMK keyboard: a gear icon on its screen means the active Bluetooth profile has no pairing; the default Lily58 keymap has `BT_CLR` on Lower + Esc.
