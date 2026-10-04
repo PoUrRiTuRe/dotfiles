@@ -69,6 +69,7 @@ HOME_ITEMS=(
     "$HOME/.config/nvim"              # LazyVim
     "$HOME/.config/nano"              # nano colors
     "$HOME/.config/environment.d"     # session variables (GTK_THEME…)
+    "$HOME/.config/pipewire"          # virtual "Music" sink and "Microphone (Nebula)" source
     "$HOME/.local/share/applications" # launcher entries (Neovim in kitty…)
     "$HOME/.config/oh-my-posh"
     "$HOME/.config/gtk-3.0"
