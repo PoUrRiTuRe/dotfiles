@@ -159,6 +159,8 @@
 - [x] **Workspaces spanning both monitors**: workspace N = pair (N on the MSI, N + 10 on the iiyama); `SUPER + N`, `SUPER + SHIFT + N` and `SUPER + Tab` act on both screens (Lua functions in the host file, `keybinds.lua` skips its own workspace keys)
 - [x] Desktop: hyprmod wrote its own monitor rule in `hyprland-gui.lua` (loaded last) with a 640 px gap between the screens → the cursor could not cross; monitor rules now only live in `hosts/rotten-desktop.lua`, iiyama at 180 Hz
 - [ ] Desktop: logging out of Hyprland gives a black screen and a hard freeze (NVIDIA + SDDM); reboot instead for now
+- [x] First desktop backup; Serpantinum's code (`~/.local/share/serpantinum`, `~/.local/state/serpantinum`) removed from the backup: each machine may run a different version, the installer provides it and `patch-*.py` reapply the changes
+- [x] Desktop: data disk mounted with `ntfs-3g` (`ntfs3` refuses it: damaged `$BadClus`, chkdsk not available anymore)
 - [x] Desktop: MSI set as the XWayland primary monitor (`xrandr --primary` at startup) so games open on it
 - [x] kitty font: `JetBrainsMono Nerd Font` (the only JetBrains package installed on both machines)
 - [ ] Desktop: `ntfs3` line in `/etc/fstab` for the data disk
