@@ -2,18 +2,18 @@ hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 
--- Curseur Bibata noir, croix de précision en curseur principal
--- (ancien : "ChromaS", toujours installé si tu veux revenir)
+-- Cursor: black Bibata with an RGB outline, crosshair as the main pointer
+-- (previous theme "ChromaS" is still installed)
 hl.env("XCURSOR_THEME", "Bibata-Nebula-Cross")
 hl.env("XCURSOR_SIZE", "32")
 
--- Applis Qt (Dolphin...) : thème géré par qt6ct + Kvantum
+-- Qt apps (Dolphin...): theme handled by qt6ct + Kvantum
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 hl.env("QT_STYLE_OVERRIDE", "kvantum")
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
 
--- Applis GTK (fenêtres « Enregistrer sous »...) : thème sombre forcé
+-- GTK apps ("Save as" dialogs...): force the dark theme
 hl.env("GTK_THEME", "Adwaita:dark")
 
--- Menu « Ouvrir avec » de Dolphin hors de Plasma
+-- Dolphin "Open with" menu outside Plasma
 hl.env("XDG_MENU_PREFIX", "arch-")

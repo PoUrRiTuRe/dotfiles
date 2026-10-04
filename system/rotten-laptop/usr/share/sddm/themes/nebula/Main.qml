@@ -25,7 +25,7 @@ Rectangle {
     readonly property color cChipHover: "#2a2360"
     readonly property color cChipPress: "#352c78"
     readonly property color cIconBg:    "#33ff2bd6"   // magenta translucide
-    readonly property color cBorder:    "#4000e5ff"   // cyan très discret
+    readonly property color cBorder:    "#4000e5ff"   // very subtle cyan
     readonly property color cError:     "#ff3860"
 
     Image {
@@ -34,7 +34,7 @@ Rectangle {
         fillMode: Image.PreserveAspectCrop
     }
 
-    // Voile sombre pour la lisibilité sur la nébuleuse
+    // Dark veil for readability over the nebula
     Rectangle {
         anchors.fill: parent
         color: root.cNight
@@ -49,7 +49,7 @@ Rectangle {
     property real ui1: 0
     property real ui2: 0
     property string errorMessage: ""
-    property string fpState: "idle"   // [rotten] idle / scanning / success / fail
+    property string fpState: "idle"   // [nebula] idle / scanning / success / fail
 
     FontLoader {
         id: customFont
@@ -110,10 +110,10 @@ Rectangle {
     Connections {
         target: typeof sddm !== "undefined" ? sddm : null
         function onLoginSucceeded() {
-            if (root.fpState === "scanning") root.fpState = "success";   // [rotten]
+            if (root.fpState === "scanning") root.fpState = "success";   // [nebula]
         }
         function onLoginFailed() {
-            if (root.fpState === "scanning") {   // [rotten] doigt refusé
+            if (root.fpState === "scanning") {   // [nebula] finger rejected
                 root.fpState = "fail";
                 fpShakeAnim.restart();
                 fpResetTimer.restart();
@@ -162,7 +162,7 @@ Rectangle {
         onClicked: pwd.forceActiveFocus()
     }
 
-    // [rotten] Indicateur d'empreinte : anneau → coche
+    // [nebula] Fingerprint indicator: ring → check mark
     Item {
         id: fpIndicator
         z: 1000
@@ -242,7 +242,7 @@ Rectangle {
                 }
             }
 
-            // Horloge néon : heures cyan, minutes magenta, avec halo
+            // Neon clock: cyan hours, magenta minutes, with a glow
             Column {
                 spacing: -24 * s
 
@@ -861,7 +861,7 @@ Rectangle {
                             onAccepted: {
                                 if (!root.isQuickshell) {
                                     let currentUser = userHelper.currentItem ? userHelper.currentItem.uLogin : userModel.lastUser;
-                                    if (pwd.text === "") root.fpState = "scanning";   // [rotten] empreinte
+                                    if (pwd.text === "") root.fpState = "scanning";   // [nebula] fingerprint
                                     sddm.login(currentUser, pwd.text, root.sessionIndex);
                                 }
                             }

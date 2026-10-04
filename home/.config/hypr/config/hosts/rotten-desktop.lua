@@ -1,9 +1,9 @@
--- PC fixe : deux écrans à 165 Hz
--- ⚠️ À compléter le jour de l'installation : les noms (DP-1, DP-2, HDMI-A-1…)
--- et les résolutions exactes s'affichent avec  hyprctl monitors
--- Un écran dont le nom ne correspond pas prend la règle automatique (output = "").
+-- Desktop PC: two 165 Hz monitors
+-- TODO on install day: the output names (DP-1, DP-2, HDMI-A-1…)
+-- and exact resolutions are shown by  hyprctl monitors
+-- A monitor whose name doesn't match falls back to the automatic rule (output = "").
 
--- Règle par défaut pour tout écran non listé
+-- Default rule for any monitor not listed below
 hl.monitor({
   output = "",
   mode = "preferred",
@@ -11,7 +11,7 @@ hl.monitor({
   scale = 1.0,
 })
 
--- Écran principal : MSI 31,5" VA 165 Hz (à gauche)
+-- Main monitor: MSI 31.5" VA 165 Hz (left)
 hl.monitor({
   output = "DP-1",
   mode = "2560x1440@165",
@@ -19,7 +19,7 @@ hl.monitor({
   scale = 1.0,
 })
 
--- Écran secondaire : 27" IPS 165 Hz (à droite du principal)
+-- Secondary monitor: 27" IPS 165 Hz (right of the main one)
 hl.monitor({
   output = "DP-2",
   mode = "2560x1440@165",

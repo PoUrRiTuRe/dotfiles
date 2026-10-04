@@ -17,7 +17,7 @@
 | 🔒 | **Fingerprint animation** | Lock screen (`SUPER + L`): the reader listens alongside the password field. Greeter: empty field + Enter. In both, a cyan ring pulses, turns into a magenta check on success, shakes red on a wrong finger |
 | 🔐 | **`nebula` SDDM greeter** | Custom cyan / magenta theme on a nebula wallpaper, neon clock with a glow, login with **password or fingerprint** |
 | 🌈 | **Animated borders** | Cyan → magenta gradient that rotates continuously at a constant speed, with a smooth fade when focus changes |
-| 🎯 | **Bibata cursor + RGB outline** | Black *Bibata Modern Classic* cursors with an animated RGB outline (à la *Chroma*), Bibata's crosshair as the main pointer, Chroma-style busy cursor |
+| 🎯 | **Bibata cursor + RGB outline** | Black *Bibata Modern Classic* cursors with an animated RGB outline (in the style of *Chroma*), Bibata's crosshair as the main pointer, Chroma-style busy cursor |
 | 🎨 | **"NVIDIA-style" colors** | Screen shader replicating the NVIDIA Control Panel: brightness 60 / contrast 65 / digital vibrance 85 |
 | 🗂️ | **Dolphin "Nebula"** | Kvantum + KDE color scheme: translucent night-blue windows blurred by Hyprland, white text, cyan selection |
 | 🌙 | **Dark GTK dialogs** | "Save as" / "Open" windows in dark mode, Papirus icons with cyan folders |
@@ -29,7 +29,7 @@
 | ✂️ | **Editor-like shell** | `Shift / Ctrl + Shift + ←→` to select, `Ctrl + A` to select the whole command, typing replaces the selection; `clear` and `Ctrl + L` do a real reset (scrollback saved locally first) |
 | 😴 | **No freezes** | No automatic screen-off or sleep. Lid closed: lock on AC, lock + sleep on battery (Hyprland is paused during sleep so the NVIDIA driver wakes up cleanly); sleep key ignored |
 | 🎮 | **Gaming** | Steam with Proton Experimental for every title |
-| 🎧 | **Bluetooth** | Saved pairings (Sony WH-1000XM4 headphones, Lily58 split keyboard) |
+| 🎧 | **Bluetooth** | Saved pairings (headphones, split keyboard) |
 
 ---
 
@@ -74,7 +74,7 @@ The GTK file dialog (used by Brave and other apps through the desktop portal), f
 ```
 dotfiles/
 ├── README.md
-├── CLAUDE.md                   # context for Claude Code (in French)
+├── CLAUDE.md                   # guidelines for AI-assisted changes
 ├── assets/                     # README screenshots
 ├── scripts/                    # helper scripts (see below)
 ├── home/                       # everything that goes into ~
@@ -115,7 +115,7 @@ dotfiles/
 │   ├── services-system.txt     # enabled system services
 │   ├── services-user.txt       # enabled user services
 │   └── gsettings-interface.txt # GTK settings (theme, icons, cursor)
-├── feuille-de-route-rice.md   # full history of the rice (in French)
+├── ROADMAP.md                  # full history of the rice
 └── LAST_BACKUP.txt
 ```
 
@@ -130,7 +130,7 @@ dotfiles/
 | `patch-topbar.py` | Patches Serpantinum's top bar for the `SUPER + E` panel (`--restore` to undo) |
 | `patch-lock.py` | Adds fingerprint unlock and its animation to Serpantinum's lock screen (`--restore` to undo) |
 | `patch-greeter.py` | Adds the same fingerprint animation to the `nebula` SDDM greeter (run with `sudo`, `--restore` to undo) |
-| `menage-apercu.sh` | Dry run used to remove KDE Plasma / GNOME while protecting useful packages |
+| `kde-cleanup-preview.sh` | Dry run used to remove KDE Plasma / GNOME while protecting useful packages |
 | `save-all.sh` | One-shot save: pulls, moves downloaded files into place, copies the scripts, runs the backup |
 
 ---
@@ -328,7 +328,7 @@ The changes that make this rice, to reapply if you switch shells or versions:
 
 ## 🗺️ History
 
-Everything that was done, why, and what was set aside: see [`feuille-de-route-rice.md`](feuille-de-route-rice.md) (in French).
+Everything that was done, why, and what was set aside: see [`ROADMAP.md`](ROADMAP.md).
 
 ---
 
@@ -336,6 +336,6 @@ Everything that was done, why, and what was set aside: see [`feuille-de-route-ri
 
 - [Hyprland](https://hyprland.org) · Serpantinum · [LazyVim](https://www.lazyvim.org) · [eza](https://github.com/eza-community/eza) · [Kvantum](https://github.com/tsujan/Kvantum) · [Papirus](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme)
 - **[Bibata Cursor](https://github.com/ful1e5/Bibata_Cursor)** by **ful1e5** (GPL-3.0, license in the theme folder).
-- **Chroma Cursors S** cursors by **Glimy**, converted to the Linux format for personal use. Check the pack's license before making this repository public.
+- **Chroma Cursors S** by **Glimy** (previous theme, and the rainbow ring of the busy cursor), converted to the Linux format. All rights belong to the author.
 - `nebula` SDDM theme: modified from the `material-you` theme shipped with Serpantinum.
 - Built with the help of **[Claude](https://claude.ai)** (Anthropic): most of this setup was configured, debugged and documented together with Claude, from the greeter theme to the backup script.

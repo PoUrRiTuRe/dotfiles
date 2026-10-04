@@ -1,38 +1,38 @@
 #!/usr/bin/env python3
 # ─────────────────────────────────────────────────────────────
-#  patch-greeter.py — animation d'empreinte sur le greeter SDDM « nebula »
+#  patch-greeter.py — fingerprint animation on the "nebula" SDDM greeter
 #
-#  Champ vide + Entrée → anneau cyan qui pulse (le lecteur attend ton doigt)
-#  Doigt reconnu      → coche magenta, puis ouverture de la session
-#  Doigt refusé       → tremblement rouge
+#  Empty field + Enter → pulsing cyan ring (the reader waits for a finger)
+#  Finger accepted     → magenta check mark, then the session opens
+#  Finger rejected     → red shake
 #
-#  Usage :  sudo python3 patch-greeter.py            (applique)
-#           sudo python3 patch-greeter.py --restore  (remet l'original)
-#  Test sans se déconnecter :
+#  Usage:  sudo python3 patch-greeter.py            (apply)
+#          sudo python3 patch-greeter.py --restore  (restore the original)
+#  Test without logging out:
 #     sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/nebula
 # ─────────────────────────────────────────────────────────────
 import os, sys, shutil, pathlib
 
 path = pathlib.Path("/usr/share/sddm/themes/nebula/Main.qml")
-if len(sys.argv) > 1 and sys.argv[-1].endswith(".qml"):   # chemin de test
+if len(sys.argv) > 1 and sys.argv[-1].endswith(".qml"):   # test path
     path = pathlib.Path(sys.argv[-1])
 backup = path.with_name("Main.qml.orig")
 
 if os.geteuid() != 0 and str(path).startswith("/usr/"):
-    sys.exit("!! Lance-le avec sudo : sudo python3 patch-greeter.py")
+    sys.exit("!! Run it with sudo: sudo python3 patch-greeter.py")
 
 if "--restore" in sys.argv:
     if not backup.exists():
-        sys.exit("!! Pas de sauvegarde Main.qml.orig : rien à restaurer.")
+        sys.exit("!! No Main.qml.orig backup: nothing to restore.")
     shutil.copy2(backup, path)
-    print("==> Main.qml d'origine restauré.")
+    print("==> Original Main.qml restored.")
     sys.exit(0)
 
 src = path.read_text(encoding="utf-8")
 if "fpState" in src:
-    sys.exit("==> Déjà patché. (--restore pour revenir à l'original)")
+    sys.exit("==> Already patched. (--restore to go back to the original)")
 
-OVERLAY = '''    // [rotten] Indicateur d'empreinte : anneau → coche
+OVERLAY = '''    // [nebula] Fingerprint indicator: ring → check mark
     Item {
         id: fpIndicator
         z: 1000
@@ -91,32 +91,32 @@ OVERLAY = '''    // [rotten] Indicateur d'empreinte : anneau → coche
 '''
 
 edits = [
-    # 1. État de l'empreinte
+    # 1. Fingerprint state
     (
         '    property string errorMessage: ""\n',
         '    property string errorMessage: ""\n'
-        '    property string fpState: "idle"   // [rotten] idle / scanning / success / fail\n',
+        '    property string fpState: "idle"   // [nebula] idle / scanning / success / fail\n',
     ),
-    # 2. Champ vide + Entrée : le lecteur attend le doigt
+    # 2. Empty field + Enter: the reader waits for a finger
     (
         "sddm.login(currentUser, pwd.text, root.sessionIndex);",
-        'if (pwd.text === "") root.fpState = "scanning";   // [rotten] empreinte\n'
+        'if (pwd.text === "") root.fpState = "scanning";   // [nebula] fingerprint\n'
         "                                    sddm.login(currentUser, pwd.text, root.sessionIndex);",
     ),
-    # 3. Échec / succès
+    # 3. Failure / success
     (
         "        function onLoginFailed() {\n",
         "        function onLoginSucceeded() {\n"
-        '            if (root.fpState === "scanning") root.fpState = "success";   // [rotten]\n'
+        '            if (root.fpState === "scanning") root.fpState = "success";   // [nebula]\n'
         "        }\n"
         "        function onLoginFailed() {\n"
-        '            if (root.fpState === "scanning") {   // [rotten] doigt refusé\n'
+        '            if (root.fpState === "scanning") {   // [nebula] finger rejected\n'
         '                root.fpState = "fail";\n'
         "                fpShakeAnim.restart();\n"
         "                fpResetTimer.restart();\n"
         "            }\n",
     ),
-    # 4. L'animation, en bas de l'écran
+    # 4. The animation, at the bottom of the screen
     (
         "    Row {\n        id: mainLayout\n",
         OVERLAY + "    Row {\n        id: mainLayout\n",
@@ -126,13 +126,13 @@ edits = [
 for old, new in edits:
     n = src.count(old)
     if n != 1:
-        sys.exit(f"!! Passage attendu trouvé {n} fois (au lieu d'une) : le thème a peut-être changé.\n"
+        sys.exit(f"!! Expected snippet found {n} times (instead of once): the theme may have changed.\n"
                  f"   {old.strip().splitlines()[0]}\n   Rien n'a été modifié.")
     src = src.replace(old, new)
 
 if not backup.exists():
     shutil.copy2(path, backup)
-    print(f"==> Original sauvegardé : {backup}")
+    print(f"==> Original saved: {backup}")
 path.write_text(src, encoding="utf-8")
-print("==> Thème nebula patché. Teste-le avec :")
+print("==> nebula theme patched. Test it with:")
 print("    sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/nebula")

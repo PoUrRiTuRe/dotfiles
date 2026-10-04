@@ -1,4 +1,4 @@
--- ThinkPad P53 : un seul écran, réglage automatique
+-- ThinkPad P53: single built-in screen, automatic setup
 hl.monitor({
   output = "",
   mode = "preferred",

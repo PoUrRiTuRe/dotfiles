@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────
-#  nebula-kvantum.sh — crée le thème Kvantum « Nebula »
-#  (base : KvArcDark) et l'active pour les applis Qt (Dolphin…)
-#  Usage : ./nebula-kvantum.sh   (sans sudo)
+#  nebula-kvantum.sh — creates the "Nebula" Kvantum theme
+#  (based on KvArcDark) and enables it for Qt apps (Dolphin…)
+#  Usage:  ./nebula-kvantum.sh   (without sudo)
 # ─────────────────────────────────────────────────────────────
 set -euo pipefail
 
@@ -11,24 +11,24 @@ DEST="$HOME/.config/Kvantum/Nebula"
 CONF="$DEST/Nebula.kvconfig"
 SVG="$DEST/Nebula.svg"
 
-[[ $EUID -eq 0 ]] && { echo "!! Lance ce script sans sudo."; exit 1; }
-[[ -d "$BASE" ]] || { echo "!! $BASE introuvable (kvantum installé ?)"; exit 1; }
+[[ $EUID -eq 0 ]] && { echo "!! Run this script without sudo."; exit 1; }
+[[ -d "$BASE" ]] || { echo "!! $BASE not found (is kvantum installed?)"; exit 1; }
 
-# ── 1. Copie du thème de base ────────────────────────────────
+# ── 1. Copy the base theme ───────────────────────────────────
 mkdir -p "$DEST"
 cp "$BASE/KvArcDark.kvconfig" "$CONF"
 cp "$BASE/KvArcDark.svg" "$SVG"
-echo "==> Thème de base copié"
+echo "==> Base theme copied"
 
-# ── 2. Palette nebula (remplace les couleurs d'Arc Dark) ─────
+# ── 2. Nebula palette (replaces the Arc Dark colors) ─────────
 #   Arc Dark   → Nebula
-#   #2f343f    → #0d0b1f  bleu nuit profond (barres, fonds sombres)
-#   #383c4a    → #12102a  fond des fenêtres
-#   #404552    → #1a1638  zones de contenu (listes de fichiers)
-#   #4b5162    → #2a2360  boutons, bordures
-#   #5294e2    → #00e5ff  accent / sélection (cyan)
-#   #d3dae3    → #ffffff  texte (blanc pur)
-#   + les gris-bleus restants d'Arc → violets nuit, #58acff → cyan clair
+#   #2f343f    → #0d0b1f  deep night blue (bars, dark backgrounds)
+#   #383c4a    → #12102a  window background
+#   #404552    → #1a1638  content areas (file lists)
+#   #4b5162    → #2a2360  buttons, borders
+#   #5294e2    → #00e5ff  accent / selection (cyan)
+#   #d3dae3    → #ffffff  text (pure white)
+#   + Arc's remaining blue-greys → night purples, #58acff → light cyan
 for f in "$CONF" "$SVG"; do
     sed -i \
         -e 's/#2f343f/#0d0b1f/gI' \
@@ -50,9 +50,9 @@ for f in "$CONF" "$SVG"; do
         -e 's/#58acff/#5cf0ff/gI' \
         "$f"
 done
-echo "==> Couleurs nebula appliquées"
+echo "==> Nebula colors applied"
 
-# Règle une clé dans une section du .kvconfig (la crée si absente)
+# Set a key in a section of the .kvconfig (created if missing)
 set_key() {
     local section="$1" key="$2" value="$3"
     awk -v s="[$section]" -v k="$key" -v v="$value" '
@@ -71,16 +71,16 @@ set_key() {
         }' "$CONF" > "$CONF.tmp" && mv "$CONF.tmp" "$CONF"
 }
 
-# ── 3. Transparence (Hyprland floute le fond derrière) ───────
+# ── 3. Transparency (Hyprland blurs the background) ──────────
 set_key "%General" "composite" "true"
 set_key "%General" "translucent_windows" "true"
 set_key "%General" "reduce_window_opacity" "18"
 set_key "%General" "reduce_menu_opacity" "10"
 set_key "%General" "transparent_dolphin_view" "true"
-set_key "%General" "blurring" "false"          # le flou est fait par Hyprland
+set_key "%General" "blurring" "false"          # blur is done by Hyprland
 set_key "%General" "popup_blurring" "false"
 
-# ── 4. Couleurs générales (texte, sélection, liens) ──────────
+# ── 4. General colors (text, selection, links) ───────────────
 set_key "GeneralColors" "window.color" "#12102a"
 set_key "GeneralColors" "base.color" "#1a1638"
 set_key "GeneralColors" "alt.base.color" "#161330"
@@ -95,13 +95,13 @@ set_key "GeneralColors" "highlight.text.color" "#0d0b1f"
 set_key "GeneralColors" "link.color" "#ff2bd6"
 set_key "GeneralColors" "link.visited.color" "#b8a8ff"
 set_key "GeneralColors" "progress.indicator.text.color" "#0d0b1f"
-echo "==> Transparence et couleurs réglées"
+echo "==> Transparency and colors set"
 
-# ── 5. Activer Nebula dans Kvantum ───────────────────────────
+# ── 5. Enable Nebula in Kvantum ──────────────────────────────
 mkdir -p "$HOME/.config/Kvantum"
 printf '[General]\ntheme=Nebula\n' > "$HOME/.config/Kvantum/kvantum.kvconfig"
 
-# ── 6. qt6ct : style Kvantum + icônes Breeze sombres ─────────
+# ── 6. qt6ct: Kvantum style + dark Breeze icons ──────────────
 mkdir -p "$HOME/.config/qt6ct"
 cat > "$HOME/.config/qt6ct/qt6ct.conf" << 'EOF'
 [Appearance]
@@ -113,11 +113,11 @@ style=kvantum
 [Interface]
 activate_item_on_single_click=1
 EOF
-echo "==> Kvantum + qt6ct configurés"
+echo "==> Kvantum + qt6ct configured"
 
-# ── 7. Couleurs KDE (kdeglobals) ─────────────────────────────
-# Dolphin prend une partie de ses couleurs (texte des fichiers, panneau
-# latéral, barre d'état) dans ~/.config/kdeglobals, pas dans Kvantum.
+# ── 7. KDE colors (kdeglobals) ───────────────────────────────
+# Dolphin takes part of its colors (file names, side panel, status bar)
+# from ~/.config/kdeglobals, not from Kvantum.
 KDEG="$HOME/.config/kdeglobals"
 [[ -f "$KDEG" && ! -f "$KDEG.bak" ]] && cp "$KDEG" "$KDEG.bak" && echo "   (sauvegarde : kdeglobals.bak)"
 python3 - "$KDEG" << 'PY'
@@ -163,11 +163,11 @@ cp["Icons"]["Theme"] = "breeze-dark"
 with open(path, "w", encoding="utf-8") as fh:
     cp.write(fh, space_around_delimiters=False)
 PY
-echo "==> Couleurs KDE (kdeglobals) réglées"
+echo "==> KDE colors (kdeglobals) set"
 
-# ── 8. Diagnostic : couleurs restantes dans le SVG ───────────
+# ── 8. Diagnostics: remaining colors in the SVG ──────────────
 echo
-echo "==> Couleurs les plus présentes dans le thème (à m'envoyer) :"
+echo "==> Most frequent colors in the theme:"
 grep -oiE '#[0-9a-f]{6}' "$SVG" | tr 'A-F' 'a-f' | sort | uniq -c | sort -rn | head -15
 echo
-echo "Relance Dolphin pour voir le résultat."
+echo "Restart Dolphin to see the result."

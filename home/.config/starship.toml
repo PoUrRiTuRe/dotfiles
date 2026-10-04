@@ -10,9 +10,9 @@ $cmd_duration\
 $time
 $character"""
 
-# ─── PARTIE GAUCHE ───────────────────────────────
+# ─── LEFT SIDE ───────────────────────────────────
 
-# Logo Arch : fond gris, logo blanc
+# Arch logo: grey background, white logo
 [os]
 disabled = false
 style = "fg:#ffffff bg:#303030"
@@ -21,13 +21,13 @@ format = "[\ue0ba](fg:#303030)[ $symbol ]($style)[\ue0bc](fg:#303030)"
 [os.symbols]
 Arch = "󰣇"
 
-# Dossier actuel : fond bleu, texte blanc
+# Current directory: blue background, white text
 [directory]
 truncation_length = 3
 style = "fg:#ffffff bg:#3465a4"
 format = "[─](fg:#585858)[\ue0ba](fg:#3465a4)[ 󰉋 $path ]($style)[\ue0bc](fg:#3465a4)"
 
-# Branche git : fond vert, texte noir (seulement dans un projet git)
+# Git branch: green background, black text (only inside a git repo)
 [git_branch]
 symbol = "󰘬"
 style = "fg:#000000 bg:#4e9a06"
@@ -37,29 +37,29 @@ format = "[─](fg:#585858)[\ue0ba](fg:#4e9a06)[ $symbol $branch ]($style)"
 style = "fg:#000000 bg:#4e9a06"
 format = "[($all_status$ahead_behind )]($style)[\ue0bc](fg:#4e9a06)"
 
-# ─── MILIEU : trait gris qui relie les deux parties ───
+# ─── MIDDLE: grey line joining both sides ───
 
 [fill]
 symbol = "─"
 style = "fg:#585858"
 
-# ─── PARTIE DROITE ───────────────────────────────
+# ─── RIGHT SIDE ──────────────────────────────────
 
-# Temps pris par la commande : fond jaune, texte noir
-# (seulement si la commande a pris plus de 2 secondes)
+# Command duration: yellow background, black text
+# (only if the command took more than 2 seconds)
 [cmd_duration]
 min_time = 2000
 style = "fg:#000000 bg:#c4a000"
 format = "[\ue0ba](fg:#c4a000)[ took $duration 󰔟 ]($style)[\ue0bc](fg:#c4a000)[─](fg:#585858)"
 
-# Heure actuelle : fond gris clair, texte noir
+# Current time: light grey background, black text
 [time]
 disabled = false
 time_format = "%T"
 style = "fg:#000000 bg:#d3d7cf"
 format = "[\ue0ba](fg:#d3d7cf)[ $time 󰥔 ]($style)[\ue0bc](fg:#d3d7cf)"
 
-# ─── LIGNE DU DESSOUS ────────────────────────────
+# ─── SECOND LINE ────────────────────────────────
 
 [character]
 success_symbol = "[❯](bold fg:#4e9a06)"

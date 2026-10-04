@@ -16,7 +16,7 @@ hl.config({
     rounding = 10,
     active_opacity = 1.0,
     inactive_opacity = 1.0,
-    -- Couleurs façon panneau NVIDIA (luminosité 60 / contraste 65 / vibrance 85)
+    -- NVIDIA-control-panel-like colors (brightness 60 / contrast 65 / vibrance 85)
     screen_shader = "/home/rotten_guy/.config/hypr/shaders/nvidia-like.glsl",
     blur = {
       enabled = true,
@@ -47,12 +47,12 @@ hl.config({
   },
 })
 
--- Courbes
+-- Curves
 hl.curve("myBezier", { type = "bezier", points = { {0.05, 0.9}, {0.1, 1.05} } })
-hl.curve("linear",   { type = "bezier", points = { {0.0, 0.0}, {1.0, 1.0} } })   -- vitesse constante
-hl.curve("smooth",   { type = "bezier", points = { {0.25, 0.1}, {0.25, 1.0} } }) -- fondu doux
+hl.curve("linear",   { type = "bezier", points = { {0.0, 0.0}, {1.0, 1.0} } })   -- constant speed
+hl.curve("smooth",   { type = "bezier", points = { {0.25, 0.1}, {0.25, 1.0} } }) -- smooth fade
 
--- Fenêtres, calques, workspaces
+-- Windows, layers, workspaces
 hl.animation({ leaf = "windows", enabled = true, speed = 5, bezier = "myBezier", style = "popin 80%" })
 hl.animation({ leaf = "windowsOut", enabled = true, speed = 5, bezier = "myBezier", style = "popin 80%" })
 hl.animation({ leaf = "layers", enabled = true, speed = 5, bezier = "myBezier", style = "fade" })
@@ -63,10 +63,10 @@ hl.animation({ leaf = "workspaces", enabled = true, speed = 5, bezier = "myBezie
 hl.animation({ leaf = "specialWorkspaceIn", enabled = true, speed = 5, bezier = "myBezier", style = "fade" })
 hl.animation({ leaf = "specialWorkspaceOut", enabled = true, speed = 5, bezier = "myBezier", style = "fade" })
 
--- Bordure : fondu doux au changement de focus
+-- Border: smooth fade on focus change
 hl.animation({ leaf = "border", enabled = true, speed = 7.5, bezier = "smooth" })
--- Bordure : rotation continue et régulière du dégradé (un tour toutes les ~10 s)
+-- Border: continuous, steady gradient rotation (one turn every ~10 s)
 hl.animation({ leaf = "borderangle", enabled = true, speed = 100, bezier = "linear", style = "loop" })
 
--- Contournement du bug kitty (ticket #10442)
+-- Workaround for a kitty bug (issue #10442)
 hl.window_rule({ ["fullscreen_state"] = "0 0", ["match"] = { ["class"] = "kitty" } })

@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # ─────────────────────────────────────────────────────────────
-#  patch-topbar.py — la barre du haut se cale contre le panneau SUPER+E
+#  patch-topbar.py — the top bar lines up against the SUPER+E panel
 #
-#  Quand le panneau système est ouvert (état « sys »), Serpantinum tasse
-#  tous les modules à gauche. Ce patch fait à la place :
-#    - horloge recentrée dans l'espace restant
-#    - indicateurs (Wi-Fi, BT, batterie…) calés contre le panneau
+#  When the system panel is open ("sys" state), Serpantinum packs every
+#  module to the left. Instead, this patch:
+#    - re-centers the clock in the remaining space
+#    - lines the indicators (Wi-Fi, BT, battery…) up against the panel
 #
-#  Usage :  python3 patch-topbar.py            (applique)
-#           python3 patch-topbar.py --restore  (remet l'original)
-#  Réglage : SYS_PANEL_RESERVE = place laissée au panneau, en pixels
+#  Usage:  python3 patch-topbar.py            (apply)
+#          python3 patch-topbar.py --restore  (restore the original)
+#  Setting: SYS_PANEL_RESERVE = space left for the panel, in pixels
 # ─────────────────────────────────────────────────────────────
 import sys, shutil, pathlib
 
@@ -20,36 +20,36 @@ backup = path.with_name("TopBar.qml.orig")
 
 if "--restore" in sys.argv:
     if not backup.exists():
-        sys.exit("!! Pas de sauvegarde TopBar.qml.orig : rien à restaurer.")
+        sys.exit("!! No TopBar.qml.orig backup: nothing to restore.")
     shutil.copy2(backup, path)
-    print("==> TopBar.qml d'origine restauré. Recharge Serpantinum (SUPER + R).")
+    print("==> Original TopBar.qml restored. Reload Serpantinum (SUPER + R).")
     sys.exit(0)
 
 src = path.read_text(encoding="utf-8")
 if "effMaxRight" in src:
-    sys.exit("==> Déjà patché. (--restore pour revenir à l'original)")
+    sys.exit("==> Already patched. (--restore to go back to the original)")
 
 edits = [
-    # 1. Nouvelle limite droite : le bord gauche du panneau quand il est ouvert
+    # 1. New right limit: the left edge of the panel when it is open
     (
         "    property real rawCNaturalX: {",
-        "    // [rotten] Place réservée au panneau SUPER+E : la barre se cale contre lui\n"
+        "    // [nebula] Space reserved for the SUPER+E panel: the bar lines up against it\n"
         f"    property real sysPanelReserve: {SYS_PANEL_RESERVE}\n"
         "    property real effMaxRight: layoutState === \"sys\" ? (screenMaxRight - sysPanelReserve) : screenMaxRight\n"
         "\n"
         "    property real rawCNaturalX: {",
     ),
-    # 2. Horloge : recentrée dans l'espace restant (au lieu d'être tassée à gauche)
+    # 2. Clock: re-centered in the remaining space (instead of packed to the left)
     (
         '        if (layoutState === "sys") return screenMinLeft + lWidthTarget + lcGap;',
         '        if (layoutState === "sys") return (effMaxRight - cWidthTarget) / 2;',
     ),
-    # 3. Limite droite de l'horloge
+    # 3. Right limit of the clock
     (
         "    property real absMaxC: (rWidthTarget > 0) ? (screenMaxRight - rWidthTarget - crGap - cWidthTarget) : (screenMaxRight - cWidthTarget)",
         "    property real absMaxC: (rWidthTarget > 0) ? (effMaxRight - rWidthTarget - crGap - cWidthTarget) : (effMaxRight - cWidthTarget)",
     ),
-    # 4. Indicateurs : calés contre le panneau (au lieu d'être collés à l'horloge)
+    # 4. Indicators: lined up against the panel (instead of stuck to the clock)
     (
         "            return Math.min(screenMaxRight - rWidthTarget, cFinalX + cWidthTarget + crGap);",
         "            return effMaxRight - rWidthTarget;",
@@ -59,11 +59,11 @@ edits = [
 for old, new in edits:
     n = src.count(old)
     if n != 1:
-        sys.exit(f"!! Ligne attendue trouvée {n} fois (au lieu d'une) : Serpantinum a peut-être changé.\n   {old.strip()}\n   Rien n'a été modifié.")
+        sys.exit(f"!! Expected line found {n} times (instead of once): Serpantinum may have changed.\n   {old.strip()}\n   Nothing was modified.")
     src = src.replace(old, new)
 
 if not backup.exists():
     shutil.copy2(path, backup)
-    print(f"==> Original sauvegardé : {backup.name}")
+    print(f"==> Original saved: {backup.name}")
 path.write_text(src, encoding="utf-8")
-print("==> TopBar.qml patché. Recharge Serpantinum (SUPER + R) puis ouvre SUPER + E.")
+print("==> TopBar.qml patched. Reload Serpantinum (SUPER + R), then open SUPER + E.")

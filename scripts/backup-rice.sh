@@ -1,39 +1,39 @@
 #!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────
-#  backup-rice.sh — sauvegarde complète du setup Hyprland (v2)
-#  Usage : ./backup-rice.sh
-#  Résultat : ~/dotfiles-backup, puis commit + push GitHub (optionnel)
+#  backup-rice.sh — full backup of the Hyprland setup
+#  Usage:  ./backup-rice.sh   (without sudo)
+#  Result: ~/dotfiles-backup, then an optional commit + push to GitHub
 # ─────────────────────────────────────────────────────────────
 set -uo pipefail
 
 DEST="$HOME/dotfiles-backup"
 DATE="$(date '+%Y-%m-%d %H:%M')"
-# Nom de la machine (rotten-laptop, rotten-desktop…) : les fichiers système
-# et la liste des paquets sont rangés dans system/<machine>/ et packages/<machine>/
+# Machine name (rotten-laptop, rotten-desktop…): system files and package
+# lists are stored in system/<machine>/ and packages/<machine>/
 HOST="$(cat /etc/hostname 2>/dev/null || uname -n)"
 SYS="$DEST/system/$HOST"
 PKG="$DEST/packages/$HOST"
 
-# ── 0. Vérifications ─────────────────────────────────────────
+# ── 0. Checks ────────────────────────────────────────────────
 if [[ $EUID -eq 0 ]]; then
-    echo "!! Lance ce script SANS sudo (il demandera le mot de passe quand il faut)."
+    echo "!! Run this script WITHOUT sudo (it asks for the password when needed)."
     exit 1
 fi
 for cmd in git pacman; do
     if ! command -v "$cmd" >/dev/null; then
-        echo "==> $cmd manquant, installation..."
+        echo "==> $cmd missing, installing..."
         sudo pacman -S --needed --noconfirm "$cmd"
     fi
 done
 
-echo "==> Sauvegarde dans $DEST (machine : $HOST)"
+echo "==> Backing up to $DEST (machine: $HOST)"
 mkdir -p "$DEST/home" "$SYS" "$PKG"
 
-# Copie un élément du /home en gardant son chemin
+# Copy an item from /home, keeping its path
 save_home() {
     local src="$1" rel
     if [[ ! -e "$src" ]]; then
-        echo "   (absent, ignoré) $src"
+        echo "   (missing, skipped) $src"
         return
     fi
     rel="${src#"$HOME"/}"
@@ -43,11 +43,11 @@ save_home() {
     echo "   ok  $src"
 }
 
-# Copie un élément système (lecture en sudo) en gardant son chemin
+# Copy a system item (read with sudo), keeping its path
 save_system() {
     local src="$1" rel
     if ! sudo test -e "$src"; then
-        echo "   (absent, ignoré) $src"
+        echo "   (missing, skipped) $src"
         return
     fi
     rel="${src#/}"
@@ -57,45 +57,45 @@ save_system() {
     echo "   ok  $src"
 }
 
-# ── 1. Config utilisateur ────────────────────────────────────
-echo "==> Config utilisateur"
+# ── 1. User config ───────────────────────────────────────────
+echo "==> User config"
 HOME_ITEMS=(
-    "$HOME/.config/hypr"              # Hyprland : bordure, animations, raccourcis, règles
+    "$HOME/.config/hypr"              # Hyprland: borders, animations, keybinds, rules
     "$HOME/.config/kitty"             # terminal
-    "$HOME/.config/fastfetch"         # dont perso.jsonc
+    "$HOME/.config/fastfetch"         # including perso.jsonc
     "$HOME/.config/cava"
     "$HOME/.config/starship.toml"
-    "$HOME/.config/eza"               # couleurs de ls (eza)
+    "$HOME/.config/eza"               # ls colors (eza)
     "$HOME/.config/nvim"              # LazyVim
-    "$HOME/.config/nano"              # couleurs de nano
-    "$HOME/.config/environment.d"     # variables de session (GTK_THEME…)
-    "$HOME/.local/share/applications" # raccourcis du lanceur (Neovim dans kitty…)
+    "$HOME/.config/nano"              # nano colors
+    "$HOME/.config/environment.d"     # session variables (GTK_THEME…)
+    "$HOME/.local/share/applications" # launcher entries (Neovim in kitty…)
     "$HOME/.config/oh-my-posh"
     "$HOME/.config/gtk-3.0"
     "$HOME/.config/gtk-4.0"
-    "$HOME/.config/Kvantum"           # thème Nebula (Dolphin & applis Qt)
-    "$HOME/.config/kdeglobals"        # couleurs KDE utilisées par Dolphin
-    "$HOME/.config/dolphinrc"         # réglages Dolphin (jeu de couleurs Nebula)
-    "$HOME/.local/share/color-schemes" # jeu de couleurs Nebula
+    "$HOME/.config/Kvantum"           # Nebula theme (Dolphin & Qt apps)
+    "$HOME/.config/kdeglobals"        # KDE colors used by Dolphin
+    "$HOME/.config/dolphinrc"         # Dolphin settings (Nebula color scheme)
+    "$HOME/.local/share/color-schemes" # Nebula color scheme
     "$HOME/.config/qt5ct"
     "$HOME/.config/qt6ct"
     "$HOME/.config/matugen"
-    "$HOME/.local/share/serpantinum"  # shell/topbar + config matugen modifiée
+    "$HOME/.local/share/serpantinum"  # shell / top bar + modified matugen config
     "$HOME/.local/state/serpantinum"
-    "$HOME/.zshrc"                    # fastfetch perso + bindkey Ctrl+flèches
+    "$HOME/.zshrc"                    # fastfetch, eza, selection keys, clear
     "$HOME/.zshenv"
     "$HOME/.p10k.zsh"
-    "$HOME/.local/bin"                # scripts et commandes perso (serpantinum ?)
-    "$HOME/.local/share/icons/ChromaS"    # ancien curseur Chroma S (croix de précision)
-    "$HOME/.local/share/icons/Bibata-Nebula-Cross" # curseur actuel : Bibata noir + croix
+    "$HOME/.local/bin"                # personal scripts and commands
+    "$HOME/.local/share/icons/ChromaS"             # previous cursor (Chroma S)
+    "$HOME/.local/share/icons/Bibata-Nebula-Cross" # current cursor (Bibata + RGB outline)
     "$HOME/Pictures/Wallpapers"
 )
 for item in "${HOME_ITEMS[@]}"; do
     save_home "$item"
 done
 
-# Réglages de Serpantinum (veille, barre, thème…) SANS la position
-# (adresse IP, coordonnées GPS, code postal utilisés pour la météo)
+# Serpantinum settings (idle, bar, theme…) WITHOUT the location
+# (IP address, GPS coordinates and postcode used for the weather)
 SERP_SETTINGS="$HOME/.config/serpantinum/settings.json"
 if [[ -f "$SERP_SETTINGS" ]]; then
     mkdir -p "$DEST/home/.config/serpantinum"
@@ -105,21 +105,21 @@ data = json.load(open(sys.argv[1], encoding="utf-8"))
 data.get("general", {}).pop("location", None)
 json.dump(data, open(sys.argv[2], "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 PY
-    echo "   ok  $SERP_SETTINGS (sans la position)"
+    echo "   ok  $SERP_SETTINGS (location removed)"
 fi
 
-# ── 2. Fichiers système modifiés ─────────────────────────────
-echo "==> Fichiers système (mot de passe ou empreinte demandé)"
+# ── 2. Modified system files ─────────────────────────────────
+echo "==> System files (password or fingerprint required)"
 SYSTEM_ITEMS=(
-    "/etc/fstab"                      # disques montés au démarrage (/home sur le 2e NVMe, disque de données…)
-    "/etc/pam.d/sddm"                 # login mot de passe puis empreinte
-    "/etc/pam.d/sudo"                 # sudo avec empreinte
-    "/etc/pam.d/serpantinum-fprint"   # empreinte sur l'écran de verrouillage (SUPER + L)
-    "/etc/sddm.conf.d"                # thème SDDM actif (nebula)
-    "/usr/share/sddm/themes/nebula"   # le thème nebula
-    "/var/lib/bluetooth"              # appairages Bluetooth (casque WH-1000XM4, clavier Lily58)
-    "/etc/systemd/logind.conf.d"      # capot / touche veille : pas de veille sur secteur
-    "/usr/local/bin/suspend-hyprland.sh"           # gèle Hyprland pendant la veille (NVIDIA)
+    "/etc/fstab"                      # disks mounted at boot (/home on a second drive, data disk…)
+    "/etc/pam.d/sddm"                 # login: password first, then fingerprint
+    "/etc/pam.d/sudo"                 # sudo with fingerprint
+    "/etc/pam.d/serpantinum-fprint"   # fingerprint on the lock screen (SUPER + L)
+    "/etc/sddm.conf.d"                # active SDDM theme (nebula)
+    "/usr/share/sddm/themes/nebula"   # the nebula theme
+    "/var/lib/bluetooth"              # Bluetooth pairings (headphones, keyboard)
+    "/etc/systemd/logind.conf.d"      # lid / sleep key: no suspend on AC
+    "/usr/local/bin/suspend-hyprland.sh"           # pauses Hyprland during sleep (NVIDIA)
     "/etc/systemd/system/hyprland-suspend.service"
     "/etc/systemd/system/hyprland-resume.service"
 )
@@ -127,37 +127,37 @@ for item in "${SYSTEM_ITEMS[@]}"; do
     save_system "$item"
 done
 sudo chown -R "$USER:$USER" "$SYS"
-# Le cache Bluetooth liste tous les appareils croisés (voisins, téléphones...) :
-# inutile, on ne garde que les appairages
+# The Bluetooth cache lists every device ever seen nearby (phones…):
+# useless, only the pairings are kept
 rm -rf "$SYS"/var/lib/bluetooth/*/cache
 
-# ── 3. Liste des paquets ─────────────────────────────────────
-echo "==> Liste des paquets"
-pacman -Qqen > "$PKG/pacman.txt"   # dépôts officiels
-pacman -Qqem > "$PKG/aur.txt"      # AUR / hors dépôts
+# ── 3. Package lists ─────────────────────────────────────────
+echo "==> Package lists"
+pacman -Qqen > "$PKG/pacman.txt"   # official repositories
+pacman -Qqem > "$PKG/aur.txt"      # AUR / foreign packages
 
-# Réglages qui ne sont pas des fichiers : services activés et gsettings
+# Settings that aren't files: enabled services and gsettings
 systemctl list-unit-files --state=enabled --no-legend > "$PKG/services-system.txt"
 systemctl --user list-unit-files --state=enabled --no-legend > "$PKG/services-user.txt"
 gsettings list-recursively org.gnome.desktop.interface > "$PKG/gsettings-interface.txt" 2>/dev/null
-echo "   ok  services activés + gsettings"
-echo "   ok  $(wc -l < "$PKG/pacman.txt") officiels, $(wc -l < "$PKG/aur.txt") AUR"
+echo "   ok  enabled services + gsettings"
+echo "   ok  $(wc -l < "$PKG/pacman.txt") official, $(wc -l < "$PKG/aur.txt") AUR"
 
-# ── 4. Nettoyage des dépôts git imbriqués ────────────────────
+# ── 4. Remove nested git repositories ────────────────────────
 find "$DEST" -mindepth 2 -name ".git" -type d -prune -exec rm -rf {} +
 
-# ── 5. Horodatage ────────────────────────────────────────────
-echo "Dernière sauvegarde : $DATE" > "$DEST/LAST_BACKUP.txt"
-echo "==> Sauvegarde terminée ($(du -sh "$DEST" | cut -f1))"
+# ── 5. Timestamp ─────────────────────────────────────────────
+echo "Last backup: $DATE" > "$DEST/LAST_BACKUP.txt"
+echo "==> Backup done ($(du -sh "$DEST" | cut -f1))"
 
-# ── 6. Envoi sur GitHub ──────────────────────────────────────
+# ── 6. Push to GitHub ────────────────────────────────────────
 if [[ -d "$DEST/.git" ]]; then
-    read -rp "==> Envoyer sur GitHub maintenant ? [o/N] " answer
-    if [[ "$answer" =~ ^[oOyY]$ ]]; then
+    read -rp "==> Push to GitHub now? [y/N] " answer
+    if [[ "$answer" =~ ^[yYoO]$ ]]; then
         cd "$DEST" || exit 1
         git add -A
         if git diff --cached --quiet; then
-            echo "   Rien de nouveau depuis la dernière sauvegarde."
+            echo "   Nothing new since the last backup."
         else
             git commit -m "backup $DATE"
             git push

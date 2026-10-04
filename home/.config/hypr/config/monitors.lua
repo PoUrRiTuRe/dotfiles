@@ -1,7 +1,7 @@
--- Écrans : un fichier par machine, choisi selon le nom de la machine
+-- Monitors: one file per machine, picked from the hostname
 --   rotten-laptop  → config/hosts/rotten-laptop.lua  (ThinkPad P53)
---   rotten-desktop → config/hosts/rotten-desktop.lua (PC fixe)
--- Nom inconnu (ou fichier absent) : réglage automatique, rien ne casse.
+--   rotten-desktop → config/hosts/rotten-desktop.lua (desktop PC)
+-- Unknown hostname (or missing file): automatic setup, nothing breaks.
 
 local host = ""
 local ok_io, f = pcall(function() return io.open("/etc/hostname", "r") end)

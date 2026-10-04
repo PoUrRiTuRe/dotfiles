@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # ─────────────────────────────────────────────────────────────
-#  make-cursors.py — fabrique le thème de curseurs Bibata-Nebula-Cross
-#   • base : Bibata Modern Classic (noir, contour blanc)
-#   • curseur principal : la croix « crosshair » de Bibata
-#   • contour blanc → contour RGB animé (façon Chroma S, ~2,3 s par tour)
-#   • curseur « occupé » : sablier + croix + anneau RGB de Chroma S
-#  Usage :
-#    python3 make-cursors.py <dossier Bibata-Modern-Classic> <dossier ChromaS> <sortie>
-#  Besoin : python-pillow (sudo pacman -S python-pillow)
+#  make-cursors.py — builds the Bibata-Nebula-Cross cursor theme
+#   • base: Bibata Modern Classic (black, white outline)
+#   • main pointer: Bibata's "crosshair" cursor
+#   • white outline → animated RGB outline (Chroma S style, ~2.3 s per loop)
+#   • busy cursor: hourglass + crosshair + Chroma S rainbow ring
+#  Usage:
+#    python3 make-cursors.py <Bibata-Modern-Classic dir> <ChromaS dir> <output dir>
+#  Requires: python-pillow (sudo pacman -S python-pillow)
 # ─────────────────────────────────────────────────────────────
 import colorsys
 import os
@@ -17,18 +17,18 @@ import sys
 
 from PIL import Image, ImageDraw
 
-SIZES = (24, 32, 48)        # tailles gardées (comme Chroma S)
-CYCLE_MS = 2300             # durée d'un tour de couleurs
-FRAMES = 40                 # images par tour (contour RGB)
-BUSY_FRAMES = 70            # images par tour (curseur occupé, anneau plus fluide)
-BUSY_NAMES = ("wait", "progress", "left_ptr_watch")  # watch, half-busy… sont des liens
+SIZES = (24, 32, 48)        # sizes kept (same as Chroma S)
+CYCLE_MS = 2300             # duration of one color loop
+FRAMES = 40                 # frames per loop (RGB outline)
+BUSY_FRAMES = 70            # frames per loop (busy cursor, smoother ring)
+BUSY_NAMES = ("wait", "progress", "left_ptr_watch")  # watch, half-busy… are symlinks
 
 
-# ── Lecture / écriture du format Xcursor ─────────────────────
+# ── Reading / writing the Xcursor format ──────────────────────
 def load(path):
     data = open(os.path.realpath(path), "rb").read()
     if data[:4] != b"Xcur":
-        raise ValueError(f"pas un Xcursor : {path}")
+        raise ValueError(f"not an Xcursor file: {path}")
     _, _, count = struct.unpack_from("<III", data, 4)
     images = []
     for i in range(count):
@@ -57,10 +57,10 @@ def save(path, images):
         f.write(b"".join(toc) + b"".join(chunks))
 
 
-# ── Contour RGB ──────────────────────────────────────────────
+# ── RGB outline ──────────────────────────────────────────────
 def outline_mask(im):
-    """Pixels blancs reliés au bord du dessin = le contour (pas les symboles
-    blancs à l'intérieur des pastilles colorées)."""
+    """White pixels connected to the shape's edge = the outline (not the
+    white symbols inside the colored badges)."""
     w, h = im.size
     px = im.load()
 
@@ -94,13 +94,13 @@ def recolor(im, mask, hue):
     r0, g0, b0 = colorsys.hsv_to_rgb(hue, 1.0, 1.0)
     for x, y in mask:
         r, g, b, a = px[x, y]
-        k = max(r, g, b) / 255  # garde l'anticrénelage
+        k = max(r, g, b) / 255  # keep the anti-aliasing
         px[x, y] = (int(r0 * 255 * k), int(g0 * 255 * k), int(b0 * 255 * k), a)
     return out
 
 
 def static_frames(images):
-    """Une image par taille gardée (la première si le curseur est déjà animé)."""
+    """One image per kept size (the first one if the cursor is already animated)."""
     by_size = {}
     for x in images:
         by_size.setdefault(x["size"], x)
@@ -112,7 +112,7 @@ def rgb_cursor(images):
     out = []
     for base in static_frames(images):
         if len(images) > len(set(x["size"] for x in images)):
-            # déjà animé (ex. sablier Bibata) : on garde son animation telle quelle
+            # already animated: keep its animation as is
             out += [x for x in images if x["size"] == base["size"]]
             continue
         mask = outline_mask(base["im"])
@@ -121,7 +121,7 @@ def rgb_cursor(images):
     return out
 
 
-# ── Curseur « occupé » : sablier + croix + anneau RGB ─────────
+# ── Busy cursor: hourglass + crosshair + RGB ring ─────────────
 def hourglass(size):
     big = size * 4
     im = Image.new("RGBA", (big, big), (0, 0, 0, 0))
@@ -160,10 +160,10 @@ def busy_cursor(cross_images, ring_images):
     return out
 
 
-# ── Programme principal ──────────────────────────────────────
+# ── Main ─────────────────────────────────────────────────────
 def main():
     if len(sys.argv) != 4:
-        sys.exit(__doc__ or "usage : make-cursors.py <Bibata> <ChromaS> <sortie>")
+        sys.exit(__doc__ or "usage: make-cursors.py <Bibata> <ChromaS> <output>")
     bibata, chroma, out_dir = (os.path.abspath(p) for p in sys.argv[1:])
     src, dst = os.path.join(bibata, "cursors"), os.path.join(out_dir, "cursors")
     if os.path.exists(out_dir):
@@ -171,12 +171,12 @@ def main():
     os.makedirs(dst)
 
     names = sorted(os.listdir(src))
-    for name in names:  # vrais fichiers d'abord, liens ensuite
+    for name in names:  # real files first, symlinks afterwards
         path = os.path.join(src, name)
         if os.path.islink(path):
             continue
         if name == "left_ptr":
-            images = load(os.path.join(src, "crosshair"))  # la croix devient le curseur principal
+            images = load(os.path.join(src, "crosshair"))  # the crosshair becomes the main pointer
         else:
             images = load(path)
         save(os.path.join(dst, name), rgb_cursor(images))
@@ -198,12 +198,12 @@ def main():
 
     with open(os.path.join(out_dir, "index.theme"), "w") as f:
         f.write("[Icon Theme]\nName=Bibata-Nebula-Cross\n"
-                "Comment=Bibata Modern Classic (ful1e5, GPL-3.0) : croix en curseur principal, "
-                "contour RGB animé, curseur occupé façon Chroma\nInherits=hicolor\n")
+                "Comment=Bibata Modern Classic (ful1e5, GPL-3.0): crosshair main pointer, "
+                "animated RGB outline, Chroma-style busy cursor\nInherits=hicolor\n")
     lic = os.path.join(bibata, "..", "LICENSE")
     if os.path.exists(lic):
         shutil.copy(lic, out_dir)
-    print(f"ok  thème créé dans {out_dir}")
+    print(f"ok  theme created in {out_dir}")
 
 
 if __name__ == "__main__":

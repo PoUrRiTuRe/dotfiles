@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────
-#  nebula-colors.sh — jeu de couleurs KDE « Nebula » pour Dolphin
-#  Dolphin choisit lui-même un jeu de couleurs (Breeze clair par défaut
-#  hors de Plasma) : on lui en donne un vrai, et on le lui impose.
-#  Usage : ./nebula-colors.sh   (sans sudo)
+#  nebula-colors.sh — "Nebula" KDE color scheme for Dolphin
+#  Dolphin picks its own color scheme (light Breeze by default outside
+#  Plasma): give it a real one and force it.
+#  Usage:  ./nebula-colors.sh   (without sudo)
 # ─────────────────────────────────────────────────────────────
 set -euo pipefail
-[[ $EUID -eq 0 ]] && { echo "!! Lance ce script sans sudo."; exit 1; }
+[[ $EUID -eq 0 ]] && { echo "!! Run this script without sudo."; exit 1; }
 
 SCHEME_DIR="$HOME/.local/share/color-schemes"
 mkdir -p "$SCHEME_DIR"
@@ -60,7 +60,7 @@ def save(cp, path):
     with open(path, "w", encoding="utf-8") as fh:
         cp.write(fh, space_around_delimiters=False)
 
-# 1. Le fichier de jeu de couleurs
+# 1. The color scheme file
 scheme = load(scheme_path)
 fill(scheme)
 for sec in ("General", "ColorEffects:Disabled", "ColorEffects:Inactive"):
@@ -68,10 +68,10 @@ for sec in ("General", "ColorEffects:Disabled", "ColorEffects:Inactive"):
         scheme.add_section(sec)
 scheme["General"]["Name"] = "Nebula"
 scheme["General"]["ColorScheme"] = "Nebula"
-scheme["ColorEffects:Inactive"]["Enable"] = "false"   # pas d'assombrissement des fenêtres inactives
+scheme["ColorEffects:Inactive"]["Enable"] = "false"   # no dimming of inactive windows
 save(scheme, scheme_path)
 
-# 2. kdeglobals : Nebula comme jeu de couleurs du système
+# 2. kdeglobals: Nebula as the system color scheme
 kg = load(kdeglobals)
 fill(kg)
 if not kg.has_section("General"):
@@ -79,17 +79,17 @@ if not kg.has_section("General"):
 kg["General"]["ColorScheme"] = "Nebula"
 save(kg, kdeglobals)
 
-# 3. dolphinrc : impose Nebula à Dolphin
+# 3. dolphinrc: force Nebula in Dolphin
 dr = load(dolphinrc)
 if not dr.has_section("UiSettings"):
     dr.add_section("UiSettings")
 dr["UiSettings"]["ColorScheme"] = "Nebula"
 save(dr, dolphinrc)
 PY
-echo "==> Jeu de couleurs Nebula créé et imposé à Dolphin"
+echo "==> Nebula color scheme created and forced in Dolphin"
 
-# 4. Préférence « sombre » pour les applis qui la demandent au système
+# 4. "Dark" preference for apps that ask the system
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null \
-    && echo "==> Préférence système : sombre"
+    && echo "==> System preference: dark"
 
-echo "Relance Dolphin pour voir le résultat."
+echo "Restart Dolphin to see the result."

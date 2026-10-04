@@ -194,7 +194,7 @@ Scope {
         rootLock.locked = true;
         pamActionTimer.start();
         kbPollerRestartTimer.restart();
-        fprintStartTimer.restart();   // [rotten] empreinte
+        fprintStartTimer.restart();   // [nebula] fingerprint
     }
 
     function finishUnlock() {
@@ -204,7 +204,7 @@ Scope {
 
     function completeUnlock() {
         if (!rootLock.locked) return;
-        if (fprintPam.active) fprintPam.abort();   // [rotten] libère le lecteur
+        if (fprintPam.active) fprintPam.abort();   // [nebula] release the reader
         lockUI.fpState = "idle";
         rootLock.locked = false;
         root.isUnlocking = false;
@@ -235,7 +235,7 @@ Scope {
         property bool failed: false
         property bool authenticating: false
         property string statusText: I18n.t("lock.status.locked")
-        property string fpState: "idle"   // [rotten] idle / scanning / success / fail
+        property string fpState: "idle"   // [nebula] idle / scanning / success / fail
     }
 
     Timer {
@@ -263,7 +263,7 @@ Scope {
         }
     }
 
-    // [rotten] Empreinte digitale, en parallèle du mot de passe
+    // [nebula] Fingerprint, in parallel with the password
     Timer {
         id: fprintStartTimer
         interval: 900
@@ -334,7 +334,7 @@ Scope {
                     anchors.fill: parent
                     focus: true
 
-                    // [rotten] Indicateur d'empreinte : anneau → coche
+                    // [nebula] Fingerprint indicator: ring → check mark
                     Item {
                         id: fpIndicator
                         z: 1000

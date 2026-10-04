@@ -1,5 +1,5 @@
 [Unit]
-Description=Met Hyprland en pause avant la veille
+Description=Pause Hyprland before sleep
 Before=systemd-suspend.service
 Before=systemd-hibernate.service
 Before=nvidia-suspend.service
