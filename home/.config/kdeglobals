@@ -133,12 +133,32 @@ ForegroundPositive=0,255,150
 ForegroundVisited=184,168,255
 
 [General]
-ColorSchemeHash=e848f04e962cfd2c75ca22df63bcc5e89e61604e
 ColorScheme=Nebula
+ColorSchemeHash=e848f04e962cfd2c75ca22df63bcc5e89e61604e
+
+[Icons]
+Theme=breeze-dark
 
 [KDE]
 contrast=4
 frameContrast=0.2
+
+[KFileDialog Settings]
+Allow Expansion=false
+Automatically select filename extension=true
+Breadcrumb Navigation=true
+Decoration position=2
+Show Full Path=false
+Show Inline Previews=true
+Show Preview=false
+Show Speedbar=true
+Show hidden files=false
+Sort by=Name
+Sort directories first=true
+Sort hidden files last=false
+Sort reversed=false
+Speedbar Width=165
+View Style=DetailTree
 
 [WM]
 activeBackground=227,229,231
@@ -147,7 +167,3 @@ activeForeground=35,38,41
 inactiveBackground=239,240,241
 inactiveBlend=239,240,241
 inactiveForeground=112,125,138
-
-[Icons]
-Theme=breeze-dark
-

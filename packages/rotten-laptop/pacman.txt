@@ -114,6 +114,7 @@ steam
 sudo
 telegram-desktop
 testdisk
+tigervnc
 tldr
 traceroute
 ttf-jetbrains-mono-nerd
