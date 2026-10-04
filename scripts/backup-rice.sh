@@ -89,6 +89,7 @@ HOME_ITEMS=(
     "$HOME/.p10k.zsh"
     "$HOME/.local/bin"                # personal scripts and commands
     "$HOME/.local/share/icons/ChromaS"   # cursor (Chroma S)
+    "$HOME/.icons/default"               # default cursor theme (inherits ChromaS)
     "$HOME/Pictures/Wallpapers"
 )
 for item in "${HOME_ITEMS[@]}"; do

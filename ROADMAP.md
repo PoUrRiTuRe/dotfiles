@@ -144,6 +144,7 @@
 ### 🎯 Cursor: back to Chroma S only
 - [x] A Bibata-based theme with an RGB outline (`Bibata-Nebula-Cross`) was tried, then dropped: Chroma S is the only cursor theme
 - [x] Mixed cursors across apps and monitors came from different settings in `env.lua` / GTK `settings.ini` / `gsettings`: all three now say `ChromaS`
+- [x] Remaining wrong cursor over Serpantinum's surfaces (main monitor): Quickshell is a systemd service and doesn't see Hyprland's `XCURSOR_THEME` → `~/.config/environment.d/cursor.conf` + `~/.icons/default/index.theme`
 
 ### 🖥️ Two machines
 - [x] Hostnames `rotten-laptop` and `rotten-desktop` (hyphens: `_` is not valid in a hostname)
