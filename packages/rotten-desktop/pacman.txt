@@ -88,6 +88,7 @@ sof-firmware
 starship
 steam
 sudo
+telegram-desktop
 ttf-jetbrains-mono-nerd
 ufw
 unrar
