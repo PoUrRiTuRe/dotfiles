@@ -56,6 +56,8 @@ if [[ -n "$CHANGED" ]]; then
     SYSTEM_CHANGED=()
     while IFS= read -r f; do
         case "$f" in
+            # Third-party code and state, never installed from the repository
+            home/.local/share/serpantinum/*|home/.local/state/*) ;;
             # The repository copy has no location: keep the local one
             home/.config/serpantinum/settings.json)
                 echo "   !!  $f: apply by hand (the repository copy has no location)" ;;

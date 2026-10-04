@@ -96,7 +96,6 @@ dotfiles/
 │   ├── .local/share/applications/    # launcher entries (Neovim in kitty)
 │   ├── .local/share/icons/Bibata-Nebula-Cross/  # current cursor
 │   ├── .local/share/icons/ChromaS/              # previous cursor
-│   ├── .local/share/serpantinum/
 │   ├── .zshrc
 │   └── Pictures/Wallpapers/
 ├── system/<machine>/           # system files per machine (copy with care)
@@ -226,7 +225,7 @@ mkdir -p ~/Pictures && cp -a home/Pictures/Wallpapers ~/Pictures/
 chsh -s /usr/bin/zsh      # if zsh isn't the default shell (CachyOS uses fish)
 ```
 
-> ⚠️ Don't copy `home/.local/share/serpantinum` over a newer version of Serpantinum. Reapply the tweaks instead (see [Tweaks](#-tweaks)).
+> ℹ️ Serpantinum's own code is not part of this repository: install it with its installer, then reapply the tweaks with `scripts/patch-*.py` (see [Tweaks](#-tweaks)).
 
 ### 3. GTK: dark mode, icons, cursor
 
@@ -319,7 +318,7 @@ sudo systemctl kill -s HUP systemd-logind
 - **Monitors**: don't use GUI tools such as hyprmod for monitors: they write `~/.config/hypr/hyprland-gui.lua`, loaded last, which overrides `hosts/<hostname>.lua` (a gap between screens stops the cursor from crossing). Run `hyprctl monitors`, then put the real output names and modes in `home/.config/hypr/config/hosts/rotten-desktop.lua` (and `~/.config/hypr/…`), and `hyprctl reload`.
 - **Data disk** (NTFS, kept as is): find its UUID with `lsblk -f`, then add to `/etc/fstab`:
   ```
-  UUID=<uuid>  /mnt/data  ntfs3  defaults,uid=1000,gid=1000,windows_names,nofail  0 0
+  UUID=<uuid>  /mnt/data  ntfs-3g  defaults,uid=1000,gid=1000,windows_names,nofail  0 0
   ```
   `nofail` lets the PC boot even if the disk is missing. Test with `sudo mkdir -p /mnt/data && sudo mount -a`. If the kernel log says `volume is dirty` (Windows fast startup / unclean shutdown), clear the flag with `sudo pacman -S ntfsprogs && sudo ntfsfix -d /dev/sdX1`, then mount again.
 - **Microphone**: `yay -S noise-suppression-for-voice`, then `systemctl --user restart pipewire pipewire-pulse wireplumber` (see [Tweaks](#-tweaks), audio routing).

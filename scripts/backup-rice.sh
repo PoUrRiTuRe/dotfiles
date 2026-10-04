@@ -59,6 +59,9 @@ save_system() {
 
 # ── 1. User config ───────────────────────────────────────────
 echo "==> User config"
+# Serpantinum itself (~/.local/share/serpantinum, ~/.local/state/serpantinum)
+# is NOT saved: it is installed by its own installer, each machine may run a
+# different version, and the code changes are reproduced by scripts/patch-*.py
 HOME_ITEMS=(
     "$HOME/.config/hypr"              # Hyprland: borders, animations, keybinds, rules
     "$HOME/.config/kitty"             # terminal
@@ -81,8 +84,6 @@ HOME_ITEMS=(
     "$HOME/.config/qt5ct"
     "$HOME/.config/qt6ct"
     "$HOME/.config/matugen"
-    "$HOME/.local/share/serpantinum"  # shell / top bar + modified matugen config
-    "$HOME/.local/state/serpantinum"
     "$HOME/.zshrc"                    # fastfetch, eza, selection keys, clear
     "$HOME/.zshenv"
     "$HOME/.p10k.zsh"

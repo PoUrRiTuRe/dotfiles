@@ -24,7 +24,7 @@ Dotfiles for a Hyprland desktop ("Nebula" theme, cyan / magenta) on Arch Linux:
 
 ## Repository layout
 
-- `home/` — mirror of `~` (config files), restored into `~` by `save-all.sh`.
+- `home/` — mirror of `~` (config files), restored into `~` by `save-all.sh`. Serpantinum's own code is not stored (installer + `scripts/patch-*.py`).
 - `system/<hostname>/` — system files (copied by hand with `sudo`).
 - `packages/<hostname>/` — package lists, enabled services, `gsettings`.
 - `scripts/` — backup, theming and patch scripts.
