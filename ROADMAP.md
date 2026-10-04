@@ -159,7 +159,8 @@
 ### 🎚️ Audio routing (Voicemeeter replacement)
 - [x] Voicemeeter setup translated to PipeWire (`pipewire.conf.d/10-nebula-mixer.conf`): **Music** virtual sink → headset, **Microphone (Nebula)** virtual source = microphone + 5 dB
 - [x] EQ, compressor and gate were disabled in Voicemeeter: nothing to reproduce
-- [ ] The mic strip's "color panel" tone tweak is not reproduced; add an EQ node to the filter chain if needed
+- [x] Cleaner and louder microphone: RNNoise noise suppression (`noise-suppression-for-voice`), 80 Hz high-pass, warmth / clarity shelves approximating the Voicemeeter color panel, +5 dB gain
+- [ ] Tune the EQ by ear (Gain values in the filter chain)
 
 ### 🌐 Repository in English
 - [x] Code comments, script messages, README and this roadmap translated to English

@@ -169,6 +169,8 @@ For a fresh install of Arch Linux or an Arch-based distro (CachyOS, …).
 | `hyprshade` *(AUR)* | Toggle the color shader on the fly |
 | `ddcutil` · `imagemagick` · `libqalculate` | External monitor brightness, wallpaper thumbnails, launcher calculator (used by Serpantinum scripts) |
 | `cava` | Audio visualizer |
+| `pavucontrol` | Route apps to the *Music* sink, pick input / output devices |
+| `noise-suppression-for-voice` *(AUR)* | RNNoise plugin used by the *Microphone (Nebula)* noise suppression |
 | `steam` · `lib32-nvidia-utils` · `lib32-vulkan-icd-loader` | Gaming (needs the `multilib` repo) |
 | `protontricks` · `protonup-qt` *(AUR)* | Windows components for a game's Proton prefix, community Proton builds (GE-Proton) |
 | `nvidia` · `nvidia-utils` | Drivers for NVIDIA GPUs |
@@ -181,8 +183,8 @@ sudo pacman -S --needed hyprland hyprpolkitagent kitty zsh starship fastfetch ez
   ark 7zip unrar unzip \
   papirus-icon-theme grim slurp zbar wl-clipboard playerctl \
   ttf-jetbrains-mono-nerd noto-fonts-emoji git openssh less \
-  neovim ripgrep fd fzf lazygit gcc make fprintd ddcutil imagemagick libqalculate cava
-yay -S papirus-folders hyprshade
+  neovim ripgrep fd fzf lazygit gcc make fprintd ddcutil imagemagick libqalculate cava pavucontrol
+yay -S papirus-folders hyprshade noise-suppression-for-voice
 ```
 
 > 💡 `packages/<machine>/pacman.txt` and `packages/<machine>/aur.txt` list everything that was installed. Use them as a reference, not as a list to install in one go.
@@ -319,7 +321,7 @@ The changes that make this rice, to reapply if you switch shells or versions:
 - **Lock screen fingerprint**: Serpantinum's lock screen only uses the `login` PAM service (no fingerprint, no option in its settings). `patch-lock.py` adds a second `PamContext` using `/etc/pam.d/serpantinum-fprint` (`pam_fprintd` only), running alongside the password one. Re-run it after a Serpantinum update.
 - **Check Serpantinum first**: before patching anything, look for an option in its settings (`~/.config/serpantinum/settings.json`, the `SUPER + H` guide). Patches are a last resort.
 - **zsh selection**: custom ZLE widgets defined **before** the plugins; kitty's `Ctrl + Shift + ←/→` (tab switching) is set to `no_op` so zsh receives it. Unknown keys print `~`: bind them with `bindkey` (e.g. `'^[[3~'` for Delete).
-- **Audio routing (Voicemeeter replacement)**: `~/.config/pipewire/pipewire.conf.d/10-nebula-mixer.conf` creates a **Music** sink (separate volume, played on the default output, never sent to the microphone) and a **Microphone (Nebula)** source (default microphone + 5 dB). Send the music app to *Music* (pavucontrol) and pick *Microphone (Nebula)* in Discord / games. Apply with `systemctl --user restart pipewire pipewire-pulse wireplumber`.
+- **Audio routing (Voicemeeter replacement)**: `~/.config/pipewire/pipewire.conf.d/10-nebula-mixer.conf` creates a **Music** sink (separate volume, played on the default output, never sent to the microphone) and a **Microphone (Nebula)** source: default microphone → RNNoise noise suppression → 80 Hz high-pass → light warmth (+1.5 dB low shelf) and clarity (+2.5 dB high shelf) → +5 dB gain. Requires `noise-suppression-for-voice`. Send the music app to *Music* (pavucontrol) and pick *Microphone (Nebula)* in Discord / games. Apply with `systemctl --user restart pipewire pipewire-pulse wireplumber`.
 - **SSH from kitty**: remote machines don't know the `xterm-kitty` terminal (`Error opening terminal: xterm-kitty` in nano, htop…). `.zshrc` aliases `ssh` to `TERM=xterm-256color ssh`, which also works with `sudo` on the remote side.
 - **Terminal apps in the launcher**: Quickshell ignores `Terminal=true`, so `~/.local/share/applications/nvim.desktop` launches `kitty nvim %F` instead.
 - **fastfetch**: matugen overwrites `config.jsonc`, so the real config is `perso.jsonc`, launched from `.zshrc` with `fastfetch --config`.
