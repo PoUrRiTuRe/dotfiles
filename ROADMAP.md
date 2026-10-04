@@ -154,7 +154,10 @@
 - [x] `backup-rice.sh` stores `system/<hostname>/` and `packages/<hostname>/` (including `/etc/fstab`); `home/` is shared
 - [x] `save-all.sh` installs changes made on the other machine but **never overwrites** a file modified locally in the meantime
 - Storage: **laptop** = 2 NVMe drives (system + separate `/home`) · **desktop** = 1 TB NVMe (system and `/home`) + 3 TB NTFS data disk mounted on `/mnt/data`
-- [ ] Desktop: Arch + `nvidia-580xx-dkms` driver (GTX 1080 Ti), fill in `hosts/rotten-desktop.lua` from `hyprctl monitors`, `ntfs3` line in `/etc/fstab` for the data disk
+- [x] Desktop: Arch + Serpantinum installed, `nvidia-580xx-dkms` driver (GTX 1080 Ti) with `linux-headers`, `kms` hook removed
+- [x] Desktop monitors in `hosts/rotten-desktop.lua`: iiyama PL2770H (HDMI-A-2, 1920x1080 @ 165 Hz, left) + MSI G32CQ5P (DP-2, 2560x1440 @ 165 Hz, right)
+- [x] **Workspaces spanning both monitors**: workspace N = pair (N on the MSI, N + 10 on the iiyama); `SUPER + N`, `SUPER + SHIFT + N` and `SUPER + Tab` act on both screens (Lua functions in the host file, `keybinds.lua` skips its own workspace keys)
+- [ ] Desktop: `ntfs3` line in `/etc/fstab` for the data disk
 
 ### 🎚️ Audio routing (Voicemeeter replacement)
 - [x] Voicemeeter setup translated to PipeWire (`pipewire.conf.d/10-nebula-mixer.conf`): **Music** virtual sink → headset, **Microphone (Nebula)** virtual source = microphone + 5 dB
