@@ -2,9 +2,8 @@ hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 
--- Cursor: black Bibata with an RGB outline, crosshair as the main pointer
--- (previous theme "ChromaS" is still installed)
-hl.env("XCURSOR_THEME", "Bibata-Nebula-Cross")
+-- Cursor: Chroma S (black, animated RGB outline, precision crosshair)
+hl.env("XCURSOR_THEME", "ChromaS")
 hl.env("XCURSOR_SIZE", "32")
 
 -- Qt apps (Dolphin...): theme handled by qt6ct + Kvantum

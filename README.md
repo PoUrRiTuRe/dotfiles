@@ -17,7 +17,7 @@
 | 🔒 | **Fingerprint animation** | Lock screen (`SUPER + L`): the reader listens alongside the password field. Greeter: empty field + Enter. In both, a cyan ring pulses, turns into a magenta check on success, shakes red on a wrong finger |
 | 🔐 | **`nebula` SDDM greeter** | Custom cyan / magenta theme on a nebula wallpaper, neon clock with a glow, login with **password or fingerprint** |
 | 🌈 | **Animated borders** | Cyan → magenta gradient that rotates continuously at a constant speed, with a smooth fade when focus changes |
-| 🎯 | **Bibata cursor + RGB outline** | Black *Bibata Modern Classic* cursors with an animated RGB outline (in the style of *Chroma*), Bibata's crosshair as the main pointer, Chroma-style busy cursor |
+| 🎯 | **Chroma S cursor** | Black *Chroma Cursors S* pack (converted from Windows): precision crosshair with an animated RGB outline, on every monitor |
 | 🎨 | **"NVIDIA-style" colors** | Screen shader replicating the NVIDIA Control Panel: brightness 60 / contrast 65 / digital vibrance 85 |
 | 🗂️ | **Dolphin "Nebula"** | Kvantum + KDE color scheme: translucent night-blue windows blurred by Hyprland, white text, cyan selection |
 | 🌙 | **Dark GTK dialogs** | "Save as" / "Open" windows in dark mode, Papirus icons with cyan folders |
@@ -62,9 +62,7 @@ The GTK file dialog (used by Brave and other apps through the desktop portal), f
 ### Not pictured (it moves!)
 
 - **Window borders**: a thin cyan → magenta gradient slowly spins around the focused window (one full turn every ~10 s, linear speed so it never jerks), and fades smoothly to grey when the window loses focus.
-- **Cursor**: black [Bibata Modern Classic](https://github.com/ful1e5/Bibata_Cursor) cursors whose white outline cycles through RGB colors (~2.3 s per loop), like the Windows *Chroma* pack. The main pointer is Bibata's own crosshair, so it has the same size and style as the rest. The busy cursor is a small hourglass + the crosshair + Chroma's spinning rainbow ring. Built by `scripts/make-cursors.py` (sizes 24 / 32 / 48). The previous *Chroma S* theme is still installed.
-
-![Cursors](assets/cursor-preview.png)
+- **Cursor**: the black *Chroma Cursors S* pack, converted from Windows: a precision crosshair whose outline cycles through RGB colors, and every other state (link, text, busy, resize…) animated the same way.
 - **Colors**: the screen shader makes everything more vivid, like NVIDIA's *Digital Vibrance* on Windows, without burning already-saturated colors.
 
 ---
@@ -94,8 +92,7 @@ dotfiles/
 │   ├── .config/serpantinum/settings.json  # bar, theme, idle (location removed)
 │   ├── .local/share/color-schemes/   # Nebula KDE color scheme
 │   ├── .local/share/applications/    # launcher entries (Neovim in kitty)
-│   ├── .local/share/icons/Bibata-Nebula-Cross/  # current cursor
-│   ├── .local/share/icons/ChromaS/              # previous cursor
+│   ├── .local/share/icons/ChromaS/   # cursor
 │   ├── .zshrc
 │   └── Pictures/Wallpapers/
 ├── system/<machine>/           # system files per machine (copy with care)
@@ -124,7 +121,6 @@ dotfiles/
 |---|---|
 | `backup-rice.sh` | Copies everything above into the repo, then commits and pushes |
 | `nebula-kvantum.sh` | Builds the Nebula Kvantum theme from KvArcDark and enables it |
-| `make-cursors.py` | Builds the `Bibata-Nebula-Cross` cursor theme (Bibata + RGB outline + Chroma busy ring) |
 | `nebula-colors.sh` | Creates the Nebula KDE color scheme and applies it to Dolphin |
 | `patch-topbar.py` | Patches Serpantinum's top bar for the `SUPER + E` panel (`--restore` to undo) |
 | `patch-lock.py` | Adds fingerprint unlock and its animation to Serpantinum's lock screen (`--restore` to undo) |
@@ -235,7 +231,7 @@ These settings live in GNOME's settings database, not in files, so they must be 
 gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'
-gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Nebula-Cross'
+gsettings set org.gnome.desktop.interface cursor-theme 'ChromaS'
 gsettings set org.gnome.desktop.interface cursor-size 32
 papirus-folders -C cyan --theme Papirus-Dark
 ```
@@ -334,7 +330,7 @@ The changes that make this rice, to reapply if you switch shells or versions:
 - **Bluetooth keyboards**: Serpantinum's Bluetooth menu doesn't show the pairing code, so the keyboard keeps disconnecting. Pair from a terminal instead: `bluetoothctl`, then `agent KeyboardDisplay`, `default-agent`, `scan on`, `pair <MAC>`, type the 6-digit passkey **on the Bluetooth keyboard** + Enter, then `trust <MAC>` and `connect <MAC>`. On a ZMK keyboard, a **gear** icon on its screen (instead of the Wi-Fi-like icon) means the active Bluetooth profile has no pairing: `remove <MAC>` in `bluetoothctl` and pair again.
 - **Borders**: `border` (`smooth` curve) and `borderangle` (`linear` curve, `style = "loop"`) animations in `settings.lua`.
 - **Colors**: `screen_shader` in `settings.lua` → `~/.config/hypr/shaders/nvidia-like.glsl`. The three values sit at the top of the file; run `hyprctl reload` after editing it.
-- **Cursor**: `XCURSOR_THEME=Bibata-Nebula-Cross` and `XCURSOR_SIZE=32` in `env.lua`, plus `gtk-cursor-theme-name` in `gtk-3.0/` and `gtk-4.0/settings.ini` and `gsettings`. The theme is Bibata Modern Classic with `left_ptr` replaced by `crosshair`.
+- **Cursor**: the same theme must be set in three places, otherwise different apps (and monitors) show different cursors: `XCURSOR_THEME=ChromaS` / `XCURSOR_SIZE=32` in `env.lua`, `gtk-cursor-theme-name` in `gtk-3.0/` and `gtk-4.0/settings.ini`, and `gsettings … cursor-theme 'ChromaS'`.
 - **Workspaces across two monitors** (desktop): Hyprland gives each monitor its own workspace, so `hosts/rotten-desktop.lua` pairs them — workspace N on the main monitor with N + 10 on the second one — and binds `SUPER + N`, `SUPER + SHIFT + N` and `SUPER + Tab` to Lua functions that switch both screens at once. `keybinds.lua` skips its own workspace keys when a host file sets `_G.workspace_binds_defined`.
 - **Several machines**: the hostname picks the config. `config/monitors.lua` loads `config/hosts/<hostname>.lua` (screens of that machine, automatic setup if the file is missing); `backup-rice.sh` saves system files and package lists in `system/<hostname>/` and `packages/<hostname>/`. Hostnames: `rotten-laptop` (ThinkPad P53), `rotten-desktop` (desktop PC).
 - **Qt apps (Dolphin)**: `QT_QPA_PLATFORMTHEME=qt6ct` **and** `QT_STYLE_OVERRIDE=kvantum` in `env.lua`. Without the second one, KDE apps force the light Breeze style outside Plasma.
@@ -365,7 +361,6 @@ Everything that was done, why, and what was set aside: see [`ROADMAP.md`](ROADMA
 ## 🙏 Credits
 
 - [Hyprland](https://hyprland.org) · Serpantinum · [LazyVim](https://www.lazyvim.org) · [eza](https://github.com/eza-community/eza) · [Kvantum](https://github.com/tsujan/Kvantum) · [Papirus](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme)
-- **[Bibata Cursor](https://github.com/ful1e5/Bibata_Cursor)** by **ful1e5** (GPL-3.0, license in the theme folder).
-- **Chroma Cursors S** by **Glimy** (previous theme, and the rainbow ring of the busy cursor), converted to the Linux format. All rights belong to the author.
+- **Chroma Cursors S** by **Glimy**, converted to the Linux format. All rights belong to the author.
 - `nebula` SDDM theme: modified from the `material-you` theme shipped with Serpantinum.
 - Built with the help of **[Claude](https://claude.ai)** (Anthropic): most of this setup was configured, debugged and documented together with Claude, from the greeter theme to the backup script.
