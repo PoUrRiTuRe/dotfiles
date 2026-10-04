@@ -141,12 +141,9 @@
 - [x] Remote machines don't know kitty's terminal type → nano, htop, vim refuse to start
 - [x] `.zshrc`: `alias ssh='TERM=xterm-256color ssh'` (also works with `sudo` on the remote side)
 
-### 🎯 Cursor: Bibata + RGB outline
-- [x] `Bibata-Nebula-Cross` theme: **Bibata Modern Classic** (black, rounded, white outline) with its own **crosshair** as the main pointer
-- [x] **Animated RGB outline** on every cursor (~2.3 s per loop), in the style of the Windows *Chroma* pack
-- [x] **Busy** cursor (`wait`, `progress`, `left_ptr_watch`): hourglass + crosshair + Chroma's spinning rainbow ring
-- [x] Built by `scripts/make-cursors.py`, sizes 24 / 32 / 48
-- [x] The previous Chroma S theme is still installed
+### 🎯 Cursor: back to Chroma S only
+- [x] A Bibata-based theme with an RGB outline (`Bibata-Nebula-Cross`) was tried, then dropped: Chroma S is the only cursor theme
+- [x] Mixed cursors across apps and monitors came from different settings in `env.lua` / GTK `settings.ini` / `gsettings`: all three now say `ChromaS`
 
 ### 🖥️ Two machines
 - [x] Hostnames `rotten-laptop` and `rotten-desktop` (hyphens: `_` is not valid in a hostname)
@@ -208,7 +205,6 @@
 | `backup-rice.sh` | Copies everything to `~/dotfiles-backup`, then commit + push |
 | `nebula-kvantum.sh` | Creates the Nebula Kvantum theme for Dolphin |
 | `nebula-colors.sh` | Creates the Nebula KDE color scheme and forces it in Dolphin |
-| `make-cursors.py` | Builds the Bibata-Nebula-Cross cursor theme |
 | `kde-cleanup-preview.sh` | Dry run of the KDE / GNOME cleanup, with a list of protected packages |
 | `patch-topbar.py` | Fixes the Serpantinum top bar (`--restore` to undo) |
 | `patch-lock.py` | Fingerprint + animation on the lock screen (`--restore` to undo) |
@@ -234,8 +230,7 @@
 | `~/.config/environment.d/gtk.conf` | `GTK_THEME` for the portal |
 | `~/.config/pipewire/pipewire.conf.d/10-nebula-mixer.conf` | virtual Music sink and Microphone (Nebula) source |
 | `~/.local/share/applications/nvim.desktop` | Neovim from the launcher |
-| `~/.local/share/icons/Bibata-Nebula-Cross/` | current cursor |
-| `~/.local/share/icons/ChromaS/` | previous cursor |
+| `~/.local/share/icons/ChromaS/` | cursor |
 | `~/.local/share/serpantinum/.../TopBar.qml` | fixed bar (via `patch-topbar.py`) |
 | `~/.local/share/serpantinum/.../Lock.qml` | fingerprint + animation (via `patch-lock.py`) |
 | `~/.zshrc` | fastfetch, eza, plugins, editing keys, selection, full `clear` + `Ctrl + L`, SSH alias |

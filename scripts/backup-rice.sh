@@ -88,8 +88,7 @@ HOME_ITEMS=(
     "$HOME/.zshenv"
     "$HOME/.p10k.zsh"
     "$HOME/.local/bin"                # personal scripts and commands
-    "$HOME/.local/share/icons/ChromaS"             # previous cursor (Chroma S)
-    "$HOME/.local/share/icons/Bibata-Nebula-Cross" # current cursor (Bibata + RGB outline)
+    "$HOME/.local/share/icons/ChromaS"   # cursor (Chroma S)
     "$HOME/Pictures/Wallpapers"
 )
 for item in "${HOME_ITEMS[@]}"; do
