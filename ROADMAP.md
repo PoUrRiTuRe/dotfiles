@@ -156,6 +156,11 @@
 - Storage: **laptop** = 2 NVMe drives (system + separate `/home`) · **desktop** = 1 TB NVMe (system and `/home`) + 3 TB NTFS data disk mounted on `/mnt/data`
 - [ ] Desktop: Arch + `nvidia-580xx-dkms` driver (GTX 1080 Ti), fill in `hosts/rotten-desktop.lua` from `hyprctl monitors`, `ntfs3` line in `/etc/fstab` for the data disk
 
+### 🎚️ Audio routing (Voicemeeter replacement)
+- [x] Voicemeeter setup translated to PipeWire (`pipewire.conf.d/10-nebula-mixer.conf`): **Music** virtual sink → headset, **Microphone (Nebula)** virtual source = microphone + 5 dB
+- [x] EQ, compressor and gate were disabled in Voicemeeter: nothing to reproduce
+- [ ] The mic strip's "color panel" tone tweak is not reproduced; add an EQ node to the filter chain if needed
+
 ### 🌐 Repository in English
 - [x] Code comments, script messages, README and this roadmap translated to English
 
@@ -217,6 +222,7 @@
 | `~/.local/share/color-schemes/Nebula.colors` | KDE color scheme |
 | `~/.config/gtk-3.0/`, `gtk-4.0/` | dark GTK windows, icons, cursor |
 | `~/.config/environment.d/gtk.conf` | `GTK_THEME` for the portal |
+| `~/.config/pipewire/pipewire.conf.d/10-nebula-mixer.conf` | virtual Music sink and Microphone (Nebula) source |
 | `~/.local/share/applications/nvim.desktop` | Neovim from the launcher |
 | `~/.local/share/icons/Bibata-Nebula-Cross/` | current cursor |
 | `~/.local/share/icons/ChromaS/` | previous cursor |
