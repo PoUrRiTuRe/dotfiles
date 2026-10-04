@@ -157,7 +157,7 @@ For a fresh install of Arch Linux or an Arch-based distro (CachyOS, …).
 | `ark` · `7zip` · `unrar` · `unzip` | "Compress" / "Extract" entries in Dolphin's right-click menu, `.7z` and `.rar` support |
 | `papirus-icon-theme` · `papirus-folders` *(AUR)* | GTK icons with cyan folders |
 | `grim` · `slurp` · `zbar` · `wl-clipboard` · `playerctl` | Screenshots (`zbar` is required by Serpantinum's screenshot tool), clipboard, media controls |
-| `ttf-jetbrains-mono-nerd` · `noto-fonts-emoji` | Terminal font, icons and emojis |
+| `ttf-jetbrains-mono-nerd` · `noto-fonts-emoji` | Terminal font (`JetBrainsMono Nerd Font` in `kitty.conf`), icons and emojis |
 | `git` · `openssh` · `less` | Clone and update this repository (`less` is needed by `git log` and `man`) |
 
 ### Optional

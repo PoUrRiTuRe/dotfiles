@@ -157,6 +157,8 @@
 - [x] Desktop: Arch + Serpantinum installed, `nvidia-580xx-dkms` driver (GTX 1080 Ti) with `linux-headers`, `kms` hook removed
 - [x] Desktop monitors in `hosts/rotten-desktop.lua`: iiyama PL2770H (HDMI-A-2, 1920x1080 @ 165 Hz, left) + MSI G32CQ5P (DP-2, 2560x1440 @ 165 Hz, right)
 - [x] **Workspaces spanning both monitors**: workspace N = pair (N on the MSI, N + 10 on the iiyama); `SUPER + N`, `SUPER + SHIFT + N` and `SUPER + Tab` act on both screens (Lua functions in the host file, `keybinds.lua` skips its own workspace keys)
+- [x] Desktop: MSI set as the XWayland primary monitor (`xrandr --primary` at startup) so games open on it
+- [x] kitty font: `JetBrainsMono Nerd Font` (the only JetBrains package installed on both machines)
 - [ ] Desktop: `ntfs3` line in `/etc/fstab` for the data disk
 
 ### 🎚️ Audio routing (Voicemeeter replacement)
