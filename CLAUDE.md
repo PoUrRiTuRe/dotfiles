@@ -36,7 +36,8 @@ conversation sur claude.ai ; ce fichier en transmet l'essentiel. **Lis aussi
 - Hors Plasma, Dolphin ne voit un nouveau plugin KDE (ex. `ark` → « Compresser / Extraire ») qu'après `kbuildsycoca6 --noincremental` (Dolphin fermé).
 
 ## Deux machines
-- `rotten-laptop` (ThinkPad P53) et `rotten-desktop` (PC fixe : GTX 1080 Ti → pilote `nvidia-580xx-dkms`, 2 écrans 165 Hz, pas d'empreinte).
+- `rotten-laptop` (ThinkPad P53, 2 NVMe : système + `/home` séparé) et `rotten-desktop` (PC fixe : GTX 1080 Ti → pilote `nvidia-580xx-dkms`, 2 écrans 165 Hz, pas d'empreinte ; NVMe Crucial 1 To = système + `/home`, disque de 3 To NTFS gardé tel quel → `/mnt/data`).
+- Curseur : `scripts/make-cursors.py` régénère `Bibata-Nebula-Cross` (ne pas éditer les fichiers à la main).
 - `home/` est **commun** ; ce qui dépend de la machine va dans `home/.config/hypr/config/hosts/<nom>.lua`, `system/<nom>/`, `packages/<nom>/`.
 - Ne jamais copier sur le fixe les PAM d'empreinte, la veille NVIDIA du P53, le capot ni le Bluetooth du portable.
 

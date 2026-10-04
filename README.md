@@ -17,7 +17,7 @@
 | 🔒 | **Fingerprint animation** | Lock screen (`SUPER + L`): the reader listens alongside the password field. Greeter: empty field + Enter. In both, a cyan ring pulses, turns into a magenta check on success, shakes red on a wrong finger |
 | 🔐 | **`nebula` SDDM greeter** | Custom cyan / magenta theme on a nebula wallpaper, neon clock with a glow, login with **password or fingerprint** |
 | 🌈 | **Animated borders** | Cyan → magenta gradient that rotates continuously at a constant speed, with a smooth fade when focus changes |
-| 🎯 | **Bibata cursor + crosshair** | Black *Bibata Modern Classic* cursors, with Bibata's own crosshair as the main pointer (`Bibata-Nebula-Cross`) |
+| 🎯 | **Bibata cursor + RGB outline** | Black *Bibata Modern Classic* cursors with an animated RGB outline (à la *Chroma*), Bibata's crosshair as the main pointer, Chroma-style busy cursor |
 | 🎨 | **"NVIDIA-style" colors** | Screen shader replicating the NVIDIA Control Panel: brightness 60 / contrast 65 / digital vibrance 85 |
 | 🗂️ | **Dolphin "Nebula"** | Kvantum + KDE color scheme: translucent night-blue windows blurred by Hyprland, white text, cyan selection |
 | 🌙 | **Dark GTK dialogs** | "Save as" / "Open" windows in dark mode, Papirus icons with cyan folders |
@@ -62,7 +62,7 @@ The GTK file dialog (used by Brave and other apps through the desktop portal), f
 ### Not pictured (it moves!)
 
 - **Window borders**: a thin cyan → magenta gradient slowly spins around the focused window (one full turn every ~10 s, linear speed so it never jerks), and fades smoothly to grey when the window loses focus.
-- **Cursor**: black [Bibata Modern Classic](https://github.com/ful1e5/Bibata_Cursor) cursors (rounded, white outline). The main pointer is Bibata's own crosshair, so it has the same size and style as the rest of the pack. The previous animated RGB crosshair (*Chroma S*) is still installed.
+- **Cursor**: black [Bibata Modern Classic](https://github.com/ful1e5/Bibata_Cursor) cursors whose white outline cycles through RGB colors (~2.3 s per loop), like the Windows *Chroma* pack. The main pointer is Bibata's own crosshair, so it has the same size and style as the rest. The busy cursor is a small hourglass + the crosshair + Chroma's spinning rainbow ring. Built by `scripts/make-cursors.py` (sizes 24 / 32 / 48). The previous *Chroma S* theme is still installed.
 
 ![Cursors](assets/cursor-preview.png)
 - **Colors**: the screen shader makes everything more vivid, like NVIDIA's *Digital Vibrance* on Windows, without burning already-saturated colors.
@@ -125,6 +125,7 @@ dotfiles/
 |---|---|
 | `backup-rice.sh` | Copies everything above into the repo, then commits and pushes |
 | `nebula-kvantum.sh` | Builds the Nebula Kvantum theme from KvArcDark and enables it |
+| `make-cursors.py` | Builds the `Bibata-Nebula-Cross` cursor theme (Bibata + RGB outline + Chroma busy ring) |
 | `nebula-colors.sh` | Creates the Nebula KDE color scheme and applies it to Dolphin |
 | `patch-topbar.py` | Patches Serpantinum's top bar for the `SUPER + E` panel (`--restore` to undo) |
 | `patch-lock.py` | Adds fingerprint unlock and its animation to Serpantinum's lock screen (`--restore` to undo) |

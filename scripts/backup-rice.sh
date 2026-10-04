@@ -111,6 +111,7 @@ fi
 # ── 2. Fichiers système modifiés ─────────────────────────────
 echo "==> Fichiers système (mot de passe ou empreinte demandé)"
 SYSTEM_ITEMS=(
+    "/etc/fstab"                      # disques montés au démarrage (/home sur le 2e NVMe, disque de données…)
     "/etc/pam.d/sddm"                 # login mot de passe puis empreinte
     "/etc/pam.d/sudo"                 # sudo avec empreinte
     "/etc/pam.d/serpantinum-fprint"   # empreinte sur l'écran de verrouillage (SUPER + L)

@@ -157,6 +157,9 @@
 ### 🎯 Nouveau curseur : Bibata noir + croix
 - [x] Thème `Bibata-Nebula-Cross` : **Bibata Modern Classic** (noir, bords arrondis, contour blanc) + sa propre **croix** (`crosshair`) en curseur principal → même style et même taille que le reste du pack
 - [x] `env.lua`, `gtk-3.0` / `gtk-4.0` `settings.ini` mis à jour ; `gsettings` à refaire une fois (voir la conversation)
+- [x] **Contour RGB animé** sur tous les curseurs (le contour blanc de Bibata change de couleur, ~2,3 s par tour), comme le pack Windows Chroma
+- [x] Curseur **occupé** (`wait`, `progress`, `left_ptr_watch`) : sablier + croix + anneau arc-en-ciel animé de Chroma (reconstruit d'après `Busy.ani`, les sites du pack étant bloqués depuis Claude Code)
+- [x] Fabriqué par `scripts/make-cursors.py` (Bibata + Chroma S → `Bibata-Nebula-Cross`), tailles 24 / 32 / 48
 - [x] L'ancien curseur Chroma S reste installé (retour possible en remettant `ChromaS`)
 
 ### 🖥️ Deux machines : portable + PC fixe
@@ -164,7 +167,10 @@
 - [x] Hyprland : `config/monitors.lua` charge `config/hosts/<nom>.lua` (écrans de chaque PC) ; nom inconnu → réglage automatique
 - [x] `backup-rice.sh` range `system/<nom>/` et `packages/<nom>/` ; le reste (`home/`) est commun aux deux PC
 - [x] `save-all.sh` installe les modifs de l'autre PC, mais **ne touche pas** un fichier modifié ici entre-temps (il prévient)
-- [ ] PC fixe : SSD NVMe dédié à Linux, Arch + pilote `nvidia-580xx-dkms` (GTX 1080 Ti), remplir `hosts/rotten-desktop.lua` avec `hyprctl monitors`
+- [x] `backup-rice.sh` sauvegarde aussi `/etc/fstab` (les disques montés) pour chaque machine
+- Disques : **portable** = 2 NVMe (système + `/home` séparé) · **fixe** = NVMe Crucial 1 To (système **et** `/home`, Windows effacé) + disque de 3 To gardé tel quel (NTFS, monté dans `/mnt/data`)
+- [ ] PC fixe : avant d'effacer Windows, copier ce qui compte de C: vers le 3 To (C: = ~816 Go utilisés, 3 To = ~461 Go libres → trier, les jeux se retéléchargent)
+- [ ] PC fixe : Arch + pilote `nvidia-580xx-dkms` (GTX 1080 Ti), remplir `hosts/rotten-desktop.lua` avec `hyprctl monitors`, monter le 3 To (ligne `ntfs3` dans `/etc/fstab`)
 - [ ] Vérifier processeur / carte mère du fixe (i7-9700K et B650 incompatibles : l'un des deux est faux)
 
 ### 🧭 Règle pour la suite
@@ -204,6 +210,7 @@
 | `nebula-kvantum.sh` | Crée le thème Kvantum Nebula pour Dolphin |
 | `nebula-colors.sh` | Crée le jeu de couleurs KDE Nebula et l'impose à Dolphin |
 | `patch-topbar.py` | Corrige la barre de Serpantinum (`--restore` pour annuler) |
+| `make-cursors.py` | Fabrique le curseur Bibata-Nebula-Cross (Bibata + contour RGB + curseur occupé Chroma) |
 | `menage-apercu.sh` | Essai à blanc du ménage KDE / GNOME, avec liste de paquets protégés |
 | `patch-lock.py` | Empreinte + animation sur l'écran de verrouillage (`--restore` pour annuler) |
 | `save-all.sh` | Sauvegarde en une commande : récupère GitHub **et installe dans `~` la config et les scripts modifiés sur GitHub** (fichiers système seulement signalés), range les fichiers téléchargés, copie les scripts, lance la sauvegarde |
