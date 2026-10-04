@@ -19,6 +19,11 @@ hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1.0 })
 hl.monitor({ output = SECOND, mode = "1920x1080@164.92", position = "0x0",    scale = 1.0 })
 hl.monitor({ output = MAIN,   mode = "2560x1440@165",    position = "1920x0", scale = 1.0 })
 
+-- The MSI is the primary monitor for X11 / Proton games (they open on it)
+hl.on("hyprland.start", function()
+  hl.exec_cmd("xrandr --output " .. MAIN .. " --primary")
+end)
+
 for n = 1, 10 do
   hl.workspace_rule({ workspace = tostring(n),          monitor = MAIN,   default = (n == 1) })
   hl.workspace_rule({ workspace = tostring(n + OFFSET), monitor = SECOND, default = (n == 1) })
