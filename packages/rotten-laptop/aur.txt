@@ -1,12 +1,16 @@
 brave-bin
 dynamips
+geteduroam
 gns3-gui
 gns3-server
 heroic-games-launcher-bin
 hyprshade
 neofetch
+osu-lazer-bin
 papirus-folders
 protonup-qt
+termius
+ttf-poppins
 ubridge
 visual-studio-code-bin
 vpcs

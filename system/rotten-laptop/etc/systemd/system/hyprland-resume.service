@@ -1,5 +1,5 @@
 [Unit]
-Description=Resume Hyprland after sleep
+Description=Relance Hyprland après la veille
 After=systemd-suspend.service
 After=systemd-hibernate.service
 After=nvidia-resume.service
