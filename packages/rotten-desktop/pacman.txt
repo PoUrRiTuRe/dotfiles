@@ -10,6 +10,7 @@ bc
 bluez
 bluez-utils
 brightnessctl
+btop
 cava
 cliphist
 ddcutil
@@ -22,12 +23,15 @@ fastfetch
 fd
 ffmpegthumbs
 fzf
+galculator
 git
 gpu-screen-recorder
 grim
 grub
 gst-plugin-pipewire
+gtop
 htop
+hydra
 hyprland
 hyprpolkitagent
 inotify-tools
@@ -62,6 +66,7 @@ ntfsprogs
 pamixer
 papirus-icon-theme
 pavucontrol
+piper
 pipewire
 pipewire-alsa
 pipewire-jack
@@ -69,6 +74,7 @@ pipewire-pulse
 playerctl
 polkit-kde-agent
 power-profiles-daemon
+protontricks
 python-websockets
 qt5-graphicaleffects
 qt5-quickcontrols
@@ -91,6 +97,7 @@ sudo
 telegram-desktop
 ttf-jetbrains-mono-nerd
 ufw
+umu-launcher
 unrar
 unzip
 uwsm
