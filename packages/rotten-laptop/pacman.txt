@@ -67,6 +67,7 @@ libreoffice-fresh-fr
 libva-nvidia-driver
 linux
 linux-firmware
+lsp-plugins-lv2
 lutris
 ly
 man-db
@@ -76,9 +77,11 @@ matugen
 mkinitcpio
 modrinth-app
 nano
+nautilus
 neovim
 network-manager-applet
 networkmanager
+noise-suppression-for-voice
 noto-fonts-emoji
 nvidia-open
 obsidian
