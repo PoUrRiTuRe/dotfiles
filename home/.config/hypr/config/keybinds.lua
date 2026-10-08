@@ -60,6 +60,8 @@ hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("serpantinum msg toggle network"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("serpantinum msg toggle volume"))
 hl.bind(mainMod .. " + H", hl.dsp.exec_cmd("serpantinum msg toggle guide"))
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("serpantinum msg toggle autohide"))
+-- Game mode: Serpantinum performance mode (frees the screen edges, ~/.local/bin/game-mode)
+hl.bind(mainMod .. " + G", hl.dsp.exec_cmd(os.getenv("HOME") .. "/.local/bin/game-mode"))
 
 -- Workspace keys, unless the machine file (config/hosts/<hostname>.lua)
 -- already defined its own (e.g. workspaces spanning two monitors)
