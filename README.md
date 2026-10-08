@@ -28,7 +28,7 @@
 | 🖥️ | **Terminal** | kitty (with `Ctrl + = / - / 0` zoom) + zsh + starship + a custom fastfetch + a Nebula-colored nano |
 | ✂️ | **Editor-like shell** | `Shift / Ctrl + Shift + ←→` to select, `Ctrl + A` to select the whole command, typing replaces the selection; `clear` and `Ctrl + L` do a real reset (scrollback saved locally first) |
 | 😴 | **No freezes** | No automatic screen-off or sleep. Lid closed: lock on AC, lock + sleep on battery (Hyprland is paused during sleep so the NVIDIA driver wakes up cleanly); sleep key ignored |
-| 🎮 | **Gaming** | Steam with Proton Experimental for every title |
+| 🎮 | **Gaming** | Steam with Proton Experimental for every title; `SUPER + G` toggles game mode (no edge panels over games) |
 | 🎧 | **Bluetooth** | Saved pairings (headphones, split keyboard) |
 
 ---
@@ -348,6 +348,8 @@ The changes that make this rice, to reapply if you switch shells or versions:
 - **zsh selection**: custom ZLE widgets defined **before** the plugins; kitty's `Ctrl + Shift + ←/→` (tab switching) is set to `no_op` so zsh receives it. Unknown keys print `~`: bind them with `bindkey` (e.g. `'^[[3~'` for Delete).
 - **Audio routing (Voicemeeter replacement)**: `~/.config/pipewire/pipewire.conf.d/10-nebula-mixer.conf` creates a **Music** sink (separate volume, played on the default output, never sent to the microphone) and a **Microphone (Nebula)** source: default microphone → RNNoise noise suppression → 80 Hz high-pass → light warmth (+1.5 dB low shelf) and clarity (+2.5 dB high shelf) → +5 dB gain. Requires `noise-suppression-for-voice`. Send the music app to *Music* (pavucontrol) and pick *Microphone (Nebula)* in Discord / games. Apply with `systemctl --user restart pipewire pipewire-pulse wireplumber`.
 - **SSH from kitty**: remote machines don't know the `xterm-kitty` terminal (`Error opening terminal: xterm-kitty` in nano, htop…). `.zshrc` aliases `ssh` to `TERM=xterm-256color ssh`, which also works with `sudo` on the remote side.
+- **Game mode** (`SUPER + G`, `~/.local/bin/game-mode`): Serpantinum's quick actions panel (pomodoro timer…) opens when the mouse touches a screen edge, even over fullscreen games, which ignore Hyprland's fullscreen state for it. The script toggles Serpantinum's own `general.performance` setting, which unloads that panel, the desktop widgets, the animated wallpaper and the idle actions; press again after playing. `game-mode on` / `game-mode off` force a state.
+- **After a Serpantinum update**: pick **Update**, never **Reinstall** (it replaces `~/.config/hypr`, kitty and fastfetch), and turn the **SDDM** option off in the installer menu, otherwise it rewrites `/etc/sddm.conf.d/10-material-you.conf` with `Current=material-you`. Then re-run `patch-topbar.py` and `patch-lock.py`, and if needed: `sudo sed -i 's/^Current=.*/Current=nebula/' /etc/sddm.conf.d/10-material-you.conf`.
 - **Terminal apps in the launcher**: Quickshell ignores `Terminal=true`, so `~/.local/share/applications/nvim.desktop` launches `kitty nvim %F` instead.
 - **fastfetch**: matugen overwrites `config.jsonc`, so the real config is `perso.jsonc`, launched from `.zshrc` with `fastfetch --config`.
 - **kitty**: `fullscreen_state = "0 0"` window rule, a workaround for the kitty bug that opens it maximized ([kitty#10442](https://github.com/kovidgoyal/kitty/issues/10442)). Remove it once the bug is fixed.

@@ -172,6 +172,10 @@
 ### 🌐 Repository in English
 - [x] Code comments, script messages, README and this roadmap translated to English
 
+### 🎮 Game mode
+- [x] Quick actions panel (screen edges) opening over fullscreen games → `game-mode` script + `SUPER + G`, toggling Serpantinum's `general.performance` setting (keeps the pomodoro timer outside games)
+- [x] Serpantinum 2.2.5 update: installer read; `Update` keeps `~/.config/hypr` and `settings.json`, but the SDDM option resets the greeter to `material-you`, and code patches must be re-applied (`patch-topbar.py` still applies to 2.2.5)
+
 ### 📒 Guides (`docs/`)
 - [x] `arch-notes.md`: personal notes cleaned up and generalized (rsync, NTFS drive, yay, kernel updates, monitors, GTK dark mode, fingerprint, ZMK pairing, Caelestia, WSL + Kali, resources)
 - [x] `vpn-ikev2-eap.md`: strongSwan IKEv2 / EAP VPN with `nmcli`, for organizations that only document Ubuntu / Debian
