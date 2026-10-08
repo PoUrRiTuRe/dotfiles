@@ -74,6 +74,7 @@ dotfiles/
 ├── README.md
 ├── CLAUDE.md                   # guidelines for AI-assisted changes
 ├── assets/                     # README screenshots
+├── docs/                       # guides: Arch notes, IKEv2 VPN
 ├── scripts/                    # helper scripts (see below)
 ├── home/                       # everything that goes into ~
 │   ├── .config/hypr/           # Hyprland: Lua config, keybinds, borders, env, shader
@@ -350,6 +351,13 @@ The changes that make this rice, to reapply if you switch shells or versions:
 - **Terminal apps in the launcher**: Quickshell ignores `Terminal=true`, so `~/.local/share/applications/nvim.desktop` launches `kitty nvim %F` instead.
 - **fastfetch**: matugen overwrites `config.jsonc`, so the real config is `perso.jsonc`, launched from `.zshrc` with `fastfetch --config`.
 - **kitty**: `fullscreen_state = "0 0"` window rule, a workaround for the kitty bug that opens it maximized ([kitty#10442](https://github.com/kovidgoyal/kitty/issues/10442)). Remove it once the bug is fixed.
+
+---
+
+## 📒 Guides
+
+- [`docs/arch-notes.md`](docs/arch-notes.md): rsync backup, second NTFS drive, yay, kernel updates, monitors, dark GTK apps, fingerprint, ZMK keyboard pairing, switching shells, WSL + Kali
+- [`docs/vpn-ikev2-eap.md`](docs/vpn-ikev2-eap.md): university / company VPN (strongSwan IKEv2 + EAP) on Arch with `nmcli`, and its troubleshooting
 
 ---
 

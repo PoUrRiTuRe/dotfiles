@@ -29,6 +29,7 @@ Dotfiles for a Hyprland desktop ("Nebula" theme, cyan / magenta) on Arch Linux:
 - `packages/<hostname>/` — package lists, enabled services, `gsettings`.
 - `scripts/` — backup, theming and patch scripts.
 - `assets/` — README images.
+- `docs/` — standalone guides (Arch notes, VPN). Placeholders instead of real addresses, logins, UUIDs or MAC addresses.
 
 ## Conventions
 

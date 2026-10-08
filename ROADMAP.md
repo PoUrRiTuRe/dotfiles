@@ -172,6 +172,11 @@
 ### 🌐 Repository in English
 - [x] Code comments, script messages, README and this roadmap translated to English
 
+### 📒 Guides (`docs/`)
+- [x] `arch-notes.md`: personal notes cleaned up and generalized (rsync, NTFS drive, yay, kernel updates, monitors, GTK dark mode, fingerprint, ZMK pairing, Caelestia, WSL + Kali, resources)
+- [x] `vpn-ikev2-eap.md`: strongSwan IKEv2 / EAP VPN with `nmcli`, for organizations that only document Ubuntu / Debian
+- [x] VPN failure "did not start in time" traced to a kernel update without reboot (`xfrm_user` missing for the running kernel)
+
 ---
 
 ## 🔍 Open points
