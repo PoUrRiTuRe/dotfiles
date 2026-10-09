@@ -63,20 +63,16 @@ hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("serpantinum msg toggle autohide"))
 -- Game mode: Serpantinum performance mode (frees the screen edges, ~/.local/bin/game-mode)
 hl.bind(mainMod .. " + G", hl.dsp.exec_cmd(os.getenv("HOME") .. "/.local/bin/game-mode"))
 
--- Workspace keys, unless the machine file (config/hosts/<hostname>.lua)
--- already defined its own (e.g. workspaces spanning two monitors)
-if not _G.workspace_binds_defined then
-  -- Next / previous workspace (open workspaces only, wrapping around)
-  hl.bind(mainMod .. " + TAB", hl.dsp.focus({ workspace = "e+1" }))
-  hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.focus({ workspace = "e-1" }))
+-- Next / previous workspace (open workspaces only, wrapping around)
+hl.bind(mainMod .. " + TAB", hl.dsp.focus({ workspace = "e+1" }))
+hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.focus({ workspace = "e-1" }))
 
-  -- Workspaces: native Hyprland dispatchers (instant)
-  -- instead of going through "serpantinum msg workspace"
-  for i = 1, 10 do
-    local key = tostring(i % 10)
-    hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
-    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
-  end
+-- Workspaces: native Hyprland dispatchers (instant)
+-- instead of going through "serpantinum msg workspace"
+for i = 1, 10 do
+  local key = tostring(i % 10)
+  hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
+  hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
 -- Lid closed: lock (sleep on battery is handled by logind)

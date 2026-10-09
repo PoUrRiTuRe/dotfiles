@@ -154,7 +154,7 @@
 - Storage: **laptop** = 2 NVMe drives (system + separate `/home`) · **desktop** = 1 TB NVMe (system and `/home`) + 3 TB NTFS data disk mounted on `/mnt/data`
 - [x] Desktop: Arch + Serpantinum installed, `nvidia-580xx-dkms` driver (GTX 1080 Ti) with `linux-headers`, `kms` hook removed
 - [x] Desktop monitors in `hosts/rotten-desktop.lua`: iiyama PL2770H (HDMI-A-2, 1920x1080 @ 165 Hz, left) + MSI G32CQ5P (DP-2, 2560x1440 @ 165 Hz, right)
-- [x] **Workspaces spanning both monitors**: workspace N = pair (N on the MSI, N + 10 on the iiyama); `SUPER + N`, `SUPER + SHIFT + N` and `SUPER + Tab` act on both screens (Lua functions in the host file, `keybinds.lua` skips its own workspace keys)
+- [x] ~~**Workspaces spanning both monitors**~~ (workspace N = N on the MSI + N + 10 on the iiyama): tried, then removed; each monitor has its own workspaces again (Hyprland default)
 - [x] Desktop: hyprmod wrote its own monitor rule in `hyprland-gui.lua` (loaded last) with a 640 px gap between the screens → the cursor could not cross; monitor rules now only live in `hosts/rotten-desktop.lua`, iiyama at 180 Hz
 - [ ] Desktop: logging out of Hyprland gives a black screen and a hard freeze (NVIDIA + SDDM); reboot instead for now
 - [x] First desktop backup; Serpantinum's code (`~/.local/share/serpantinum`, `~/.local/state/serpantinum`) removed from the backup: each machine may run a different version, the installer provides it and `patch-*.py` reapply the changes
@@ -178,9 +178,9 @@
 
 ### 🔁 Desktop GPU swap (GTX 1080 Ti → RX 5700 XT)
 - [x] NVIDIA legacy driver removed, Mesa + `vulkan-radeon` installed
-- [x] Monitors matched by model (`desc:`) instead of port names, which changed with the card (`DP-2` / `HDMI-A-2` → `DP-3` / `HDMI-A-1`); workspace pairs and the XWayland primary monitor resolve the port at runtime
+- [x] Monitors matched by model (`desc:`) instead of port names, which changed with the card (`DP-2` / `HDMI-A-2` → `DP-3` / `HDMI-A-1`); the XWayland primary monitor resolves the port at runtime
 - [x] `kms` back in `HOOKS`, `vulkan-nouveau` removed
-- [x] Pitfall: the monitor file is picked from `/etc/hostname`; a renamed machine silently falls back to automatic monitors (60 Hz, no workspace pairs)
+- [x] Pitfall: the monitor file is picked from `/etc/hostname`; a renamed machine silently falls back to automatic monitors (60 Hz, wrong layout)
 
 ### 📒 Guides (`docs/`)
 - [x] `arch-notes.md`: personal notes cleaned up and generalized (rsync, NTFS drive, yay, kernel updates, monitors, GTK dark mode, fingerprint, ZMK pairing, Caelestia, WSL + Kali, resources)
