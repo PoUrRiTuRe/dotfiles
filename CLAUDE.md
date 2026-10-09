@@ -9,14 +9,14 @@ Dotfiles for a Hyprland desktop ("Nebula" theme, cyan / magenta) on Arch Linux:
 - **Hyprland 0.56 with a Lua config**: `~/.config/hypr/hyprland.lua` + `config/*.lua` (`hl.bind`, `hl.config`, `hl.env`, `hl.monitor`…).
 - **Serpantinum** (Quickshell) as the shell, installed in `~/.local/share/serpantinum` (not managed by pacman).
 - kitty + zsh + starship, Dolphin themed with Kvantum, SDDM `nebula` theme.
-- NVIDIA GPUs on both machines (sleep / wake-up needs care).
+- NVIDIA GPU on the laptop (sleep / wake-up needs care), AMD GPU on the desktop.
 
 ## Machines
 
 | Hostname | Hardware | Notes |
 |---|---|---|
 | `rotten-laptop` | ThinkPad P53, Quadro RTX 3000 | fingerprint reader, lid handling, NVIDIA sleep fix, `/home` on a second NVMe drive |
-| `rotten-desktop` | GTX 1080 Ti (legacy driver `nvidia-580xx-dkms`), two 165 Hz monitors | no fingerprint reader, 3 TB NTFS data disk on `/mnt/data` |
+| `rotten-desktop` | Radeon RX 5700 XT (`amdgpu`, Mesa), two monitors matched by model (`desc:`) | no fingerprint reader, 3 TB NTFS data disk on `/mnt/data` |
 
 - `home/` is **shared** by both machines.
 - Machine-specific files go in `home/.config/hypr/config/hosts/<hostname>.lua`, `system/<hostname>/` and `packages/<hostname>/`.
@@ -60,4 +60,5 @@ Dotfiles for a Hyprland desktop ("Nebula" theme, cyan / magenta) on Arch Linux:
 - SSH from kitty: `alias ssh='TERM=xterm-256color ssh'` (otherwise "Error opening terminal: xterm-kitty").
 - KDE cleanup removed useful packages (`zbar`, `ark`): add packages to the protected list in `scripts/kde-cleanup-preview.sh` before removing more.
 - Outside Plasma, Dolphin only sees new KDE plugins after `kbuildsycoca6 --noincremental` (Dolphin closed).
+- Desktop monitors: match them with `desc:` (model), never by port name (`DP-2`…): port names changed when the GPU was swapped.
 - ZMK keyboard: a gear icon on its screen means the active Bluetooth profile has no pairing; the default Lily58 keymap has `BT_CLR` on Lower + Esc.
