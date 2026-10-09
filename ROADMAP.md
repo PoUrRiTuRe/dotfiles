@@ -179,7 +179,8 @@
 ### 🔁 Desktop GPU swap (GTX 1080 Ti → RX 5700 XT)
 - [x] NVIDIA legacy driver removed, Mesa + `vulkan-radeon` installed
 - [x] Monitors matched by model (`desc:`) instead of port names, which changed with the card (`DP-2` / `HDMI-A-2` → `DP-3` / `HDMI-A-1`); workspace pairs and the XWayland primary monitor resolve the port at runtime
-- [ ] `kms` back in `HOOKS`, `vulkan-nouveau` removed
+- [x] `kms` back in `HOOKS`, `vulkan-nouveau` removed
+- [x] Pitfall: the monitor file is picked from `/etc/hostname`; a renamed machine silently falls back to automatic monitors (60 Hz, no workspace pairs)
 
 ### 📒 Guides (`docs/`)
 - [x] `arch-notes.md`: personal notes cleaned up and generalized (rsync, NTFS drive, yay, kernel updates, monitors, GTK dark mode, fingerprint, ZMK pairing, Caelestia, WSL + Kali, resources)
