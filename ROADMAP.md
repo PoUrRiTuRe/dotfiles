@@ -176,6 +176,11 @@
 - [x] Quick actions panel (screen edges) opening over fullscreen games → `game-mode` script + `SUPER + G`, toggling Serpantinum's `general.performance` setting (keeps the pomodoro timer outside games)
 - [x] Serpantinum 2.2.5 update: installer read; `Update` keeps `~/.config/hypr` and `settings.json`, but the SDDM option resets the greeter to `material-you`, and code patches must be re-applied (`patch-topbar.py` still applies to 2.2.5)
 
+### 🔁 Desktop GPU swap (GTX 1080 Ti → RX 5700 XT)
+- [x] NVIDIA legacy driver removed, Mesa + `vulkan-radeon` installed
+- [x] Monitors matched by model (`desc:`) instead of port names, which changed with the card (`DP-2` / `HDMI-A-2` → `DP-3` / `HDMI-A-1`); workspace pairs and the XWayland primary monitor resolve the port at runtime
+- [ ] `kms` back in `HOOKS`, `vulkan-nouveau` removed
+
 ### 📒 Guides (`docs/`)
 - [x] `arch-notes.md`: personal notes cleaned up and generalized (rsync, NTFS drive, yay, kernel updates, monitors, GTK dark mode, fingerprint, ZMK pairing, Caelestia, WSL + Kali, resources)
 - [x] `vpn-ikev2-eap.md`: strongSwan IKEv2 / EAP VPN with `nmcli`, for organizations that only document Ubuntu / Debian
