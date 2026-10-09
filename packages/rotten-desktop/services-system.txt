@@ -3,9 +3,6 @@ getty@.service                     enabled enabled
 NetworkManager-dispatcher.service  enabled disabled
 NetworkManager-wait-online.service enabled disabled
 NetworkManager.service             enabled disabled
-nvidia-hibernate.service           enabled disabled
-nvidia-resume.service              enabled disabled
-nvidia-suspend.service             enabled disabled
 power-profiles-daemon.service      enabled disabled
 sddm.service                       enabled disabled
 seatd.service                      enabled disabled

@@ -2,13 +2,11 @@ brave-bin
 heroic-games-launcher
 hydra-launcher-bin
 hyprshade
-lib32-nvidia-580xx-utils
-nvidia-580xx-dkms
-nvidia-580xx-utils
 opera
 osu-lazer-bin
 papirus-folders
 protonup-qt-bin
+qdirstat
 vesktop
 wl-gammarelay-rs
 yay-bin
