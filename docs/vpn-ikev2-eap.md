@@ -59,6 +59,8 @@ nmcli connection show --active      # check
 ip addr                             # an address from the remote network should appear
 ```
 
+With this repository's `.zshrc`, the same thing is `vpn-on`, `vpn-off` and `vpn-status` (the connection must be named `VPN`; rename an existing one with `nmcli connection modify "<old name>" connection.id VPN`).
+
 Once connected, internal services are reachable as on site, e.g. a Proxmox server: web UI on `https://<server-ip>:8006`, or `ssh root@<server-ip>`.
 
 ---
