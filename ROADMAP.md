@@ -175,6 +175,8 @@
 ### 🎮 Games and the Quick Actions panel
 - [x] Quick actions panel (screen edges) opening over fullscreen games → first a `game-mode` script + `SUPER + G` (Serpantinum's `general.performance`), then removed: Quick Actions is simply disabled (`general.quickactions = false`)
 - [x] Mouse clicks not reaching a Proton game on the right monitor (XWayland, monitor not at `0x0`) → Gamescope in Heroic (`Force Grab Cursor`); game removed since, Gamescope not kept
+- [x] `save-all.sh` installs scripts of the repository that are missing from `~` (a new script was skipped because the running `save-all.sh` still had the old list)
+- [x] VPN aliases `vpn-on` / `vpn-off` / `vpn-status` in `.zshrc` (connection named `VPN`)
 - [x] `check-rice.sh`: check-up after an update (Hyprland config, Serpantinum patches, SDDM theme, settings, kitty / fastfetch / cava, cursor, kernel), `--fix` for the user-level patches
 - [x] Serpantinum 2.2.5 update: installer read; `Update` keeps `~/.config/hypr` and `settings.json`, but the SDDM option resets the greeter to `material-you`, and code patches must be re-applied (`patch-topbar.py` still applies to 2.2.5)
 
