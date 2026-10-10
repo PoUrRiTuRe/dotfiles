@@ -81,16 +81,6 @@ if [[ -n "$CHANGED" ]]; then
     fi
 fi
 
-# Scripts of the repository missing from ~ (e.g. a new script: the running
-# save-all.sh may be the previous version, with an older SCRIPTS list)
-for f in "$REPO"/scripts/*; do
-    name="$(basename "$f")"
-    if [[ -f "$f" && ! -e "$HOME/$name" ]]; then
-        install_file "$f" "$HOME/$name" && chmod +x "$HOME/$name" \
-            && echo "   ok  ~/$name (new script)"
-    fi
-done
-
 # ── 2. Downloaded files → their place ────────────────────────
 echo "==> Moving downloaded files"
 for f in "${SCRIPTS[@]}"; do

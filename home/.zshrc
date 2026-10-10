@@ -25,11 +25,6 @@ alias lt='eza --tree --level=2 --icons=auto --group-directories-first'
 # terminal that every machine knows, which also works with sudo.
 alias ssh='TERM=xterm-256color ssh'
 
-# VPN (NetworkManager connection named "VPN", see docs/vpn-ikev2-eap.md)
-alias vpn-on='nmcli --ask connection up VPN'
-alias vpn-off='nmcli connection down VPN'
-alias vpn-status='nmcli -f NAME,TYPE,STATE connection show --active'
-
 # clear = full terminal reset + fastfetch
 # Before clearing, the terminal content is saved to
 # ~/.cache/terminal-logs/ (the last 20 are kept).
