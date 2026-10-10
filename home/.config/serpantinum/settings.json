@@ -7,7 +7,8 @@
     "weatherUnit": "metric",
     "sfxVolume": 100,
     "screenshotCaptureOnRelease": false,
-    "quickactions": true
+    "quickactions": false,
+    "performance": false
   },
   "syspanel": {
     "clipExpandProgress": 0,
@@ -145,5 +146,24 @@
       }
     }
   },
-  "wallpaperDir": "/home/rotten_guy/Pictures/Wallpapers"
+  "wallpaperDir": "/home/rotten_guy/Pictures/Wallpapers",
+  "dock": {
+    "enabled": false,
+    "position": "bottom",
+    "onTop": true,
+    "elementSize": 44,
+    "floating": false,
+    "opacity": 100,
+    "exclusive": false,
+    "autohide": false,
+    "smartAutohide": true,
+    "autohideTimeout": 1000,
+    "editing": false,
+    "apps": [],
+    "overrideBoundsCorrection": false,
+    "enableScrolling": false,
+    "visibleElements": 7,
+    "hoverScale": 120,
+    "cascadeScale": false
+  }
 }
