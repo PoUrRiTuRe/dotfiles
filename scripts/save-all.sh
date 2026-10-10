@@ -13,7 +13,7 @@ set -uo pipefail
 REPO="$HOME/dotfiles-backup"
 HOST="$(cat /etc/hostname 2>/dev/null || uname -n)"
 DL="$HOME/Downloads"
-SCRIPTS=(backup-rice.sh save-all.sh patch-lock.py patch-greeter.py patch-topbar.py
+SCRIPTS=(backup-rice.sh save-all.sh check-rice.sh patch-lock.py patch-greeter.py patch-topbar.py
          kde-cleanup-preview.sh nebula-kvantum.sh nebula-colors.sh)
 
 [[ $EUID -eq 0 ]] && { echo "!! Run this script without sudo."; exit 1; }
@@ -49,8 +49,17 @@ if ! git pull --rebase; then
     exit 1
 fi
 
-# Files changed on GitHub (not the ones changed locally)
-CHANGED=$(git diff --name-only --diff-filter=AMR "$BEFORE"...@{u} 2>/dev/null)
+# Last commit this machine was synced with (written at the end of every run).
+# Without it, a manual "git pull" before save-all.sh hides the changes: they
+# are not installed, then the backup pushes the old files from ~ over them.
+SYNC_STATE="$HOME/.local/state/save-all/last-sync"
+LAST_SYNC=$(cat "$SYNC_STATE" 2>/dev/null)
+if [[ -n "$LAST_SYNC" ]] && git merge-base --is-ancestor "$LAST_SYNC" HEAD 2>/dev/null; then
+    BEFORE="$LAST_SYNC"
+fi
+
+# Files changed on GitHub since the last sync (not the ones changed locally)
+CHANGED=$(git diff --name-only --diff-filter=AMR "$BEFORE" HEAD 2>/dev/null)
 if [[ -n "$CHANGED" ]]; then
     echo "==> Installing changes from GitHub"
     SYSTEM_CHANGED=()
@@ -81,6 +90,16 @@ if [[ -n "$CHANGED" ]]; then
     fi
 fi
 
+# Scripts of the repository missing from ~ (e.g. a new script: the running
+# save-all.sh may be the previous version, with an older SCRIPTS list)
+for f in "$REPO"/scripts/*; do
+    name="$(basename "$f")"
+    if [[ -f "$f" && ! -e "$HOME/$name" ]]; then
+        install_file "$f" "$HOME/$name" && chmod +x "$HOME/$name" \
+            && echo "   ok  ~/$name (new script)"
+    fi
+done
+
 # ── 2. Downloaded files → their place ────────────────────────
 echo "==> Moving downloaded files"
 for f in "${SCRIPTS[@]}"; do
@@ -108,6 +127,10 @@ done
 # ── 4. Full backup (commit + push at the end) ────────────────
 echo "==> Running backup-rice.sh"
 "$HOME/backup-rice.sh"
+
+# This machine is now in sync with the repository
+mkdir -p "$(dirname "$SYNC_STATE")"
+git -C "$REPO" rev-parse HEAD > "$SYNC_STATE"
 
 # ── Check ────────────────────────────────────────────────────
 echo
