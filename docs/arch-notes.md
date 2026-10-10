@@ -9,6 +9,7 @@ Short, tested recipes collected while building this rice. Replace the `<placehol
 - [Monitors: hyprlang vs Lua config](#monitors-hyprlang-vs-lua-config)
 - [Dark mode for GTK apps (Nautilus…)](#dark-mode-for-gtk-apps-nautilus)
 - [Fingerprint reader](#fingerprint-reader)
+- [Instant file search (everythingx)](#instant-file-search-everythingx)
 - [Re-pair a ZMK Bluetooth keyboard](#re-pair-a-zmk-bluetooth-keyboard)
 - [Switch from Serpantinum to another shell (Caelestia)](#switch-from-serpantinum-to-another-shell-caelestia)
 - [Debian / Kali with a GUI on Windows (WSL)](#debian--kali-with-a-gui-on-windows-wsl)
@@ -119,6 +120,24 @@ fprintd-verify      # test it
 ```
 
 Then add `pam_fprintd` to the PAM services you want (SDDM, sudo, lock screen): see [README step 6](../README.md#6-fingerprint-optional). Add lines, don't replace the distribution's PAM files.
+
+## Instant file search (everythingx)
+
+[everythingx](https://aur.archlinux.org/packages/everythingx-bin) is an "Everything"-like search for Linux. It has two parts: a daemon that indexes the disks into a database, and the search tool that only reads that database.
+
+```bash
+yay -S everythingx-bin
+sudo systemctl enable --now everythingxd.service
+journalctl -u everythingxd -f
+```
+
+`everythingxd` (`d` = daemon) is the indexer; `journalctl -f` follows its first scan.
+
+- `Database does not exist /var/lib/everythingx/files.db` means the daemon never ran: enable `everythingxd.service`.
+- The first scan takes a while, and so does every restart of the daemon: empty results right after a restart usually just mean the scan isn't finished. Check with `ls -lh /var/lib/everythingx/` (database size) and `tail /var/log/everythingxd.log`.
+- Search from the terminal: `everythingx -name <term>` (or `ev`).
+- Drives mounted with `ntfs-3g` (FUSE) are indexed, but changes on them aren't picked up in real time. Unmounted drives aren't indexed at all.
+- Don't paste shell commands with a trailing `# comment` into an interactive zsh: without `setopt interactive_comments`, the `#` is passed to the command as an argument.
 
 ## Re-pair a ZMK Bluetooth keyboard
 
