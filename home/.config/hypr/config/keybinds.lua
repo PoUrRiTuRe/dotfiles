@@ -60,8 +60,6 @@ hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("serpantinum msg toggle network"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("serpantinum msg toggle volume"))
 hl.bind(mainMod .. " + H", hl.dsp.exec_cmd("serpantinum msg toggle guide"))
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("serpantinum msg toggle autohide"))
--- Game mode: Serpantinum performance mode (frees the screen edges, ~/.local/bin/game-mode)
-hl.bind(mainMod .. " + G", hl.dsp.exec_cmd(os.getenv("HOME") .. "/.local/bin/game-mode"))
 
 -- Next / previous workspace (open workspaces only, wrapping around)
 hl.bind(mainMod .. " + TAB", hl.dsp.focus({ workspace = "e+1" }))
