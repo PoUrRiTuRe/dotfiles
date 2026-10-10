@@ -172,8 +172,10 @@
 ### 🌐 Repository in English
 - [x] Code comments, script messages, README and this roadmap translated to English
 
-### 🎮 Game mode
-- [x] Quick actions panel (screen edges) opening over fullscreen games → `game-mode` script + `SUPER + G`, toggling Serpantinum's `general.performance` setting (keeps the pomodoro timer outside games)
+### 🎮 Games and the Quick Actions panel
+- [x] Quick actions panel (screen edges) opening over fullscreen games → first a `game-mode` script + `SUPER + G` (Serpantinum's `general.performance`), then removed: Quick Actions is simply disabled (`general.quickactions = false`)
+- [x] Mouse clicks not reaching a Proton game on the right monitor (XWayland, monitor not at `0x0`) → Gamescope in Heroic (`Force Grab Cursor`); game removed since, Gamescope not kept
+- [x] `check-rice.sh`: check-up after an update (Hyprland config, Serpantinum patches, SDDM theme, settings, kitty / fastfetch / cava, cursor, kernel), `--fix` for the user-level patches
 - [x] Serpantinum 2.2.5 update: installer read; `Update` keeps `~/.config/hypr` and `settings.json`, but the SDDM option resets the greeter to `material-you`, and code patches must be re-applied (`patch-topbar.py` still applies to 2.2.5)
 
 ### 🔁 Desktop GPU swap (GTX 1080 Ti → RX 5700 XT)
@@ -220,6 +222,7 @@
 
 | Script | Purpose |
 |---|---|
+| `check-rice.sh` | Check-up after an update (what was reset, how to fix it) |
 | `save-all.sh` | One-command backup: pulls GitHub **and installs changed config and scripts into `~`** (system files are only listed), moves downloaded files, copies the scripts, runs the backup |
 | `backup-rice.sh` | Copies everything to `~/dotfiles-backup`, then commit + push |
 | `nebula-kvantum.sh` | Creates the Nebula Kvantum theme for Dolphin |
