@@ -182,6 +182,9 @@
 - [x] `kms` back in `HOOKS`, `vulkan-nouveau` removed
 - [x] Pitfall: the monitor file is picked from `/etc/hostname`; a renamed machine silently falls back to automatic monitors (60 Hz, wrong layout)
 
+### 🔎 File search (everythingx)
+- [x] `everythingx-bin` (AUR) + `everythingxd.service` indexer; noted in `docs/arch-notes.md` (first scan, restarts, `ntfs-3g` drives not watched in real time)
+
 ### 📒 Guides (`docs/`)
 - [x] `arch-notes.md`: personal notes cleaned up and generalized (rsync, NTFS drive, yay, kernel updates, monitors, GTK dark mode, fingerprint, ZMK pairing, Caelestia, WSL + Kali, resources)
 - [x] `vpn-ikev2-eap.md`: strongSwan IKEv2 / EAP VPN with `nmcli`, for organizations that only document Ubuntu / Debian

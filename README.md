@@ -357,7 +357,7 @@ The changes that make this rice, to reapply if you switch shells or versions:
 
 ## 📒 Guides
 
-- [`docs/arch-notes.md`](docs/arch-notes.md): rsync backup, second NTFS drive, yay, kernel updates, monitors, dark GTK apps, fingerprint, ZMK keyboard pairing, switching shells, WSL + Kali
+- [`docs/arch-notes.md`](docs/arch-notes.md): rsync backup, second NTFS drive, yay, kernel updates, monitors, dark GTK apps, fingerprint, file search (everythingx), ZMK keyboard pairing, switching shells, WSL + Kali
 - [`docs/vpn-ikev2-eap.md`](docs/vpn-ikev2-eap.md): university / company VPN (strongSwan IKEv2 + EAP) on Arch with `nmcli`, and its troubleshooting
 
 ---
