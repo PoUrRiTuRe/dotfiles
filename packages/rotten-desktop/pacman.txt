@@ -25,6 +25,7 @@ ffmpegthumbs
 flatpak
 fzf
 galculator
+gamescope
 git
 gpu-screen-recorder
 grim

@@ -1,4 +1,5 @@
 brave-bin
+everythingx-bin
 heroic-games-launcher
 hydra-launcher-bin
 hyprshade

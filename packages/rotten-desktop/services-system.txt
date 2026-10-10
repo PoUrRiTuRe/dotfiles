@@ -1,4 +1,5 @@
 bluetooth.service                  enabled disabled
+everythingxd.service               enabled disabled
 getty@.service                     enabled enabled
 NetworkManager-dispatcher.service  enabled disabled
 NetworkManager-wait-online.service enabled disabled
