@@ -86,7 +86,9 @@ echo "   ..  version: ${VERSION:-unknown}"
 if [[ ! -d "$SERP" ]]; then
     warn "Serpantinum not found in ~/.local/share/serpantinum"
 else
-    if grep -q 'effMaxRight' "$SERP/bar/TopBar.qml" 2>/dev/null; then
+    if grep -q 'sysEffectiveMaxRight' "$SERP/bar/TopBar.qml" 2>/dev/null; then
+        ok "top bar: fixed natively by Serpantinum (2.2.7+), no patch needed"
+    elif grep -q 'effMaxRight' "$SERP/bar/TopBar.qml" 2>/dev/null; then
         ok "top bar patch (patch-topbar.py)"
     else
         warn "top bar patch missing (reset by the update)"

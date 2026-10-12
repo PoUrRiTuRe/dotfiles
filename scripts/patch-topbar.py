@@ -26,6 +26,9 @@ if "--restore" in sys.argv:
     sys.exit(0)
 
 src = path.read_text(encoding="utf-8")
+if "sysEffectiveMaxRight" in src:
+    print("==> Serpantinum 2.2.7+ already lines the bar up against the panel: no patch needed.")
+    sys.exit(0)
 if "effMaxRight" in src:
     sys.exit("==> Already patched. (--restore to go back to the original)")
 
