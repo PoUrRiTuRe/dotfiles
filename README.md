@@ -23,13 +23,22 @@
 | 🌙 | **Dark GTK dialogs** | "Save as" / "Open" windows in dark mode, Papirus icons with cyan folders |
 | 📂 | **Colorful `ls`** | `eza` with a Nebula theme: one color per file type, icons, git status |
 | 📝 | **LazyVim** | Neovim with LazyVim, launchable from the app launcher (opens in kitty) |
-| ⚡ | **Instant workspaces** | `SUPER + 1…0` bound directly to Hyprland's dispatchers, no latency; `SUPER + Tab` / `SUPER + Shift + Tab` for next / previous workspace |
+| ⚡ | **Instant workspaces** | `SUPER + 1…0` bound directly to Hyprland's dispatchers, no latency; `SUPER + Tab` / `SUPER + Shift + Tab` for next / previous workspace; `SUPER + X` scratchpad |
+| ⌨️ | **Shortcut menu** | `SUPER + K`: search every shortcut by key or description; cheatsheet image generated from the same descriptions |
 | 📐 | **Fixed top bar** | When the `SUPER + E` panel opens, the bar re-centers its clock and docks its indicators against the panel |
 | 🖥️ | **Terminal** | kitty (with `Ctrl + = / - / 0` zoom) + zsh + starship + a custom fastfetch + a Nebula-colored nano |
 | ✂️ | **Editor-like shell** | `Shift / Ctrl + Shift + ←→` to select, `Ctrl + A` to select the whole command, typing replaces the selection; `clear` and `Ctrl + L` do a real reset (scrollback saved locally first) |
 | 😴 | **No freezes** | No automatic screen-off or sleep. Lid closed: lock on AC, lock + sleep on battery (Hyprland is paused during sleep so the NVIDIA driver wakes up cleanly); sleep key ignored |
 | 🎮 | **Gaming** | Steam with Proton Experimental for every title; Serpantinum's Quick Actions edge panel disabled (it opened over games) |
 | 🎧 | **Bluetooth** | Saved pairings (headphones, split keyboard) |
+
+---
+
+## ⌨️ Shortcuts
+
+![Nebula shortcuts](assets/cheatsheet.png)
+
+**`SUPER + K`** opens a searchable list of every shortcut (fuzzel, Nebula theme): type a key or a word of the description. Both the menu and this image are generated from the `description` of each bind in `keybinds.lua` (plus `keybinds-extra.tsv` for kitty and zsh): after changing a shortcut, run `python3 scripts/make-cheatsheet.py` (needs `lua` and a Chromium-based browser) to redraw the image.
 
 ---
 
@@ -128,6 +137,7 @@ dotfiles/
 | `patch-lock.py` | Adds fingerprint unlock and its animation to Serpantinum's lock screen (`--restore` to undo) |
 | `patch-greeter.py` | Adds the same fingerprint animation to the `nebula` SDDM greeter (run with `sudo`, `--restore` to undo) |
 | `kde-cleanup-preview.sh` | Dry run used to remove KDE Plasma / GNOME while protecting useful packages |
+| `make-cheatsheet.py` | Redraws `assets/cheatsheet.png` from the bind descriptions |
 | `check-rice.sh` | Check-up after an update: reports what was reset and how to fix it (`--fix` re-applies the Serpantinum patches) |
 | `save-all.sh` | One-shot save: pulls, moves downloaded files into place, copies the scripts, runs the backup |
 
@@ -154,6 +164,7 @@ For a fresh install of Arch Linux or an Arch-based distro (CachyOS, …).
 | `ffmpegthumbs` · `kdegraphics-thumbnailers` · `archlinux-xdg-menu` | Dolphin thumbnails and "Open with" menu outside Plasma |
 | `ark` · `7zip` · `unrar` · `unzip` | "Compress" / "Extract" entries in Dolphin's right-click menu, `.7z` and `.rar` support |
 | `papirus-icon-theme` · `papirus-folders` *(AUR)* | GTK icons with cyan folders |
+| `fuzzel` | Searchable shortcut menu (`SUPER + K`) |
 | `grim` · `slurp` · `zbar` · `wl-clipboard` · `playerctl` | Screenshots (`zbar` is required by Serpantinum's screenshot tool), clipboard, media controls |
 | `ttf-jetbrains-mono-nerd` · `noto-fonts-emoji` | Terminal font (`JetBrainsMono Nerd Font` in `kitty.conf`), icons and emojis |
 | `git` · `openssh` · `less` | Clone and update this repository (`less` is needed by `git log` and `man`) |

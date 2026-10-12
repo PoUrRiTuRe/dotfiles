@@ -67,6 +67,7 @@ HOME_ITEMS=(
     "$HOME/.config/kitty"             # terminal
     "$HOME/.config/fastfetch"         # including perso.jsonc
     "$HOME/.config/cava"
+    "$HOME/.config/fuzzel"            # SUPER + K shortcut menu (Nebula theme)
     "$HOME/.config/starship.toml"
     "$HOME/.config/eza"               # ls colors (eza)
     "$HOME/.config/nvim"              # LazyVim
