@@ -29,6 +29,7 @@ fd
 ffmpegthumbnailer
 ffmpegthumbs
 fprintd
+fuzzel
 fzf
 git
 gnome-calculator
