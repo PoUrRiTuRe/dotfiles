@@ -100,6 +100,7 @@ playerctl
 polkit
 power-profiles-daemon
 protontricks
+python-jeepney
 python-websockets
 qbittorrent
 qt5-graphicaleffects
