@@ -190,6 +190,11 @@
 ### 🔎 File search (everythingx)
 - [x] `everythingx-bin` (AUR) + `everythingxd.service` indexer; noted in `docs/arch-notes.md` (first scan, restarts, `ntfs-3g` drives not watched in real time)
 
+### 🔄 Serpantinum 2.2.7
+- [x] Update with the SDDM option off: greeter kept on `nebula`
+- [x] The top bar now lines up against the `SUPER + E` panel natively: `patch-topbar.py` and `check-rice.sh` detect it and skip the patch
+- [x] `patch-lock.py` still applies to 2.2.7
+
 ### ⌨️ Shortcuts and cheatsheet
 - [x] Every bind in `keybinds.lua` has a `description` ("Section: action"), the single source for the menu and the image
 - [x] `SUPER + K`: searchable menu (`~/.local/bin/keybinds-menu`, `hyprctl binds -j` + `keybinds-extra.tsv`, fuzzel with a Nebula theme)

@@ -250,7 +250,7 @@ gsettings set org.gnome.desktop.interface cursor-size 32
 papirus-folders -C cyan --theme Papirus-Dark
 ```
 
-### 4. Top bar fix
+### 4. Top bar fix *(Serpantinum before 2.2.7 only)*
 
 ```bash
 python3 scripts/patch-topbar.py
@@ -349,7 +349,7 @@ The changes that make this rice, to reapply if you switch shells or versions:
 - **Qt apps (Dolphin)**: `QT_QPA_PLATFORMTHEME=qt6ct` **and** `QT_STYLE_OVERRIDE=kvantum` in `env.lua`. Without the second one, KDE apps force the light Breeze style outside Plasma.
 - **Dolphin service menus outside Plasma**: after installing a KDE plugin (e.g. `ark` for "Compress" / "Extract"), Dolphin doesn't see it until its plugin cache is rebuilt, which Plasma normally does for you: `killall dolphin && kbuildsycoca6 --noincremental`.
 - **GTK dialogs**: `GTK_THEME=Adwaita:dark` in `env.lua` **and** in `~/.config/environment.d/gtk.conf`, because the dialog is drawn by the desktop portal, a systemd service that doesn't see Hyprland's variables. Restart it after changes: `systemctl --user restart xdg-desktop-portal-gtk xdg-desktop-portal`.
-- **Top bar**: Serpantinum's `bar/TopBar.qml` packs everything to the left when the `SUPER + E` panel opens; `scripts/patch-topbar.py` fixes it. Re-run it after a Serpantinum update.
+- **Top bar**: before Serpantinum 2.2.7, `bar/TopBar.qml` packed everything to the left when the `SUPER + E` panel opened; `scripts/patch-topbar.py` fixes it. Since 2.2.7 Serpantinum does it natively and the patch does nothing.
 - **Sleep on NVIDIA**: the driver keeps video memory across sleep (`PreserveVideoMemoryAllocations=1`), which **requires** the `nvidia-suspend` / `nvidia-resume` / `nvidia-hibernate` services. Without them, the screen freezes on wake-up.
 - **Idle**: in Serpantinum's `settings.json`, `idle.actions.dpms` and `idle.actions.suspend` are disabled (dim and lock stay on).
 - **Sleep still freezes on NVIDIA** even with the services (`Failed to apply atomic modeset`): Hyprland keeps talking to the GPU while it sleeps. `hyprland-suspend.service` / `hyprland-resume.service` (+ `/usr/local/bin/suspend-hyprland.sh`) pause Hyprland (`SIGSTOP`) before `nvidia-suspend` and resume it after `nvidia-resume`.
