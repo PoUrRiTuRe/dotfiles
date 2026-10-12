@@ -81,7 +81,25 @@ def main():
         sys.exit("!! fuzzel is not installed: sudo pacman -S fuzzel")
 
     # Show only: the menu is a reminder, selecting a line does nothing
-    subprocess.run(["fuzzel", "--dmenu"], input="\n".join(lines), text=True)
+    subprocess.run(["fuzzel", "--dmenu", *size_args()], input="\n".join(lines), text=True)
+
+
+def size_args():
+    """Font size and number of lines from the focused monitor's height, so
+    the menu takes about two thirds of the screen at 1080p as at 1440p."""
+    height = 1080
+    try:
+        out = subprocess.run(["hyprctl", "monitors", "-j"], capture_output=True, text=True, check=True).stdout
+        for mon in json.loads(out):
+            if mon.get("focused"):
+                height = mon["height"] / (mon.get("scale") or 1)
+                break
+    except (OSError, subprocess.CalledProcessError, json.JSONDecodeError, KeyError):
+        pass
+    font = max(9, round(height / 100))          # 1080p → 11, 1440p → 14
+    line = font * 2.1                           # approximate height of one line in pixels
+    lines = max(8, min(30, int((height * 0.66 - 6 * line) / line)))
+    return ["--font", f"JetBrainsMono Nerd Font:size={font}", "--lines", str(lines)]
 
 
 if __name__ == "__main__":
