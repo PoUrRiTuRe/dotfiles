@@ -63,4 +63,5 @@ Dotfiles for a Hyprland desktop ("Nebula" theme, cyan / magenta) on Arch Linux:
 - Desktop monitors: match them with `desc:` (model), never by port name (`DP-2`…): port names changed when the GPU was swapped.
 - `save-all.sh` installs what changed since `~/.local/state/save-all/last-sync` before backing up: never make the backup copy `~` over newer repository files.
 - Serpantinum updates reset the code patches and (with the SDDM option) the greeter theme; a reinstall replaces `~/.config/hypr`. `scripts/check-rice.sh` checks all of it: extend it when a new reset is found.
+- Shortcuts: every `bind(...)` in `keybinds.lua` needs a description "Section: action" (sections: Help, Windows, Workspaces, Apps, Serpantinum, Session, Screenshots, Media); non-Hyprland shortcuts go in `keybinds-extra.tsv`. Then run `scripts/make-cheatsheet.py` and commit `assets/cheatsheet.png`.
 - ZMK keyboard: a gear icon on its screen means the active Bluetooth profile has no pairing; the default Lily58 keymap has `BT_CLR` on Lower + Esc.

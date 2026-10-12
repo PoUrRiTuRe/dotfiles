@@ -164,6 +164,15 @@ elif [[ -f /etc/pam.d/serpantinum-fprint ]] && ! grep -q 'fpState' /usr/share/sd
 fi
 
 # ── 4. Cursor (must be the same everywhere) ──────────────────
+echo "==> Shortcut menu (SUPER + K)"
+if command -v fuzzel >/dev/null; then
+    ok "fuzzel installed"
+else
+    warn "fuzzel missing: SUPER + K shows nothing"
+    hint "sudo pacman -S fuzzel"
+fi
+[[ -x "$HOME/.local/bin/keybinds-menu" ]] || { warn "~/.local/bin/keybinds-menu missing"; hint "~/save-all.sh"; }
+
 echo "==> Cursor"
 CURSOR_OK=true
 grep -q '"XCURSOR_THEME", "ChromaS"' "$HYPR/config/env.lua" 2>/dev/null || { warn "env.lua: XCURSOR_THEME is not ChromaS"; CURSOR_OK=false; }
