@@ -23,6 +23,7 @@ fastfetch
 fd
 ffmpegthumbs
 flatpak
+fuzzel
 fzf
 galculator
 gamescope
@@ -52,11 +53,11 @@ libpulse
 libqalculate
 linux
 linux-firmware
-linux-headers
 lsp-plugins-lv2
 ly
 man-pages
 matugen
+mesa-utils
 mkinitcpio
 modrinth-app
 nano
@@ -120,7 +121,6 @@ wofi
 wpa_supplicant
 xdg-desktop-portal-hyprland
 xdg-utils
-xf86-video-nouveau
 zbar
 zram-generator
 zsh
