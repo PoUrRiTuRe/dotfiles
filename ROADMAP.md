@@ -195,6 +195,10 @@
 - [x] The top bar now lines up against the `SUPER + E` panel natively: `patch-topbar.py` and `check-rice.sh` detect it and skip the patch
 - [x] `patch-lock.py` still applies to 2.2.7
 
+### 📶 Desktop Wi-Fi / Bluetooth card
+- [x] ASUS PCE-AX1800 (MediaTek MT7921, `mt7921e` in the kernel): Wi-Fi and Bluetooth work without extra drivers (Bluetooth needs the card's USB cable on an internal USB 2.0 header)
+- [ ] Ly replaced SDDM as display manager on the desktop: `check-rice.sh` now checks `display-manager.service`
+
 ### ⌨️ Shortcuts and cheatsheet
 - [x] Every bind in `keybinds.lua` has a `description` ("Section: action"), the single source for the menu and the image
 - [x] `SUPER + K`: searchable menu (`~/.local/bin/keybinds-menu`, `hyprctl binds -j` + `keybinds-extra.tsv`, fuzzel with a Nebula theme)

@@ -150,6 +150,13 @@ done
 
 # ── 3. SDDM greeter ──────────────────────────────────────────
 echo "==> SDDM greeter"
+DM=$(basename "$(readlink -f /etc/systemd/system/display-manager.service 2>/dev/null)" .service)
+if [[ "$DM" == "sddm" ]]; then
+    ok "display manager: sddm"
+else
+    warn "display manager: ${DM:-none} instead of sddm (another greeter was enabled)"
+    hint "sudo systemctl disable ${DM:-<other>}.service && sudo systemctl enable sddm.service, then reboot"
+fi
 CURRENT=$(grep -h '^Current=' /etc/sddm.conf /etc/sddm.conf.d/*.conf 2>/dev/null | tail -1 | cut -d= -f2)
 if [[ "$CURRENT" == "nebula" ]]; then
     ok "theme: nebula"
