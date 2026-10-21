@@ -68,6 +68,8 @@ HOME_ITEMS=(
     "$HOME/.config/fastfetch"         # including perso.jsonc
     "$HOME/.config/cava"
     "$HOME/.config/fuzzel"            # SUPER + K shortcut menu (Nebula theme)
+    "$HOME/.config/sunshine/sunshine.conf" # tablet as a third monitor (no credentials in it)
+    "$HOME/.config/sunshine/apps.json"
     "$HOME/.config/starship.toml"
     "$HOME/.config/eza"               # ls colors (eza)
     "$HOME/.config/nvim"              # LazyVim

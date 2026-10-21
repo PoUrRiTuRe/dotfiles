@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# ─────────────────────────────────────────────────────────────
+#  tablet-screen — virtual third monitor for the tablet (Sunshine)
+#  Creates / removes a headless Hyprland output named TABLET. Its mode,
+#  position and scale come from config/hosts/rotten-desktop.lua.
+#  Sunshine runs "on" when Moonlight starts the "Nebula tablet" app and
+#  "off" when the session ends (prep-cmd in ~/.config/sunshine/apps.json).
+#  Usage: tablet-screen on | off | status
+# ─────────────────────────────────────────────────────────────
+set -uo pipefail
+NAME="TABLET"
+
+exists() { hyprctl monitors all 2>/dev/null | grep -q "^Monitor $NAME "; }
+
+case "${1:-status}" in
+    on)
+        if ! exists; then
+            hyprctl output create headless "$NAME" >/dev/null
+            sleep 1   # let the monitor rule apply before Sunshine starts capturing
+        fi
+        echo "tablet screen on"
+        ;;
+    off)
+        exists && hyprctl output remove "$NAME" >/dev/null
+        echo "tablet screen off"
+        ;;
+    status)
+        if exists; then echo "on"; else echo "off"; fi
+        ;;
+    *)
+        echo "Usage: tablet-screen on | off | status"
+        exit 1
+        ;;
+esac

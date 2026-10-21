@@ -137,6 +137,7 @@ dotfiles/
 | `patch-lock.py` | Adds fingerprint unlock and its animation to Serpantinum's lock screen (`--restore` to undo) |
 | `patch-greeter.py` | Adds the same fingerprint animation to the `nebula` SDDM greeter (run with `sudo`, `--restore` to undo) |
 | `kde-cleanup-preview.sh` | Dry run used to remove KDE Plasma / GNOME while protecting useful packages |
+| `setup-tablet.sh` | One-time Sunshine setup for the tablet monitor (see `docs/tablet-screen.md`) |
 | `make-cheatsheet.py` | Redraws `assets/cheatsheet.png` from the bind descriptions |
 | `check-rice.sh` | Check-up after an update: reports what was reset and how to fix it (`--fix` re-applies the Serpantinum patches) |
 | `save-all.sh` | One-shot save: pulls, moves downloaded files into place, copies the scripts, runs the backup |
@@ -371,6 +372,7 @@ The changes that make this rice, to reapply if you switch shells or versions:
 ## 📒 Guides
 
 - [`docs/arch-notes.md`](docs/arch-notes.md): rsync backup, second NTFS drive, yay, kernel updates, monitors, dark GTK apps, fingerprint, file search (everythingx), ZMK keyboard pairing, switching shells, WSL + Kali
+- [`docs/tablet-screen.md`](docs/tablet-screen.md): Android tablet as a third monitor (Sunshine + Moonlight), started and stopped from the tablet
 - [`docs/vpn-ikev2-eap.md`](docs/vpn-ikev2-eap.md): university / company VPN (strongSwan IKEv2 + EAP) on Arch with `nmcli`, and its troubleshooting
 
 ---
