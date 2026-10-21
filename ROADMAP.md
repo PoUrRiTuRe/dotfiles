@@ -199,6 +199,12 @@
 - [x] ASUS PCE-AX1800 (MediaTek MT7921, `mt7921e` in the kernel): Wi-Fi and Bluetooth work without extra drivers (Bluetooth needs the card's USB cable on an internal USB 2.0 header)
 - [ ] Ly replaced SDDM as display manager on the desktop: `check-rice.sh` now checks `display-manager.service`
 
+### 📱 Tablet as a third monitor (desktop)
+- [x] Virtual `TABLET` monitor (2000×1200 @ 120 Hz, scale 1.25) created / removed by `tablet-screen`, driven by Sunshine's `prep-cmd` (Moonlight start / quit)
+- [x] `scripts/setup-tablet.sh` + `docs/tablet-screen.md`; Sunshine config backed up (`sunshine.conf`, `apps.json`, no credentials)
+- [ ] First run when the tablet arrives: pick the `TABLET` display in Sunshine, check touch mapping and 120 FPS
+- [ ] NZXT Capsule Elite microphone: set as default source, tune the "Microphone (Nebula)" gain by ear
+
 ### ⌨️ Shortcuts and cheatsheet
 - [x] Every bind in `keybinds.lua` has a `description` ("Section: action"), the single source for the menu and the image
 - [x] `SUPER + K`: searchable menu (`~/.local/bin/keybinds-menu`, `hyprctl binds -j` + `keybinds-extra.tsv`, fuzzel with a Nebula theme)

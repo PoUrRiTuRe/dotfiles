@@ -16,6 +16,13 @@ hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1.0 })
 hl.monitor({ output = SECOND, mode = "1920x1080@180.01", position = "0x0",    scale = 1.0 })
 hl.monitor({ output = MAIN,   mode = "2560x1440@165",    position = "1920x0", scale = 1.0 })
 
+-- Tablet as a third monitor, streamed by Sunshine (docs/tablet-screen.md):
+-- a virtual output created only while Moonlight streams it (tablet-screen on).
+-- 2000x1200 @ 120 Hz, scale 1.25 (small 11.5" screen), right of the MSI.
+-- Touch input from Moonlight is mapped to it, the mouse can cross onto it.
+hl.monitor({ output = "TABLET", mode = "2000x1200@120", position = "4480x0", scale = 1.25 })
+hl.config({ input = { touchdevice = { output = "TABLET" } } })
+
 -- Current port name (DP-3, HDMI-A-1…) of a "desc:" selector, or nil
 local function port_of(selector)
   local wanted = selector:gsub("^desc:", "")

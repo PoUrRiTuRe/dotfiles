@@ -14,7 +14,8 @@ REPO="$HOME/dotfiles-backup"
 HOST="$(cat /etc/hostname 2>/dev/null || uname -n)"
 DL="$HOME/Downloads"
 SCRIPTS=(backup-rice.sh save-all.sh check-rice.sh patch-lock.py patch-greeter.py patch-topbar.py
-         kde-cleanup-preview.sh nebula-kvantum.sh nebula-colors.sh make-cheatsheet.py)
+         kde-cleanup-preview.sh nebula-kvantum.sh nebula-colors.sh make-cheatsheet.py
+         setup-tablet.sh)
 
 [[ $EUID -eq 0 ]] && { echo "!! Run this script without sudo."; exit 1; }
 cd "$REPO" || { echo "!! Repository not found: $REPO"; exit 1; }

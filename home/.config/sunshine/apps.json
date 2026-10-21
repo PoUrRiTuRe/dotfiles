@@ -1,0 +1,18 @@
+{
+  "env": {},
+  "apps": [
+    {
+      "name": "Nebula tablet",
+      "image-path": "desktop.png",
+      "prep-cmd": [
+        {
+          "do": "sh -c \"$HOME/.local/bin/tablet-screen on\"",
+          "undo": "sh -c \"$HOME/.local/bin/tablet-screen off\""
+        }
+      ],
+      "auto-detach": "true",
+      "wait-all": "true",
+      "exit-timeout": "5"
+    }
+  ]
+}
