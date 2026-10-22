@@ -236,7 +236,12 @@
 ### 🔥 Desktop GPU hangs (RX 5700 XT)
 - [x] Diagnosed: `ring gfx_0.0.0 timeout` in Hyprland → GPU reset (`VRAM is lost`) → Hyprland restarts in safe mode; only a full power-off recovers
 - [x] First fix: GFXOFF disabled (`amdgpu.ppfeaturemask=0xfff73fff` in `/etc/kernel/cmdline`, `mkinitcpio -P`)
-- [ ] **Still happening** (Overwatch freezes, safe mode in game), maybe more often since the AMD card. Next, one at a time: check `cat /proc/cmdline`; force `power_dpm_force_performance_level=high` permanently (udev rule); both monitors at 165 Hz; temperatures with `sensors` during a game; Mesa / `linux-firmware` up to date; if it persists, a hardware fault of the card (second-hand?) is possible
+- [x] Temperatures fine (50 °C idle, no thermal event in the log); GFXOFF fix confirmed active in `/proc/cmdline`
+- [x] New clue: the hang starts with a GPU **page fault from Hyprland** (`[gfxhub] page fault … Process Hyprland`, `GCVM_L2_PROTECTION_FAULT`), not from the game; not the anti-cheat
+- [x] Test in progress: Hyprland color management off on the desktop (`hl.config({ render = { cm_enabled = false } })` at the end of `hosts/rotten-desktop.lua`, needs a re-login)
+- [x] Shader cache for every game: `MESA_SHADER_CACHE_MAX_SIZE=12G` in `~/.config/environment.d/mesa.conf` (the NVIDIA-only `__GL_SHADER_DISK_CACHE_SIZE` launch option removed)
+- [ ] If it still crashes, one at a time: (1) GameMode raising the GPU to `high` only while playing (`gamemode` + `lib32-gamemode`, `~/.config/gamemode.ini` with `[gpu] apply_gpu_optimisations=accept-responsibility`, `gpu_device=1`, `amd_performance_level=high`, launch option `gamemoderun %command%`); (2) test without the `nvidia-like.glsl` screen shader (the maintainer prefers to keep it for now); (3) a hardware fault of the card
+- [ ] When the game freezes without crashing the session: `journalctl -k -b | grep -E "amdgpu.*(timeout|reset|fault)"`; no line = not the GPU (look at network / CPU)
 - [ ] Once stable: save `/etc/kernel/cmdline` in `backup-rice.sh`
 
 ### ⌨️ Lily58 wishes
