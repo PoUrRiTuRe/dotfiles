@@ -199,6 +199,9 @@
 - [x] ASUS PCE-AX1800 (MediaTek MT7921, `mt7921e` in the kernel): Wi-Fi and Bluetooth work without extra drivers (Bluetooth needs the card's USB cable on an internal USB 2.0 header)
 - [ ] Ly replaced SDDM as display manager on the desktop: `check-rice.sh` now checks `display-manager.service`
 
+### 🧹 Dock
+- [x] A Serpantinum update re-enabled the dock on the laptop (bottom center): disabled (`dock.enabled = false`), `check-rice.sh` now checks it
+
 ### ⌨️ Lily58 on three computers
 - [x] Profiles: Lower + 1 desktop, Lower + 2 personal laptop, Lower + 3 work laptop
 - [x] "Connected but no key works" on the laptop: `input-hog profile accept failed` in the Bluetooth log, `uhid` couldn't load because the kernel had been updated without a reboot; reboot fixed it
