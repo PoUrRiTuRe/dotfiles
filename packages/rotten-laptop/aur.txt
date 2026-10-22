@@ -9,9 +9,11 @@ neofetch
 osu-lazer-bin
 papirus-folders
 protonup-qt
+snapd
 termius
 ttf-poppins
 ubridge
+vesktop
 visual-studio-code-bin
 vpcs
 wl-gammarelay-rs

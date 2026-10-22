@@ -1,5 +1,12 @@
 [MIME Cache]
+application/x-quaver-qp=Quaver-file-handler.desktop;
+application/x-quaver-qpl=Quaver-file-handler.desktop;
+application/x-quaver-qr=Quaver-file-handler.desktop;
+application/x-quaver-qs=Quaver-file-handler.desktop;
 text/plain=nvim.desktop;
 text/x-java=nvim.desktop;
 text/x-python=nvim.desktop;
 text/x-shellscript=nvim.desktop;
+x-scheme-handler/discord-1216669957799018608=discord-1216669957799018608.desktop;
+x-scheme-handler/discord-376180410490552320=discord-376180410490552320.desktop;
+x-scheme-handler/quaver=Quaver-scheme-handler.desktop;

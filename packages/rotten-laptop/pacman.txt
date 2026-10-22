@@ -12,12 +12,12 @@ bluez
 bluez-utils
 breeze-icons
 brightnessctl
+calf
 cava
 chafa
 cliphist
 ddcutil
 dhclient
-discord
 dolphin
 dunst
 easyeffects
@@ -91,6 +91,7 @@ openbsd-netcat
 pamixer
 papirus-icon-theme
 pavucontrol
+php
 pipewire
 pipewire-alsa
 pipewire-jack
@@ -122,6 +123,8 @@ starship
 steam
 sudo
 telegram-desktop
+tesseract
+tesseract-data-eng
 testdisk
 tigervnc
 tldr
@@ -134,6 +137,9 @@ unzip
 upower
 uwsm
 vim
+virtualbox
+vlc
+vulkan-tools
 wf-recorder
 wget
 wireplumber
