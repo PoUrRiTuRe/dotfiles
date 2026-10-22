@@ -171,7 +171,21 @@ scan off
 exit
 ```
 
-Use one profile per computer: pairing a second computer on the same profile breaks the first one.
+Use one profile per computer: pairing a second computer on the same profile breaks the first one. This setup:
+
+| Keys (Lower + …) | ZMK profile | Computer |
+|---|---|---|
+| Lower + 1 | `BT_SEL 0` | desktop |
+| Lower + 2 | `BT_SEL 1` | personal laptop |
+| Lower + 3 | `BT_SEL 2` | work laptop |
+
+`BT_CLR` only clears the **active** profile: select the right one first.
+
+**Connected but no key works:**
+
+- The keyboard only types on its **active** profile: check the profile number on its screen.
+- `hyprctl devices | grep -i -A2 lily`: if the keyboard isn't listed, the system has the Bluetooth link but no input device. BLE keyboards need the `uhid` kernel module: `lsmod | grep uhid`, else `sudo modprobe uhid`. *Module not found* = kernel updated without a reboot: reboot.
+- `bluetoothctl info <keyboard-MAC>` must show `Paired: yes`, `Bonded: yes`, `Trusted: yes`, `Connected: yes`.
 
 ## Switch from Serpantinum to another shell (Caelestia)
 
