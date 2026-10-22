@@ -125,6 +125,8 @@ gen = local.get("general", {})
 problems = []
 if gen.get("quickactions", True) is not False:
     problems.append("Quick Actions is enabled again (edge panel over games): SUPER + H > General > Quickactions")
+if local.get("dock", {}).get("enabled", True) is not False:
+    problems.append("the dock (bottom bar) is enabled again: SUPER + H > Dock > disable it")
 for section in ("bar", "idle"):
     if section in repo and local.get(section) != repo.get(section):
         problems.append(f'"{section}" differs from the repository (reset, or changed on purpose?)')
@@ -132,7 +134,7 @@ if problems:
     for p in problems:
         print(f"   !!  settings.json: {p}")
     sys.exit(1)
-print("   ok  settings.json (Quick Actions off, bar and idle as in the repository)")
+print("   ok  settings.json (Quick Actions and dock off, bar and idle as in the repository)")
 PY
     [[ $? -ne 0 ]] && PROBLEMS=$((PROBLEMS + 1))
 fi
