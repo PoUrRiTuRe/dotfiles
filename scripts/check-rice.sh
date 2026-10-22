@@ -1,24 +1,28 @@
 #!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────
 #  check-rice.sh — check-up after a Serpantinum update (or any update)
-#  Looks for everything an update is known to reset and says how to fix it:
+#  Looks for everything an update is known to reset, fixes what it can by
+#  itself (no sudo) and prints the command for the rest:
 #    - Hyprland config replaced (monitors per machine, keybinds…)
 #    - Serpantinum code patches gone (top bar, lock screen fingerprint)
 #    - SDDM greeter switched back to material-you
 #    - Serpantinum settings changed (Quick Actions, bar, idle)
 #    - kitty / fastfetch / cava configs replaced
 #    - cursor theme out of sync, kernel updated without a reboot
-#  Usage:  ~/check-rice.sh          (report only, changes nothing)
-#          ~/check-rice.sh --fix    (also re-applies the user-level patches)
-#  Without sudo: system fixes are printed as commands to run.
+#  Usage:  ~/check-rice.sh          (check and fix automatically)
+#          ~/check-rice.sh --check  (report only, changes nothing)
+#  Automatic fixes: Serpantinum code patches (older versions), Quick Actions
+#  and dock turned back off, cursor in gsettings, then Serpantinum reload.
+#  Fixes that need sudo (SDDM, PAM) are printed as commands to run.
 # ─────────────────────────────────────────────────────────────
 set -uo pipefail
 
 REPO="$HOME/dotfiles-backup"
 HOST="$(cat /etc/hostname 2>/dev/null || uname -n)"
 SERP="$HOME/.local/share/serpantinum/src/quickshell"
-FIX=false
-[[ "${1:-}" == "--fix" ]] && FIX=true
+FIX=true
+[[ "${1:-}" == "--check" ]] && FIX=false
+RELOAD=false
 
 [[ $EUID -eq 0 ]] && { echo "!! Run this script without sudo."; exit 1; }
 [[ -d "$REPO" ]] || { echo "!! Repository not found: $REPO"; exit 1; }
@@ -27,6 +31,7 @@ PROBLEMS=0
 ok()   { echo "   ok  $1"; }
 warn() { echo "   !!  $1"; PROBLEMS=$((PROBLEMS + 1)); }
 hint() { echo "       → $1"; }
+fixed() { echo "   fix $1"; RELOAD=true; }
 
 # Patch script: the copy in ~ (installed by save-all.sh), else the repository one
 patch_script() {
@@ -91,25 +96,31 @@ else
     elif grep -q 'effMaxRight' "$SERP/bar/TopBar.qml" 2>/dev/null; then
         ok "top bar patch (patch-topbar.py)"
     else
-        warn "top bar patch missing (reset by the update)"
-        if $FIX; then
-            python3 "$(patch_script patch-topbar.py)"
+        if $FIX && python3 "$(patch_script patch-topbar.py)" >/dev/null; then
+            fixed "top bar patch re-applied (patch-topbar.py)"
         else
+            warn "top bar patch missing (reset by the update)"
             hint "python3 $(patch_script patch-topbar.py)"
         fi
     fi
 
-    # Lock screen fingerprint: only on machines with the fingerprint PAM file
+    # Lock screen fingerprint: only on machines with a fingerprint reader
     if [[ -f /etc/pam.d/serpantinum-fprint ]]; then
-        if grep -q 'fprintPam' "$SERP/lock/Lock.qml" 2>/dev/null; then
+        if grep -q 'fingerprintAvailable' "$SERP/lock/Lock.qml" 2>/dev/null; then
+            # Serpantinum 2.3+: fingerprint built in, through /etc/pam.d/serpantinum
+            if grep -qs 'pam_fprintd' /etc/pam.d/serpantinum /etc/pam.d/system-auth; then
+                ok "lock screen fingerprint: built into Serpantinum (2.3+), no patch needed"
+            else
+                warn "lock screen fingerprint: /etc/pam.d/serpantinum has no pam_fprintd"
+                hint "see README, step 6 (Fingerprint)"
+            fi
+        elif grep -q 'fprintPam' "$SERP/lock/Lock.qml" 2>/dev/null; then
             ok "lock screen fingerprint patch (patch-lock.py)"
+        elif $FIX && python3 "$(patch_script patch-lock.py)" >/dev/null; then
+            fixed "lock screen fingerprint patch re-applied (patch-lock.py)"
         else
             warn "lock screen fingerprint patch missing (reset by the update)"
-            if $FIX; then
-                python3 "$(patch_script patch-lock.py)"
-            else
-                hint "python3 $(patch_script patch-lock.py)"
-            fi
+            hint "python3 $(patch_script patch-lock.py)"
         fi
     fi
 fi
@@ -117,26 +128,46 @@ fi
 # Settings that matter, compared with the repository copy (location excluded)
 SETTINGS="$HOME/.config/serpantinum/settings.json"
 if [[ -f "$SETTINGS" && -f "$REPO/home/.config/serpantinum/settings.json" ]]; then
-    python3 - "$SETTINGS" "$REPO/home/.config/serpantinum/settings.json" << 'PY'
-import json, sys
-local = json.load(open(sys.argv[1], encoding="utf-8"))
+    python3 - "$SETTINGS" "$REPO/home/.config/serpantinum/settings.json" "$FIX" << 'PY'
+import json, os, sys
+path, fix = sys.argv[1], sys.argv[3] == "true"
+local = json.load(open(path, encoding="utf-8"))
 repo = json.load(open(sys.argv[2], encoding="utf-8"))
-gen = local.get("general", {})
-problems = []
+problems, fixes = [], []
+gen = local.setdefault("general", {})
 if gen.get("quickactions", True) is not False:
-    problems.append("Quick Actions is enabled again (edge panel over games): SUPER + H > General > Quickactions")
-if local.get("dock", {}).get("enabled", True) is not False:
-    problems.append("the dock (bottom bar) is enabled again: SUPER + H > Dock > disable it")
+    if fix:
+        gen["quickactions"] = False
+        fixes.append("Quick Actions turned back off")
+    else:
+        problems.append("Quick Actions is enabled again (edge panel over games): SUPER + H > General > Quickactions")
+dock = local.setdefault("dock", {})
+if dock.get("enabled", True) is not False:
+    if fix:
+        dock["enabled"] = False
+        fixes.append("dock turned back off")
+    else:
+        problems.append("the dock (bottom bar) is enabled again: SUPER + H > Dock > disable it")
 for section in ("bar", "idle"):
     if section in repo and local.get(section) != repo.get(section):
         problems.append(f'"{section}" differs from the repository (reset, or changed on purpose?)')
-if problems:
-    for p in problems:
-        print(f"   !!  settings.json: {p}")
-    sys.exit(1)
-print("   ok  settings.json (Quick Actions and dock off, bar and idle as in the repository)")
+if fixes:
+    tmp = path + ".tmp-check-rice"   # Serpantinum watches this file: write then rename
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(local, f, indent=2, ensure_ascii=False)
+    os.replace(tmp, path)
+    for f in fixes:
+        print(f"   fix settings.json: {f}")
+for p in problems:
+    print(f"   !!  settings.json: {p}")
+if not problems and not fixes:
+    print("   ok  settings.json (Quick Actions and dock off, bar and idle as in the repository)")
+sys.exit(2 if problems else (1 if fixes else 0))
 PY
-    [[ $? -ne 0 ]] && PROBLEMS=$((PROBLEMS + 1))
+    case $? in
+        1) RELOAD=true ;;
+        2) PROBLEMS=$((PROBLEMS + 1)) ;;
+    esac
 fi
 
 # kitty / fastfetch / cava: replaced by an install / reinstall
@@ -192,8 +223,12 @@ grep -q 'Inherits=ChromaS' "$HOME/.icons/default/index.theme" 2>/dev/null || { w
 if command -v gsettings >/dev/null; then
     GS=$(gsettings get org.gnome.desktop.interface cursor-theme 2>/dev/null)
     if [[ -n "$GS" && "$GS" != "'ChromaS'" ]]; then
-        warn "gsettings cursor-theme is $GS"
-        hint "gsettings set org.gnome.desktop.interface cursor-theme 'ChromaS'"
+        if $FIX && gsettings set org.gnome.desktop.interface cursor-theme 'ChromaS'; then
+            echo "   fix gsettings cursor-theme set back to ChromaS (was $GS)"
+        else
+            warn "gsettings cursor-theme is $GS"
+            hint "gsettings set org.gnome.desktop.interface cursor-theme 'ChromaS'"
+        fi
         CURSOR_OK=false
     fi
 fi
@@ -209,11 +244,13 @@ else
 fi
 
 # ── Summary ──────────────────────────────────────────────────
+if $RELOAD && command -v serpantinum >/dev/null && [[ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]]; then
+    serpantinum reload >/dev/null 2>&1 && echo "   ..  Serpantinum reloaded"
+fi
 echo
 if (( PROBLEMS == 0 )); then
     echo "==> All good."
 else
-    echo "==> $PROBLEMS problem(s) found. Fix them, then run ~/save-all.sh."
-    $FIX && echo "    (--fix re-applied the user-level patches: reload Serpantinum with SUPER + R)"
+    echo "==> $PROBLEMS problem(s) left: run the commands above."
 fi
 (( PROBLEMS == 0 ))

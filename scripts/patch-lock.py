@@ -28,6 +28,9 @@ if not pathlib.Path("/etc/pam.d/serpantinum-fprint").exists():
     sys.exit("!! /etc/pam.d/serpantinum-fprint doesn't exist: create it first (see README).")
 
 src = path.read_text(encoding="utf-8")
+if "fingerprintAvailable" in src:
+    print("==> Serpantinum 2.3+ has fingerprint unlock built in (/etc/pam.d/serpantinum): no patch needed.")
+    sys.exit(0)
 if "fprintPam" in src:
     sys.exit("==> Already patched. (--restore to go back to the original)")
 
