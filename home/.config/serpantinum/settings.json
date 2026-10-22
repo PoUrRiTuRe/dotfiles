@@ -7,7 +7,8 @@
     "weatherUnit": "metric",
     "sfxVolume": 100,
     "screenshotCaptureOnRelease": false,
-    "quickactions": false
+    "quickactions": false,
+    "performance": false
   },
   "syspanel": {
     "clipExpandProgress": 0,
@@ -152,34 +153,17 @@
     "onTop": true,
     "elementSize": 44,
     "floating": false,
-    "background": true,
+    "opacity": 100,
     "exclusive": false,
     "autohide": false,
     "smartAutohide": true,
     "autohideTimeout": 1000,
     "editing": false,
-    "apps": [
-      {
-        "name": "Kitty",
-        "comment": "Fast, feature-rich, GPU based terminal",
-        "desktop_id": "kitty.desktop",
-        "icon": "kitty"
-      },
-      {
-        "name": "Files",
-        "comment": "Access and organize files",
-        "desktop_id": "org.gnome.Nautilus.desktop",
-        "icon": "org.gnome.Nautilus"
-      }
-    ],
+    "apps": [],
     "overrideBoundsCorrection": false,
     "enableScrolling": false,
     "visibleElements": 7,
     "hoverScale": 120,
-    "cascadeScale": false,
-    "focusRunning": true,
-    "showRunningIndicators": true,
-    "showRunningApps": true,
-    "runningScope": "auto"
+    "cascadeScale": false
   }
 }
