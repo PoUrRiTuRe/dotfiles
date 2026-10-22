@@ -199,6 +199,10 @@
 - [x] ASUS PCE-AX1800 (MediaTek MT7921, `mt7921e` in the kernel): Wi-Fi and Bluetooth work without extra drivers (Bluetooth needs the card's USB cable on an internal USB 2.0 header)
 - [ ] Ly replaced SDDM as display manager on the desktop: `check-rice.sh` now checks `display-manager.service`
 
+### 🔄 Serpantinum 2.3.0
+- [x] Fingerprint unlock is now built into the lock screen (`/etc/pam.d/serpantinum`): `patch-lock.py` and `check-rice.sh` detect it and skip the patch
+- [x] `check-rice.sh` fixes by itself what needs no sudo (patches on older versions, Quick Actions / dock off, cursor `gsettings`, Serpantinum reload); `--check` only reports; `save-all.sh` runs it before every backup
+
 ### 🧹 Dock
 - [x] A Serpantinum update re-enabled the dock on the laptop (bottom center): disabled (`dock.enabled = false`), `check-rice.sh` now checks it
 

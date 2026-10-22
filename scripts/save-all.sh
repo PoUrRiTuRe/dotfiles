@@ -5,7 +5,8 @@
 #      and install them into ~ (config + scripts)
 #   2. move downloaded files (scripts, README…) to their place
 #   3. copy the scripts from ~ into the repository (scripts/)
-#   4. run backup-rice.sh (answer "y" at the end to push)
+#   4. run check-rice.sh (fixes what updates reset)
+#   5. run backup-rice.sh (answer "y" at the end to push)
 #  Usage:  ~/save-all.sh   (without sudo)
 # ─────────────────────────────────────────────────────────────
 set -uo pipefail
@@ -125,7 +126,13 @@ for f in "${SCRIPTS[@]}"; do
     [[ -f "$HOME/$f" ]] && cp "$HOME/$f" "$REPO/scripts/" && echo "   ok  $f"
 done
 
-# ── 4. Full backup (commit + push at the end) ────────────────
+# ── 4. Check-up: fixes what updates reset, before saving ─────
+if [[ -x "$HOME/check-rice.sh" ]]; then
+    echo "==> Running check-rice.sh"
+    "$HOME/check-rice.sh" || echo "   !!  check-rice.sh left problems to fix by hand (see above)"
+fi
+
+# ── 5. Full backup (commit + push at the end) ────────────────
 echo "==> Running backup-rice.sh"
 "$HOME/backup-rice.sh"
 
