@@ -70,7 +70,7 @@ cd .. && rm -rf yay-bin
 
 ## Reboot after a kernel update
 
-When `pacman -Syu` updates `linux`, the modules of the **running** kernel are deleted. Until you reboot, anything that loads a new kernel module fails (VPN, some USB devices or file systems), often with confusing errors such as `Protocol not supported` or `Module not found`.
+When `pacman -Syu` updates `linux`, the modules of the **running** kernel are deleted. Until you reboot, anything that loads a new kernel module fails (VPN, Bluetooth keyboards, some USB devices or file systems), often with confusing errors such as `Protocol not supported` or `Module not found`.
 
 ```bash
 uname -r              # running kernel
@@ -181,9 +181,12 @@ Use one profile per computer: pairing a second computer on the same profile brea
 
 `BT_CLR` only clears the **active** profile: select the right one first.
 
+A ZMK keyboard keeps the **same Bluetooth address on every profile**: a computer paired on one profile still "recognizes" the keyboard on another one, connects with the wrong keys and gets no input. Always `remove` the keyboard on the computer before pairing it on a new profile, and never pair one computer on two profiles.
+
 **Connected but no key works:**
 
 - The keyboard only types on its **active** profile: check the profile number on its screen.
+- `journalctl -b -u bluetooth` shows `input-hog profile accept failed`: the Bluetooth link works but Linux can't create the keyboard device (missing `uhid`, see below).
 - `hyprctl devices | grep -i -A2 lily`: if the keyboard isn't listed, the system has the Bluetooth link but no input device. BLE keyboards need the `uhid` kernel module: `lsmod | grep uhid`, else `sudo modprobe uhid`. *Module not found* = kernel updated without a reboot: reboot.
 - `bluetoothctl info <keyboard-MAC>` must show `Paired: yes`, `Bonded: yes`, `Trusted: yes`, `Connected: yes`.
 

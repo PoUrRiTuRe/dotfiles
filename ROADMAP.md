@@ -199,6 +199,11 @@
 - [x] ASUS PCE-AX1800 (MediaTek MT7921, `mt7921e` in the kernel): Wi-Fi and Bluetooth work without extra drivers (Bluetooth needs the card's USB cable on an internal USB 2.0 header)
 - [ ] Ly replaced SDDM as display manager on the desktop: `check-rice.sh` now checks `display-manager.service`
 
+### ⌨️ Lily58 on three computers
+- [x] Profiles: Lower + 1 desktop, Lower + 2 personal laptop, Lower + 3 work laptop
+- [x] "Connected but no key works" on the laptop: `input-hog profile accept failed` in the Bluetooth log, `uhid` couldn't load because the kernel had been updated without a reboot; reboot fixed it
+- [x] Same Bluetooth address on every ZMK profile: always `remove` on the computer before pairing on a new profile (`docs/arch-notes.md`)
+
 ### 📱 Tablet as a third monitor (desktop)
 - [x] Virtual `TABLET` monitor (2000×1200 @ 120 Hz, scale 1.25) created / removed by `tablet-screen`, driven by Sunshine's `prep-cmd` (Moonlight start / quit)
 - [x] `scripts/setup-tablet.sh` + `docs/tablet-screen.md`; Sunshine config backed up (`sunshine.conf`, `apps.json`, no credentials)
