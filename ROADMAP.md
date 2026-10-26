@@ -246,7 +246,9 @@
 
 ### ⌨️ Lily58 wishes
 - [ ] Typeractive asked (hotswap, switches, RGB, dongle, warranty): waiting for the answer
-- [ ] If the PCB is hotswap: try other **Kailh Choc v1** switches (a switch puller is enough)
+- [x] PCB confirmed **hotswap** (Kailh Choc sockets under every key, "Lily58 PCB by kata0510, wireless-ified by Nice!keyboards"): no RGB LEDs
+- [ ] Try other **Kailh Choc v1** switches (switch puller, pull straight up)
+- ℹ️ With the dongle as central, both halves become equal peripherals: the right half works without the left one
 - [ ] Future keyboard: RGB that turns on only when asked **and** when the battery is above ~33 %; magnetic (Hall effect) low-profile switches with rapid trigger. Not possible on this PCB (no LEDs, no magnetic sensors); ZMK barely supports magnetic switches
 
 ---
