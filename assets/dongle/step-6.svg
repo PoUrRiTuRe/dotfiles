@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540" font-family="JetBrains Mono, DejaVu Sans Mono, monospace">
+  <defs>
+    <radialGradient id="g1" cx="85%" cy="0%" r="70%"><stop offset="0" stop-color="#e600ff" stop-opacity=".22"/><stop offset="1" stop-color="#e600ff" stop-opacity="0"/></radialGradient>
+    <radialGradient id="g2" cx="0%" cy="100%" r="70%"><stop offset="0" stop-color="#00f0ff" stop-opacity=".18"/><stop offset="1" stop-color="#00f0ff" stop-opacity="0"/></radialGradient>
+    <linearGradient id="title" x1="0" x2="1"><stop offset="0" stop-color="#00f0ff"/><stop offset="1" stop-color="#e600ff"/></linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#00f0ff"/></marker>
+  </defs>
+  <rect width="960" height="540" fill="#070914"/>
+  <rect width="960" height="540" fill="url(#g1)"/>
+  <rect width="960" height="540" fill="url(#g2)"/>
+  <circle cx="58" cy="52" r="26" fill="none" stroke="#e600ff" stroke-width="2.5"/>
+  <text x="58" y="61" text-anchor="middle" font-size="26" font-weight="700" fill="#e600ff">6</text>
+  <text x="100" y="62" font-size="27" font-weight="700" fill="url(#title)" letter-spacing="2">EVERY DAY</text>
+  <g><rect x="90" y="140" width="330" height="230" rx="16" fill="#12162e" stroke="#00f0ff" stroke-opacity=".5"/><text x="255" y="180" font-size="18" fill="#00f0ff" text-anchor="middle">DESKTOP</text><rect x="540" y="140" width="330" height="230" rx="16" fill="#12162e" stroke="#e600ff" stroke-opacity=".5"/><text x="705" y="180" font-size="18" fill="#e600ff" text-anchor="middle">LAPTOP</text><rect x="225" y="220" width="60" height="90" rx="22" fill="none" stroke="#e600ff" stroke-width="3" stroke-dasharray="0"/><rect x="675" y="220" width="60" height="90" rx="22" fill="none" stroke="#e600ff" stroke-width="3" stroke-dasharray="0"/><path d="M300 260 Q480 200 660 260" fill="none" stroke="#d6def5" stroke-width="2.5" stroke-dasharray="8 6" marker-end="url(#arrow)"/><text x="480" y="120" font-size="16" fill="#d6def5" text-anchor="middle">move the dongle</text><text x="480" y="420" font-size="14" fill="#7d86a8" text-anchor="middle">Switch computers = unplug, plug. Old firmware kept: reflash it to go back to Bluetooth.</text></g>
+  <rect x="40" y="462" width="880" height="50" rx="12" fill="#12162e" stroke="#00f0ff" stroke-opacity=".35"/>
+  <text x="480.0" y="494" text-anchor="middle" font-size="17" fill="#d6def5">Typing works everywhere the dongle is plugged: login screen and BIOS included</text>
+</svg>
