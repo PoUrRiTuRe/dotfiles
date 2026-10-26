@@ -254,8 +254,9 @@
 - [x] Color fix and bigger cube flashed: approved
 - [x] Paws follow the half of the key, cube loops without a jump: flashed
 - [x] ~~Paw reaching further for the top rows~~: dropped (looked like a glitch), original frames kept
-- [ ] Flash: mirrored paws, every press a visible tap (double letters show two taps)
-- [ ] Ideas to fill the right screen around the cube (stars, orbiting dot, cube spinning faster while typing)
+- [x] Mirrored paws, double letters show two taps: flashed
+- [ ] Flash: paw down at once (no more ~1/4 s lag) and held while the key is held (Ctrl…)
+- [ ] Right screen layout (mockup sent, waiting for approval before touching the firmware): official Arch logo on top, cube in the middle (biggest item), atom logo at the bottom; maybe the cube speeding up while typing
 - ℹ️ With the dongle, both halves are peripherals: the bongo cat (which needs the key events of the central) would be replaced by the cube screen on both halves
 - ℹ️ With the dongle as central, both halves become equal peripherals: the right half works without the left one
 - [ ] Future keyboard: RGB that turns on only when asked **and** when the battery is above ~33 %; magnetic (Hall effect) low-profile switches with rapid trigger. Not possible on this PCB (no LEDs, no magnetic sensors); ZMK barely supports magnetic switches
