@@ -82,7 +82,7 @@ The GTK file dialog (used by Brave and other apps through the desktop portal), f
 dotfiles/
 ├── README.md
 ├── CLAUDE.md                   # guidelines for AI-assisted changes
-├── assets/                     # README screenshots
+├── assets/                     # README screenshots, dongle diagrams, keymap pictures
 ├── docs/                       # guides: Arch notes, IKEv2 VPN
 ├── scripts/                    # helper scripts (see below)
 ├── home/                       # everything that goes into ~
@@ -373,7 +373,8 @@ The changes that make this rice, to reapply if you switch shells or versions:
 ## 📒 Guides
 
 - [`docs/arch-notes.md`](docs/arch-notes.md): rsync backup, second NTFS drive, yay, kernel updates, monitors, dark GTK apps, fingerprint, file search (everythingx), ZMK keyboard pairing, switching shells, WSL + Kali
-- [`docs/zmk-dongle.md`](docs/zmk-dongle.md): illustrated guide to a solder-free ZMK dongle for the Lily58; keymap and custom screens: [rotten_lily58_keymap_config](https://github.com/PoUrRiTuRe/rotten_lily58_keymap_config)
+- [`docs/lily58.md`](docs/lily58.md): Lily58 keyboard: layers (pictures), Bluetooth profiles, custom screens, flashing
+- [`docs/zmk-dongle.md`](docs/zmk-dongle.md): illustrated guide to a solder-free ZMK dongle for the Lily58
 - [`docs/tablet-screen.md`](docs/tablet-screen.md): Android tablet as a third monitor (Sunshine + Moonlight), started and stopped from the tablet
 - [`docs/vpn-ikev2-eap.md`](docs/vpn-ikev2-eap.md): university / company VPN (strongSwan IKEv2 + EAP) on Arch with `nmcli`, and its troubleshooting
 
