@@ -178,7 +178,7 @@
 - [x] `save-all.sh` installs scripts of the repository that are missing from `~` (a new script was skipped because the running `save-all.sh` still had the old list)
 - [x] A manual `git pull` before `save-all.sh` hid the new changes: they weren't installed and the backup pushed the old files from `~` back over them (desktop host file, keybinds, `.zshrc`, `save-all.sh`, Serpantinum settings). Files restored; `save-all.sh` now remembers the last commit each machine synced (`~/.local/state/save-all/last-sync`) and installs everything changed since
 - [x] VPN aliases `vpn-on` / `vpn-off` / `vpn-status` in `.zshrc` (connection named `VPN`)
-- [x] `check-rice.sh`: check-up after an update (Hyprland config, Serpantinum patches, SDDM theme, settings, kitty / fastfetch / cava, cursor, kernel), `--fix` for the user-level patches
+- [x] `check-rice.sh`: check-up after an update (Hyprland config, Serpantinum patches, SDDM theme, settings, kitty / fastfetch / cava, cursor, kernel) (since then it fixes by itself, see below)
 - [x] Serpantinum 2.2.5 update: installer read; `Update` keeps `~/.config/hypr` and `settings.json`, but the SDDM option resets the greeter to `material-you`, and code patches must be re-applied (`patch-topbar.py` still applies to 2.2.5)
 
 ### 🔁 Desktop GPU swap (GTX 1080 Ti → RX 5700 XT)
@@ -248,6 +248,9 @@
 - [ ] Typeractive asked (hotswap, switches, RGB, dongle, warranty): waiting for the answer
 - [x] PCB confirmed **hotswap** (Kailh Choc sockets under every key, "Lily58 PCB by kata0510, wireless-ified by Nice!keyboards"): no RGB LEDs
 - [ ] Try other **Kailh Choc v1** switches (switch puller, pull straight up)
+- [x] Custom nice!view screens in the keymap repository ([rotten_lily58_keymap_config](https://github.com/PoUrRiTuRe/rotten_lily58_keymap_config), `nice_view_rotten` shield): bongo cat instead of the WPM graph on the left half, rotten flesh + slowly beating atom on the right half
+- [ ] Flash the new firmware on both halves and check the screens (reflash the stock `nice_view` build to go back)
+- ℹ️ With the dongle, both halves are peripherals: the bongo cat (which needs the key events of the central) would be replaced by the rotten flesh + atom screen on both halves
 - ℹ️ With the dongle as central, both halves become equal peripherals: the right half works without the left one
 - [ ] Future keyboard: RGB that turns on only when asked **and** when the battery is above ~33 %; magnetic (Hall effect) low-profile switches with rapid trigger. Not possible on this PCB (no LEDs, no magnetic sensors); ZMK barely supports magnetic switches
 

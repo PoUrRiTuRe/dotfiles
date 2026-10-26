@@ -64,19 +64,35 @@ def label(x, y, text, color=TEXT, size=16, anchor="start"):
     return f'<text x="{x}" y="{y}" font-size="{size}" fill="{color}" text-anchor="{anchor}">{text}</text>'
 
 
-def half(x, y, mirror=False, name="LEFT"):
-    """Simplified Lily58 half (6x4 keys + thumb row)."""
-    keys = []
-    for r in range(4):
-        for c in range(6):
-            kx = x + c * 34
-            ky = y + r * 34 + (abs((5 - c) if mirror else c - 0) % 3) * 4
-            keys.append(f'<rect x="{kx}" y="{ky}" width="28" height="28" rx="6" fill="#1b1f3d" stroke="{CYAN}" stroke-opacity=".6"/>')
-    for t in range(4):
-        tx = x + (40 if not mirror else 70) + t * 34
-        keys.append(f'<rect x="{tx}" y="{y + 150}" width="28" height="28" rx="6" fill="#1b1f3d" stroke="{MAGENTA}" stroke-opacity=".7"/>')
-    keys.append(label(x + 100, y + 205, name, DIM, 15, "middle"))
-    return "".join(keys)
+# Lily58 half in key units (left half; the right one is its mirror image)
+LILY_STAGGER = [0.45, 0.45, 0.12, 0, 0.12, 0.25]        # column stagger, outer → inner
+LILY_CASE = [(-0.15, 0.3), (1.9, 0.3), (1.9, -0.03), (2.9, -0.15), (7.15, -0.15), (7.15, 3.9),
+             (7.05, 5.35), (5.75, 6.0), (2.45, 5.5), (2.45, 4.55), (-0.15, 4.55)]
+
+
+def half(x, y, mirror=False, name="LEFT", u=30):
+    """Lily58 half: 6x4 staggered keys, inner key, 4 thumb keys, nice!view window."""
+    def key(kx, ky, color=CYAN, w=0.88, h=0.88, rot=0):
+        t = f' transform="rotate({rot} {kx + w / 2} {ky + h / 2})"' if rot else ""
+        return (f'<rect x="{kx}" y="{ky}" width="{w}" height="{h}" rx="0.18" fill="#1b1f3d" stroke="{color}" '
+                f'stroke-opacity=".7" stroke-width="1.6" vector-effect="non-scaling-stroke"{t}/>')
+    points = " ".join(f"{px},{py}" for px, py in LILY_CASE)
+    parts = [f'<polygon points="{points}" fill="{CARD}" stroke="{CYAN}" stroke-width="2.5" '
+             f'stroke-linejoin="round" vector-effect="non-scaling-stroke"/>']
+    for c, dy in enumerate(LILY_STAGGER):
+        for r in range(4):
+            parts.append(key(c + 0.06, r + dy + 0.06))
+    parts.append(key(6.06, 2.86))                          # inner key, beside the bottom row
+    for i, dy in enumerate((0.3, 0.3, 0.42)):              # thumb keys
+        parts.append(key(2.66 + i, 4.1 + dy, MAGENTA))
+    parts.append(key(5.82, 4.3, MAGENTA, h=1.38, rot=30))  # 1.5u angled thumb key
+    parts.append(f'<rect x="6.08" y="0.05" width="0.86" height="2.6" rx="0.12" fill="#0b0d1c" stroke="{MAGENTA}" '
+                 f'stroke-width="2" vector-effect="non-scaling-stroke"/>')   # controller + nice!view
+    width = 7.3 * u
+    transform = (f"translate({x + width - 0.15 * u} {y}) scale({-u} {u})" if mirror
+                 else f"translate({x + 0.15 * u} {y}) scale({u})")
+    return (f'<g transform="{transform}">' + "".join(parts) + "</g>"
+            + label(x + width / 2, y + 6.75 * u, name, DIM, 15, "middle"))
 
 
 steps = []
