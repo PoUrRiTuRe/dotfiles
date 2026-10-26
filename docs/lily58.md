@@ -12,11 +12,11 @@ Wireless Lily58 (two nice!nano v2 + two nice!view, Kailh Choc hotswap) running Z
 
 ![Raise layer](../assets/keymap/raise.svg)
 
-- **Bluetooth**: `Lower + 1/2/3` select the desktop / laptop / work profiles, `Lower + Esc` clears the **active** profile (see [Re-pair a ZMK Bluetooth keyboard](arch-notes.md#re-pair-a-zmk-bluetooth-keyboard)).
+- **Bluetooth**: `Lower + 1/2/3/4` select the desktop / laptop / work / phone profiles, `Lower + Esc` clears the **active** profile (see [Re-pair a ZMK Bluetooth keyboard](arch-notes.md#re-pair-a-zmk-bluetooth-keyboard)).
 - **Encoder** (if fitted): volume up / down on every layer.
 - ZMK Studio is enabled: a keymap changed live in Studio is stored on the keyboard and can differ from the file (and from these pictures).
 - Editing the keymap: [keymap-editor](https://nickcoutsos.github.io/keymap-editor/) (works from a phone browser too) only changes `config/lily58.keymap`; the custom screens live in other files and keep working, and the bongo cat follows the physical key positions. Redraw the pictures above afterwards.
-- The keyboard also pairs with a phone like any Bluetooth keyboard (one profile per device).
+- The keyboard also pairs with a phone like any Bluetooth keyboard: profile 4 (`Lower + 4`).
 
 To redraw the pictures after a keymap change:
 

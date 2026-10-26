@@ -39,7 +39,7 @@ NAMES = {"ESC": "Esc", "TAB": "Tab", "SPACE": "Space", "RET": "Enter", "ENTER": 
          "PIPE": "|", "UNDERSCORE": "_", "DOUBLE_QUOTES": '"', "LEFT_ARROW": "←", "RIGHT_ARROW": "→",
          "UP_ARROW": "↑", "DOWN_ARROW": "↓", "C_AC_PRINT": "Print", "PSCRN": "PrtSc",
          "C_VOL_UP": "Vol+", "C_VOL_DN": "Vol-", "C_MUTE": "Mute", "C_PP": "Play"}
-BT_NAMES = ["desktop", "laptop", "work"]
+BT_NAMES = ["desktop", "laptop", "work", "phone"]
 
 
 def parse(path):

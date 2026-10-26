@@ -178,6 +178,7 @@ Use one profile per computer: pairing a second computer on the same profile brea
 | Lower + 1 | `BT_SEL 0` | desktop |
 | Lower + 2 | `BT_SEL 1` | personal laptop |
 | Lower + 3 | `BT_SEL 2` | work laptop |
+| Lower + 4 | `BT_SEL 3` | phone |
 
 `BT_CLR` only clears the **active** profile: select the right one first.
 
