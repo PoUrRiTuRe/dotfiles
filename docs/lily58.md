@@ -30,7 +30,7 @@ Custom `nice_view_rotten` shield in the keymap repository:
 
 *Preview only, not contractual 😄: drawn on a computer with approximate fonts and shapes. The real screen uses the firmware's own fonts; the Bluetooth rings, numbers, battery and link icons are ZMK's stock ones.*
 
-- **Left half**: battery, output, Bluetooth profiles and layer as on the stock screen; the classic **bongo cat** replaces the WPM graph. It taps with its **left paw for keys of the left half** and its **right paw for the right half**, a little **lower for the two bottom rows and the thumbs**; paws up when typing stops, then its idle animation.
+- **Left half**: battery, output, Bluetooth profiles and layer as on the stock screen; the classic **bongo cat** replaces the WPM graph. It taps **like in a mirror**: keys of the left half use the paw on the right of the screen (the cat's left paw), keys of the right half the paw on the left. For the **two top rows** the paw reaches a bit **further from its body**; the bottom rows and thumbs use the original position. Each new press lifts the paw for a moment and taps again; paws up when typing stops, then its idle animation.
 - **Right half**: battery and link as on the stock screen; a **spinning wireframe cube** (light lines on the dark screen) replaces the art. It loops every 14.4 s without a jump.
 
 Back to the stock screens: `nice_view` instead of `nice_view_rotten` in its `build.yaml`. To redraw the preview: `python3 tools/preview.py screens.gif` in the keymap repository, then copy it to `assets/keymap/`.

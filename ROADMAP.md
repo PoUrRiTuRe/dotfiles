@@ -252,7 +252,8 @@
 - [x] Layer pictures (Nebula theme) in `docs/lily58.md`, drawn from the keymap by `assets/keymap/make-keymap.py`
 - [x] Flashed: bongo cat approved; colors fixed for the dark screen (cat and cube in the light foreground color)
 - [x] Color fix and bigger cube flashed: approved
-- [ ] Flash: paws follow the half and row of the key, cube loops without a jump
+- [x] Paws follow the half of the key, cube loops without a jump: flashed
+- [ ] Flash: mirrored paws, further reach for the top rows (no cartoon marks), lift between two presses
 - [ ] Ideas to fill the right screen around the cube (stars, orbiting dot, cube spinning faster while typing)
 - ℹ️ With the dongle, both halves are peripherals: the bongo cat (which needs the key events of the central) would be replaced by the cube screen on both halves
 - ℹ️ With the dongle as central, both halves become equal peripherals: the right half works without the left one
