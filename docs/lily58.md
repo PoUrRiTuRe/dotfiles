@@ -27,7 +27,7 @@ python3 assets/keymap/make-keymap.py ~/rotten_lily58_keymap_config/config/lily58
 Custom `nice_view_rotten` shield in the keymap repository:
 
 - **Left half**: battery, output, Bluetooth profiles and layer as on the stock screen; the classic **bongo cat** replaces the WPM graph (taps on every key press, paws up when typing stops, then its idle animation).
-- **Right half**: battery and link as on the stock screen; a black panel with a **spinning wireframe cube** replaces the art.
+- **Right half**: battery and link as on the stock screen; a **spinning wireframe cube** (light lines on the dark screen) replaces the art.
 
 Back to the stock screens: `nice_view` instead of `nice_view_rotten` in its `build.yaml`.
 

@@ -248,9 +248,10 @@
 - [ ] Typeractive asked (hotswap, switches, RGB, dongle, warranty): waiting for the answer
 - [x] PCB confirmed **hotswap** (Kailh Choc sockets under every key, "Lily58 PCB by kata0510, wireless-ified by Nice!keyboards"): no RGB LEDs
 - [ ] Try other **Kailh Choc v1** switches (switch puller, pull straight up)
-- [x] Custom nice!view screens in the keymap repository ([rotten_lily58_keymap_config](https://github.com/PoUrRiTuRe/rotten_lily58_keymap_config), `nice_view_rotten` shield): classic bongo cat instead of the WPM graph on the left half, spinning wireframe cube on a black panel on the right half (rest of both screens unchanged)
+- [x] Custom nice!view screens in the keymap repository ([rotten_lily58_keymap_config](https://github.com/PoUrRiTuRe/rotten_lily58_keymap_config), `nice_view_rotten` shield): classic bongo cat instead of the WPM graph on the left half, spinning wireframe cube on the right half (rest of both screens unchanged)
 - [x] Layer pictures (Nebula theme) in `docs/lily58.md`, drawn from the keymap by `assets/keymap/make-keymap.py`
-- [ ] Flash the new firmware on both halves and check the screens (reflash the stock `nice_view` build to go back)
+- [x] Flashed: bongo cat approved; colors fixed for the dark screen (cat and cube in the light foreground color)
+- [ ] Flash the color fix and check the cube
 - ℹ️ With the dongle, both halves are peripherals: the bongo cat (which needs the key events of the central) would be replaced by the cube screen on both halves
 - ℹ️ With the dongle as central, both halves become equal peripherals: the right half works without the left one
 - [ ] Future keyboard: RGB that turns on only when asked **and** when the battery is above ~33 %; magnetic (Hall effect) low-profile switches with rapid trigger. Not possible on this PCB (no LEDs, no magnetic sensors); ZMK barely supports magnetic switches
