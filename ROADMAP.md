@@ -255,7 +255,11 @@
 - [x] Paws follow the half of the key, cube loops without a jump: flashed
 - [x] ~~Paw reaching further for the top rows~~: dropped (looked like a glitch), original frames kept
 - [x] Mirrored paws, double letters show two taps: flashed
-- [ ] Flash: paw down at once (no more ~1/4 s lag) and held while the key is held (Ctrl…), right screen with Arch logo / cube / atom in a ring
+- [x] Paw down at once and held with Ctrl, right screen with Arch logo / cube / atom in a ring: flashed, approved
+- [ ] Flash: hold follows the last key only (fast typing no longer looks like a hold), visible lift when hammering a key
+- [x] Paired with the phone too, just for fun
+- [ ] ~~"croissant_croissant" Rick Roll prank on both screens~~: dropped (heavy for little use, battery)
+- [ ] Battery: maybe enable deep sleep (`CONFIG_ZMK_SLEEP=y`) and/or a slower cube (fewer frames per second)
 - [x] Right screen layout approved (mockup v3, atom in a ring) and built: Arch logo, cube, atom, same gap everywhere
 - [ ] Maybe: the cube speeding up while typing on the right half
 - ℹ️ Graphic changes on the screens: always show a mockup and wait for approval before changing the firmware
