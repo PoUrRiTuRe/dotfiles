@@ -1,6 +1,6 @@
 # ⌨️ Lily58 keyboard
 
-Wireless Lily58 (two nice!nano v2 + two nice!view, Kailh Choc hotswap) running ZMK. The keymap and the firmware live in their own repository: [rotten_lily58_keymap_config](https://github.com/PoUrRiTuRe/rotten_lily58_keymap_config) (`config/lily58.keymap`). GitHub Actions builds the `.uf2` files there.
+Wireless Lily58 (two nice!nano v2 + two nice!view, Kailh Choc hotswap) running ZMK. The keymap and the firmware live in their own repository: [rotten_lily58_keymap_config](https://github.com/rotten-guy/rotten_lily58_keymap_config) (`config/lily58.keymap`). GitHub Actions builds the `.uf2` files there.
 
 ## Layers
 
