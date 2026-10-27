@@ -32,7 +32,7 @@ dofile(arg[1])
 COLUMNS = [
     ["Windows", "Help", "Session"],
     ["Workspaces", "Apps", "Screenshots"],
-    ["Serpantinum", "Terminal"],
+    ["Serpantinum", "Terminal", "Keyboard"],
     ["Media", "Shell", "Touchpad"],
 ]
 
