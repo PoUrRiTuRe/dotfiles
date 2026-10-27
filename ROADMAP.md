@@ -262,6 +262,9 @@
 - [ ] ~~"croissant_croissant" Rick Roll prank on both screens~~: dropped (heavy for little use, battery)
 - ℹ️ Battery: current settings kept (cube speed, screen off after 30 s idle). Give feedback after a while of use; if the battery drains too fast, then look at deep sleep (`CONFIG_ZMK_SLEEP=y`) or a slower cube
 - [x] Right screen layout approved (mockup v3, atom in a ring) and built: Arch logo, cube, atom, same gap everywhere
+- [x] Bongo cat look (mockups v1 to v7, approved, flashed): rectangular glasses along the face, UwU mouth, round Kirby mouth while tapping, 3x1 cheek spots one pixel away from the glasses, same impact marks for both paws (`tools/bongo_face.py` in the keymap repository)
+- [x] Glasses easter egg: Esc + `[` + `]` together switch to thug glasses and back (`&glasses` behavior + combo in the keymap), saved on the keyboard across restarts
+- [ ] ~~Gas mask on the cat~~: dropped for glasses (too few pixels to read as a mask)
 - [ ] Maybe: the cube speeding up while typing on the right half
 - ℹ️ Graphic changes on the screens: always show a mockup and wait for approval before changing the firmware
 - ℹ️ With the dongle, both halves are peripherals: the bongo cat (which needs the key events of the central) would be replaced by the cube screen on both halves
