@@ -248,7 +248,7 @@
 - [x] Typeractive answered: hotswap confirmed, no under-key RGB (battery), dongle "not supported natively" by their PCB. A ZMK dongle only needs a third board and new firmware on the halves (`docs/zmk-dongle.md`), not PCB support, so it stays possible (unofficial)
 - [x] PCB confirmed **hotswap** (Kailh Choc sockets under every key, "Lily58 PCB by kata0510, wireless-ified by Nice!keyboards"): no RGB LEDs
 - [ ] Try other **Kailh Choc v1** switches (switch puller, pull straight up)
-- [x] Custom nice!view screens in the keymap repository ([rotten_lily58_keymap_config](https://github.com/PoUrRiTuRe/rotten_lily58_keymap_config), `nice_view_rotten` shield): classic bongo cat instead of the WPM graph on the left half, spinning wireframe cube on the right half (rest of both screens unchanged)
+- [x] Custom nice!view screens in the keymap repository ([rotten_lily58_keymap_config](https://github.com/rotten-guy/rotten_lily58_keymap_config), `nice_view_rotten` shield): classic bongo cat instead of the WPM graph on the left half, spinning wireframe cube on the right half (rest of both screens unchanged)
 - [x] Layer pictures (Nebula theme) in `docs/lily58.md`, drawn from the keymap by `assets/keymap/make-keymap.py`
 - [x] Flashed: bongo cat approved; colors fixed for the dark screen (cat and cube in the light foreground color)
 - [x] Color fix and bigger cube flashed: approved

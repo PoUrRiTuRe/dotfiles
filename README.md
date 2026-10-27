@@ -217,7 +217,7 @@ Reboot once and check that the default Serpantinum session works before going fu
 ### 1. Clone the repository
 
 ```bash
-git clone git@github.com:PoUrRiTuRe/dotfiles.git ~/dotfiles-backup
+git clone git@github.com:rotten-guy/dotfiles.git ~/dotfiles-backup
 cd ~/dotfiles-backup
 cp scripts/save-all.sh scripts/backup-rice.sh ~/ && chmod +x ~/save-all.sh ~/backup-rice.sh
 ```
