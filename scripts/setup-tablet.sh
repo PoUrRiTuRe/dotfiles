@@ -66,8 +66,9 @@ cat << 'TXT'
 
 ==> Remaining steps (once)
  1. Open https://localhost:47990 (accept the certificate) and create the Sunshine login.
- 2. Run "tablet-screen on", then in Configuration > Audio/Video > Display pick TABLET
-    and save; then "tablet-screen off".
+ 2. The streamed monitor is "output_name = 2" in ~/.config/sunshine/sunshine.conf:
+    check with "tablet-screen on", restart Sunshine, then
+    journalctl --user -u sunshine -b | grep "Monitor 2 is TABLET"
  3. On the tablet: install Moonlight, add this PC (same Wi-Fi), enter the PIN
     in the Sunshine web UI (PIN tab).
  4. Moonlight settings: resolution "native" (2000x1200), 120 FPS, touchscreen mode
