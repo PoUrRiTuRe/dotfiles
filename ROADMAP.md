@@ -218,8 +218,8 @@
 - [x] Virtual `TABLET` monitor (2000×1200 @ 120 Hz, scale 1.25) created / removed by `tablet-screen`, driven by Sunshine's `prep-cmd` (Moonlight start / quit)
 - [x] `scripts/setup-tablet.sh` + `docs/tablet-screen.md`; Sunshine config backed up (`sunshine.conf`, `apps.json`, no credentials)
 - [x] Tablet arrived (Honor, 2000×1200 @ 120 Hz); `TABLET` monitor created on the desktop; ufw opened for Sunshine (`setup-tablet.sh` now checks it)
-- [x] Sunshine streams monitor 2 (`TABLET`): `output_name = 2` in `sunshine.conf` (the wlr capture has no monitor list in the web UI)
-- [ ] First run: pair Moonlight, check that the stream shows `TABLET`, touch mapping and 120 FPS
+- [x] First run: Moonlight paired (ufw ports + 5353/udp opened, `avahi-daemon` enabled), stream works; `output_name = TABLET` (Sunshine matches the output name, `2` fell back to the main monitor)
+- ⏸️ Parked by the maintainer: two monitors are enough, the tablet stream was not convincing. Not finished: check that the stream shows `TABLET` (not a copy of DP-3) and tune quality / 120 FPS
 - [ ] NZXT Capsule Elite microphone: set as default source, tune the "Microphone (Nebula)" gain by ear
 
 ### ⌨️ Shortcuts and cheatsheet

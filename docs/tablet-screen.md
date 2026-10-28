@@ -17,7 +17,7 @@ How it works:
 It installs Sunshine (`sunshine-bin`, AUR), copies `sunshine.conf` / `apps.json` from this repository, enables Sunshine's user service and prints the steps left:
 
 1. Open `https://localhost:47990`, accept the self-signed certificate, create the Sunshine login.
-2. The monitor to stream is already set in `sunshine.conf`: `output_name = 2`, the number Sunshine gives `TABLET` in its log (`[wlgrab] Monitor 2 is TABLET`, seen with `tablet-screen on` then `journalctl --user -u sunshine -b`). With the wlr capture, the web UI shows no monitor list: it is a number, not a name.
+2. The monitor to stream is already set in `sunshine.conf`: `output_name = TABLET` (Sunshine matches the output **name**; a number such as `2` silently falls back to the first monitor). With the wlr capture, the web UI shows no monitor list. Check with `journalctl --user -u app-dev.lizardbyte.app.Sunshine -b | grep 'Selected monitor'` during a session: `[]` (no description) is `TABLET`.
 3. On the tablet: install **Moonlight**, add the PC (same network), type the PIN shown by Moonlight in Sunshine's **PIN** tab.
 4. Moonlight settings: resolution **native** (2000×1200), **120 FPS**, **touchscreen** mode (not trackpad).
 5. Pick a wallpaper for the new monitor once with `SUPER + P` (Serpantinum stores it per monitor).
