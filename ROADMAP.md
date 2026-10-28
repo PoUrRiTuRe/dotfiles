@@ -220,7 +220,8 @@
 - [x] Tablet arrived (Honor, 2000×1200 @ 120 Hz); `TABLET` monitor created on the desktop; ufw opened for Sunshine (`setup-tablet.sh` now checks it)
 - [x] First run: Moonlight paired (ufw ports + 5353/udp opened, `avahi-daemon` enabled), stream works; `output_name = TABLET` (Sunshine matches the output name, `2` fell back to the main monitor)
 - ⏸️ Parked by the maintainer: two monitors are enough, the tablet stream was not convincing. Not finished: check that the stream shows `TABLET` (not a copy of DP-3) and tune quality / 120 FPS
-- [ ] NZXT Capsule Elite microphone: set as default source, tune the "Microphone (Nebula)" gain by ear
+- [x] NZXT Capsule Elite microphone arrived (desktop, USB): already the default source; "Microphone (Nebula)" picks it up
+- [x] Raw NZXT input kept in Vesktop / Steam: clean enough as is. "Microphone (Nebula)" (RNNoise + EQ + gain) stays available if a noisier setup ever needs it
 
 ### ⌨️ Shortcuts and cheatsheet
 - [x] Every bind in `keybinds.lua` has a `description` ("Section: action"), the single source for the menu and the image
