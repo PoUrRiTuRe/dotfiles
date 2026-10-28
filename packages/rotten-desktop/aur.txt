@@ -8,6 +8,7 @@ osu-lazer-bin
 papirus-folders
 protonup-qt-bin
 qdirstat
+quiver-launcher-bin
 vesktop
 wl-gammarelay-rs
 yay-bin

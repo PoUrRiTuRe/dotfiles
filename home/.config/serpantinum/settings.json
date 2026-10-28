@@ -133,7 +133,7 @@
     }
   },
   "notifications": {
-    "dnd": false,
+    "dnd": true,
     "position": "top right",
     "sound": true,
     "soundFile": "/home/rotten_guy/.local/share/serpantinum/src/assets/sounds/notifications/Botanica.wav"

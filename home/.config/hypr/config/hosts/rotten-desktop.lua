@@ -45,3 +45,4 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("xrandr --output " .. port .. " --primary")
   end
 end)
+hl.config({ render = { cm_enabled = false } })

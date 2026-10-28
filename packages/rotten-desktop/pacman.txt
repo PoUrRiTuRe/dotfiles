@@ -94,6 +94,7 @@ qt6-wayland
 qt6-websockets
 qt6ct
 quickshell
+rsync
 satty
 sddm
 slurp
