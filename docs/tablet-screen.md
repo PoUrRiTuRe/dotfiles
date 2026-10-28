@@ -32,6 +32,7 @@ It installs Sunshine (`sunshine-bin`, AUR), copies `sunshine.conf` / `apps.json`
 
 - `capture = wlr` in `sunshine.conf`: the only Sunshine capture method that sees Hyprland's virtual monitors. `encoder = vaapi` uses the AMD GPU.
 - Touch is mapped to `TABLET` by `input.touchdevice.output` in the host file; the PC mouse reaches the tablet by crossing the right edge of the main monitor.
+- Moonlight cannot find or reach the PC: with **ufw** active, open Sunshine's ports (`setup-tablet.sh` prints the command): `sudo ufw allow 47984:47990/tcp && sudo ufw allow 48010/tcp && sudo ufw allow 47998:48000/udp && sudo ufw allow 48010/udp`. Both devices must be on the same home network (school / public Wi-Fi usually isolates devices). Add the PC in Moonlight with its IP from `ip -4 -br addr`.
 - No touch / mouse from the tablet: `sudo usermod -aG input $USER`, then log out and back in.
 - Black or stuttering stream: lower Moonlight to 60 FPS or the bitrate first; check `journalctl --user -u <sunshine unit> -b` for errors.
 - Another tablet: change the mode / scale of the `TABLET` rule in the host file and Moonlight's resolution.
