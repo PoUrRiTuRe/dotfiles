@@ -42,6 +42,18 @@ else
     echo "       sudo usermod -aG input $USER   (then log out and back in)"
 fi
 
+echo "==> Firewall"
+if systemctl is-active --quiet ufw; then
+    if sudo -n true 2>/dev/null && sudo -n ufw status 2>/dev/null | grep -q 47989; then
+        echo "   ok  ufw already allows Sunshine"
+    else
+        echo "   !!  ufw is active: Moonlight cannot reach Sunshine until its ports are open. Run"
+        echo "       sudo ufw allow 47984:47990/tcp && sudo ufw allow 48010/tcp && sudo ufw allow 47998:48000/udp && sudo ufw allow 48010/udp"
+    fi
+else
+    echo "   ok  no ufw firewall"
+fi
+
 echo "==> User service"
 UNIT=$(systemctl --user list-unit-files --no-legend 2>/dev/null | awk 'tolower($1) ~ /sunshine/ {print $1; exit}')
 if [[ -n "$UNIT" ]]; then

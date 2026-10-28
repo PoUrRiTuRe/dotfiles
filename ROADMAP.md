@@ -217,7 +217,8 @@
 ### 📱 Tablet as a third monitor (desktop)
 - [x] Virtual `TABLET` monitor (2000×1200 @ 120 Hz, scale 1.25) created / removed by `tablet-screen`, driven by Sunshine's `prep-cmd` (Moonlight start / quit)
 - [x] `scripts/setup-tablet.sh` + `docs/tablet-screen.md`; Sunshine config backed up (`sunshine.conf`, `apps.json`, no credentials)
-- [ ] First run when the tablet arrives: pick the `TABLET` display in Sunshine, check touch mapping and 120 FPS
+- [x] Tablet arrived (Honor, 2000×1200 @ 120 Hz); `TABLET` monitor created on the desktop; ufw opened for Sunshine (`setup-tablet.sh` now checks it)
+- [ ] First run: pick the `TABLET` display in Sunshine, pair Moonlight, check touch mapping and 120 FPS
 - [ ] NZXT Capsule Elite microphone: set as default source, tune the "Microphone (Nebula)" gain by ear
 
 ### ⌨️ Shortcuts and cheatsheet
