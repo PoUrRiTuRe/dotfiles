@@ -284,6 +284,7 @@
 
 - [ ] LazyVim: Nebula color scheme
 - [ ] GTK windows: Nebula colors (`gtk.css`)
+- [ ] Discord: Nebula theme for Vesktop + Vencord (cyan / magenta neon, translucent night-blue panels, JetBrains Mono, animated cyan → magenta accents like the window borders)
 
 ## 💤 Set aside
 
