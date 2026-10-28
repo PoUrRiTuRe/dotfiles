@@ -221,7 +221,7 @@
 - [x] First run: Moonlight paired (ufw ports + 5353/udp opened, `avahi-daemon` enabled), stream works; `output_name = TABLET` (Sunshine matches the output name, `2` fell back to the main monitor)
 - ⏸️ Parked by the maintainer: two monitors are enough, the tablet stream was not convincing. Not finished: check that the stream shows `TABLET` (not a copy of DP-3) and tune quality / 120 FPS
 - [x] NZXT Capsule Elite microphone arrived (desktop, USB): already the default source; "Microphone (Nebula)" picks it up
-- [ ] Select "Microphone (Nebula)" in Vesktop / Steam (they still use the raw NZXT input), turn off Discord's own noise suppression, tune the gain by ear
+- [x] Raw NZXT input kept in Vesktop / Steam: clean enough as is. "Microphone (Nebula)" (RNNoise + EQ + gain) stays available if a noisier setup ever needs it
 
 ### ⌨️ Shortcuts and cheatsheet
 - [x] Every bind in `keybinds.lua` has a `description` ("Section: action"), the single source for the menu and the image
